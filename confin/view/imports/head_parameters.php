@@ -23,6 +23,6 @@
 
     echo '<link rel="stylesheet" href="../view/css/menu_lateral.css">';
     
-    echo '<link rel="stylesheet" media="screen and (max-width: 1499px)" href="../view/css/mobile.css">';
+    //echo '<link rel="stylesheet" media="screen and (max-width: 1499px)" href="../view/css/mobile.css">';
 
 ?>
