@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="css/bootstrap.min.css" >
+<link rel="stylesheet" href="css/bootstrap.min.css">
 
 <?php include "imports/head_parameters.php"; ?>
 <?php
@@ -21,9 +21,10 @@ if (isset($_POST['valor'])) {
         $gasto->valor = $_POST['valor'];
         $gasto->id_despesa = $_POST['id_despesa'];
         $gasto->id_usuario = $_SESSION['id_usuario'];
+        $gasto->id_carteira = $_POST['carteira'];
 
-        $gastos = new Gastos($gasto->id_usuario);
-        echo "<script>var saveStatus ='".$gastos->atualizarGasto($gasto)."';</script>";
+        $gastos_controller = new Gastos($gasto->id_usuario);
+        echo "<script>var saveStatus ='" . $gastos_controller->atualizarGasto($gasto) . "';</script>";
     } else {
 
         $gasto->titulo = $_POST['titulo'];
@@ -33,11 +34,12 @@ if (isset($_POST['valor'])) {
         $gasto->valor = $_POST['valor'];
         $gasto->id_despesa = 0;
         $gasto->id_usuario = $_SESSION['id_usuario'];
-        if(!isset($_POST['qtd_recorrente'])) $_POST['qtd_recorrente'] = 1;
+        if (!isset($_POST['qtd_recorrente'])) $_POST['qtd_recorrente'] = 1;
         $gasto->qtd_recorrente = $_POST['qtd_recorrente'];
+        $gasto->id_carteira = $_POST['carteira'];
 
-        $gastos = new Gastos($gasto->id_usuario);
-        echo "<script>var saveStatus ='".$gastos->salvarGasto($gasto)."';</script>";
+        $gastos_controller = new Gastos($gasto->id_usuario);
+        echo "<script>var saveStatus ='" . $gastos_controller->salvarGasto($gasto) . "';</script>";
     }
 }
 
@@ -74,6 +76,21 @@ if (isset($_POST['valor'])) {
                     <input class="form-control" id="ftitulo" type="text" value="<?php if (isset($_GET['id'])) echo $gasto->titulo; ?>" placeholder="Insira o titulo da transação" name="titulo" maxlength="20" required></Input>
                     <label class="form-check-label" for="fdescricao">Descrição</label>
                     <input class="form-control" id="fdescricao" type="text" value="<?php if (isset($_GET['id'])) echo $gasto->descricao; ?>" placeholder="Insira a descrição da transferência" name="descricao" maxlength="50">
+                    <label class="form-check-label" for="fcarteira">Carteira</label>
+                    <select class="form-control" id="fcarteira" name="carteira" required>
+                        <?php
+                            $gastos_controller = new Gastos($_SESSION['id_usuario']);
+                            
+                            foreach ($gastos_controller->listarCarteiras() as $key => $value) {
+                                echo "<option value=\"{$value['id_carteira']}\" ";
+                                if (isset($_GET['id']) and $gasto->id_carteira === $value['id_carteira']){
+                                     echo "selected";
+                                    }
+                                echo ">{$value['nome_carteira']}</option>";
+                            }
+                        ?>
+                        
+                    </select>
                     <label class="form-check-label" for="fcategoria">Categoria</label>
                     <select class="form-control" id="fcategoria" name="categoria" required>
                         <option disabled value="Outros" <?php if (!isset($_GET['id'])) echo "selected"; ?>>Selecione</option>
@@ -89,7 +106,7 @@ if (isset($_POST['valor'])) {
                     <label class="form-check-label" for="fvalor">Valor</label>
                     <input class="form-control" id="fvalor" type="text" value="<?php if (isset($_GET['id'])) echo $gasto->valor; ?>" pattern="[0-9]{0,3}?.?[0-9]{0,3}?.?[0-9]{1,3},?[0-9]{0,2}" placeholder="Valor do débito: R$ 00,00" name="valor" required>
                     <!-- <label class="form-check-label" for="frecorrente">Despesa recorrente?</label> -->
-                    <!--  <input class="form-control" id="frecorrente" type="range" name="qtd_recorrente" value="1" min="1" max="12" onchange="updateTextRecorrente()"> --> 
+                    <!--  <input class="form-control" id="frecorrente" type="range" name="qtd_recorrente" value="1" min="1" max="12" onchange="updateTextRecorrente()"> -->
                     <!-- <p id="spanRecorrente"></p> -->
                     <span id="saveStatus" class="alert "></span>
 
@@ -100,30 +117,25 @@ if (isset($_POST['valor'])) {
         </section>
     </section>
     <script>
-        function updateTextRecorrente(){
-            let val = document.getElementById('frecorrente').value; 
-            document.getElementById('spanRecorrente').innerText="A despesa se repete por: "+val+" mes(es)"; 
+        function updateTextRecorrente() {
+            let val = document.getElementById('frecorrente').value;
+            document.getElementById('spanRecorrente').innerText = "A despesa se repete por: " + val + " mes(es)";
         }
         var span = document.getElementById('saveStatus');
-        if(typeof saveStatus == "string"){
+        if (typeof saveStatus == "string") {
             span.innerText = saveStatus;
-            if(saveStatus.search("sucesso") > -1){
+            if (saveStatus.search("sucesso") > -1) {
                 span.classList.add('alert-success');
-            }else{
+            } else {
                 span.classList.add('alert-danger');
             }
         }
-        
-
-
-
-
     </script>
 
-    <script src="js/jquery-3.2.1.slim.min.js" ></script>
-    <script src="js/popper.min.js" ></script>
-    <script src="js/bootstrap.min.js" ></script>
-    <?php include "imports/js.php";?>
+    <script src="js/jquery-3.2.1.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <?php include "imports/js.php"; ?>
 </body>
 
 </html>

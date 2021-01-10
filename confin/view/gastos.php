@@ -12,7 +12,7 @@ if (isset($_GET['id'])) {
     print_r($obj_gastos->excluir($_GET['id']));
     $url = strpos($_SERVER["REQUEST_URI"], "?");
     $url = substr($_SERVER["REQUEST_URI"], 0, $url);
-    header("Location: {$url}");
+    //header("Location: {$url}");
 }
 
 ?>

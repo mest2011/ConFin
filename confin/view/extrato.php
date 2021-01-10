@@ -6,7 +6,7 @@ include_once "../controller/extrato_controller.php";
 include_once "../controller/gastos_controller.php";
 include_once "../controller/ganho_controller.php";
 
-$ganho = new GanhoController($_SESSION['id_usuario']);
+$ganho = new Ganhos($_SESSION['id_usuario']);
 $gastos = new Gastos($_SESSION['id_usuario']);
 
 $extrato = new ExtratoController($_SESSION['id_usuario']);

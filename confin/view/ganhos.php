@@ -4,7 +4,7 @@
 <?php
 include_once "../controller/ganho_controller.php";
 
-$ganho = new GanhoController($_SESSION['id_usuario']);
+$ganho = new Ganhos($_SESSION['id_usuario']);
 
 
 // excluir ganho

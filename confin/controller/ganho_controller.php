@@ -1,7 +1,8 @@
 <?php
 include_once "../business/ganho_bus.php";
+include_once "../business/carteira_bus.php";
 
-class GanhoController{
+class Ganhos{
     private $total_ganhos;
     private $_id_usuario;
     public $lista_ganhos;
@@ -28,6 +29,9 @@ class GanhoController{
 
     function deletarGanho($id_ganho){
         return GanhoBus::deleteGanho($id_ganho);
+    }
+    function listarCarteiras(){
+        return CarteiraBus::carteiras($this->_id_usuario);
     }
 }
 

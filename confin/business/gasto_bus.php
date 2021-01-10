@@ -28,13 +28,13 @@ class GastoBus extends Crud
                 parent::create($sql);
             }
 
-            self::atualizaSaldo($obj_gasto->id_usuario, ($obj_gasto->valor * $obj_gasto->qtd_recorrente));
+            self::atualizaSaldo(($obj_gasto->valor * $obj_gasto->qtd_recorrente), $obj_gasto->id_carteira);
 
         } else {
-            $sql = "INSERT INTO tb_despesa (titulo, descricao, tipo, data_do_debito, valor, id_usuario)
-        VALUES ('{$obj_gasto->titulo}', '{$obj_gasto->descricao}', '{$obj_gasto->categoria}', '{$obj_gasto->data}', {$obj_gasto->valor}, $obj_gasto->id_usuario);";
+            $sql = "INSERT INTO tb_despesa (titulo, descricao, tipo, data_do_debito, valor, id_usuario, id_carteira)
+                    VALUES ('{$obj_gasto->titulo}', '{$obj_gasto->descricao}', '{$obj_gasto->categoria}', '{$obj_gasto->data}', {$obj_gasto->valor}, $obj_gasto->id_usuario, $obj_gasto->id_carteira);";
             
-            self::atualizaSaldo($obj_gasto->id_usuario, ($obj_gasto->valor));
+            self::atualizaSaldo(($obj_gasto->valor), $obj_gasto->id_carteira);
 
             return parent::create($sql);
         }
@@ -47,10 +47,11 @@ class GastoBus extends Crud
 
         //Retira o valor antigo do usuario
         $valor_antigo = parent::read("SELECT valor FROM tb_despesa WHERE id_despesa = {$obj_gasto->id_despesa} limit 1;")[0]['valor'];
-        self::atualizaSaldo($obj_gasto->id_usuario, ($valor_antigo / -1));
+        self::atualizaSaldo(($valor_antigo / -1), $obj_gasto->id_carteira);
+        
 
         //Atualiza saldo com o valor novo da despesa
-        self::atualizaSaldo($obj_gasto->id_usuario, ($obj_gasto->valor));
+        self::atualizaSaldo(($obj_gasto->valor), $obj_gasto->id_carteira);
 
         $sql = "UPDATE tb_despesa SET 
                  titulo = '{$obj_gasto->titulo}',
@@ -66,9 +67,8 @@ class GastoBus extends Crud
     static function excluirGasto($id)
     {
         $sql = "UPDATE tb_despesa SET status = 0 WHERE id_despesa = $id;";
-        $id_usuario = parent::read("SELECT id_usuario FROM tb_despesa where id_despesa = {$id} limit 1;")[0]['id_usuario'];
-        $valor = parent::read("SELECT valor from tb_despesa where id_despesa = {$id} limit 1;")[0]['valor'];
-        self::atualizaSaldo($id_usuario, ($valor / -1));
+        $obj_carteira = parent::read("SELECT valor, id_carteira from tb_despesa where id_despesa = {$id} limit 1;")[0];
+        self::atualizaSaldo(($obj_carteira['valor'] / -1), $obj_carteira['id_carteira']);
 
         return parent::delete($sql);
     }
@@ -76,8 +76,8 @@ class GastoBus extends Crud
     static function buscarListaGastosFuturos($id_usuario)
     {
         $sql = "SELECT * FROM tb_despesa WHERE id_usuario = " . $id_usuario . "
-        AND data_do_debito > '2020-" . date('m') . "-" . date('d') . "' AND status = 1 order by data_do_debito asc;";
-
+        AND data_do_debito > '" . date('Y') . "-" . date('m') . "-" . date('d') . "' AND status = 1 order by data_do_debito asc;";
+        
         return parent::read($sql);
     }
 
@@ -85,17 +85,21 @@ class GastoBus extends Crud
     {
         $sql = "SELECT * FROM tb_despesa WHERE id_usuario = " . $id_usuario . "
         AND id_despesa = {$id} AND status = 1 LIMIT 1;";
+        
+        
         $result = parent::read($sql)[0];
 
+        
         $obj_gasto  =  self::converteGasto($result);
         return $obj_gasto;
     }
 
     static function buscarListaGastosMes($id_usuario)
     {
-        $sql = "SELECT * FROM tb_despesa WHERE id_usuario = " . $id_usuario . "
+        $sql = "SELECT * FROM tb_despesa WHERE id_usuario = {$id_usuario}
         AND data_do_debito >= '" . date('Y') . "-" . date('m') . "-01'
         AND data_do_debito <= '" . date('Y') . "-" . date('m') . "-31' AND status = 1 ORDER BY data_do_debito desc;";
+        
         return parent::read($sql);
     }
 
@@ -112,11 +116,12 @@ class GastoBus extends Crud
         }
     }
 
-    private static function atualizaSaldo($id_usuario, $valor)
+
+    private static function atualizaSaldo($valor, $id_carteira)
     {
-        $saldo_atual = parent::read("SELECT saldo FROM tb_saldo WHERE id_usuario = {$id_usuario} LIMIT 1;")[0]['saldo'];
+        $saldo_atual = parent::read("SELECT saldo FROM tb_carteiras WHERE id_carteira = {$id_carteira} LIMIT 1;")[0]['saldo'];
         $saldo_atualizado = $saldo_atual - $valor;
-        $sql = "UPDATE tb_saldo SET saldo = {$saldo_atualizado} WHERE id_usuario = {$id_usuario};";
+        $sql = "UPDATE tb_carteiras SET saldo = {$saldo_atualizado} WHERE id_carteira = {$id_carteira};";
         return parent::update($sql);
     }
 
@@ -136,6 +141,7 @@ class GastoBus extends Crud
             $obj_gasto->valor = number_format($array['valor'], 2, ',', '.');
             $obj_gasto->id_despesa = $array['id_despesa'];
             $obj_gasto->id_usuario = $array['id_usuario'];
+            $obj_gasto->id_carteira = $array['id_carteira'];
 
             return $obj_gasto;
         }

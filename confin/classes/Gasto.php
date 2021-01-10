@@ -6,6 +6,7 @@ class Gasto{
     PUBLIC $categoria; 
     PUBLIC $data; 
     PUBLIC $valor; 
+    PUBLIC $id_carteira; 
     PUBLIC $id_despesa; 
     PUBLIC $id_usuario; 
     public $id_recorrente;

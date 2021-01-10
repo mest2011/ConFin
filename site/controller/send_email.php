@@ -30,7 +30,7 @@ class Email{
         $mail->Port = 587;
         $mail->SMTPAuth = true;
         $mail->Username = 'contato@mesttech.com.br';
-        $mail->Password = 'vDq@hckq+3kQ';
+        $mail->Password = '5Kj[4nuu';
         $mail->setFrom('contato@mesttech.com.br', 'Confin');
         //$mail->addReplyTo('mest2011mest@gmail.com', 'Your Name');
         $mail->addAddress($this->_to, $this->_name);
