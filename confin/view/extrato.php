@@ -42,14 +42,14 @@ $extrato = new ExtratoController($_SESSION['id_usuario']);
             $result = $extrato->ver();
             if (gettype($result) === "array") {
                 foreach ($result as $key => $value) {
-                    $date = date_create($value->data);
+                    $date = date_create($value['data']);
                     $render .= "
                         
-                        <tr title='" . $value->titulo . "'>
-                            <td>" . $value->categoria . "</td>
-                            <td>" . $value->titulo . "</td>
-                            <td>" . $value->descricao . "</td>
-                            <td>R$ " . $value->valor . "</td>
+                        <tr title='" . $value['titulo'] . "'>
+                            <td>" . $value['tipo'] . "</td>
+                            <td>" . $value['titulo'] . "</td>
+                            <td>" . $value['descricao'] . "</td>
+                            <td>R$ " . $value['valor'] . "</td>
                             <td>" . date_format($date, 'd/m/Y') . "</td>
                             <td></td>
                         </tr>";
