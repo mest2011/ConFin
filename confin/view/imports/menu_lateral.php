@@ -24,6 +24,10 @@ new Session_security();
         <a href="../view/extrato.php" title="Ver extrato do mês">
             <li>↪ Extrato</li>
         </a>
+
+        <a href="../view/cad_carteira.php" title="Cadastro de carteiras">
+            <li>↪ Cad. Carteiras</li>
+        </a>
     </ul>
 
     <ul>

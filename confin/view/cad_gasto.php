@@ -77,7 +77,7 @@ if (isset($_POST['valor'])) {
                     <label class="form-check-label" for="fdescricao">Descrição</label>
                     <input class="form-control" id="fdescricao" type="text" value="<?php if (isset($_GET['id'])) echo $gasto->descricao; ?>" placeholder="Insira a descrição da transferência" name="descricao" maxlength="50">
                     <label class="form-check-label" for="fcarteira">Carteira</label>
-                    <select class="form-control" id="fcarteira" name="carteira" required>
+                    <select class="form-control" id="fcarteira" name="carteira" required <?php if (isset($_GET['id'])){echo "disabled";}?>>
                         <?php
                             $gastos_controller = new Gastos($_SESSION['id_usuario']);
                             
