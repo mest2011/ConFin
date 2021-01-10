@@ -41,7 +41,6 @@ class Crud
 
             $lines = $result->num_rows;
 
-
             if ($lines > 0) {
                 while ($row = $result->fetch_assoc()) {
                     array_push($data, $row);

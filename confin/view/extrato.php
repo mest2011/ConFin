@@ -36,6 +36,7 @@ $extrato = new ExtratoController($_SESSION['id_usuario']);
                     <th>Descrição</th>
                     <th>Valor</th>
                     <th>Data da transação</th>
+                    <th>Carteira</th>
                     <th><button onclick=\"xlsx()\" class=\"btn btn-primary\"><img src=\"images/btn-download.png\" width=\"30px\"></button></th>
                 </thead>
             <tbody>";
@@ -51,6 +52,7 @@ $extrato = new ExtratoController($_SESSION['id_usuario']);
                             <td>" . $value['descricao'] . "</td>
                             <td>R$ " . $value['valor'] . "</td>
                             <td>" . date_format($date, 'd/m/Y') . "</td>
+                            <td>" . $value['nome_carteira'] . "</td>
                             <td></td>
                         </tr>";
                 }

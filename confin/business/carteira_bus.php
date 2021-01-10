@@ -4,7 +4,7 @@ include_once "../database/crud.php";
 
 class CarteiraBus extends Crud{
     static function carteiras($id_usuario){
-        $sql = "SELECT * FROM tb_carteiras WHERE id_usuario = {$id_usuario}";
+        $sql = "SELECT * FROM tb_carteiras WHERE id_usuario = {$id_usuario} AND status = 1";
         return parent::read($sql);
     }
 
@@ -21,8 +21,7 @@ class CarteiraBus extends Crud{
     public static function readCarteira($id_usuario, $id_carteira = null){
         
         if($id_carteira === null){
-            $sql = "SELECT * FROM tb_carteiras WHERE id_usuario = {$id_usuario} AND data_do_credito >= '".date('Y')."-".date('m')."-01'
-            AND data_do_credito <= '".date('Y')."-".date('m')."-31' and status = 1 order by data_do_credito DESC;";
+            $sql = "SELECT * FROM tb_carteiras WHERE id_usuario = {$id_usuario} AND status = 1 ORDER BY nome_carteira ASC;";
             return parent::read($sql);
         }else{
             $sql = "SELECT * FROM tb_carteiras WHERE id_usuario = {$id_usuario}  and status = 1 and id_carteira = {$id_carteira} LIMIT 1";

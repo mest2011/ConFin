@@ -96,7 +96,7 @@ class GastoBus extends Crud
 
     static function buscarListaGastosMes($id_usuario)
     {
-        $sql = "SELECT * FROM tb_despesa WHERE id_usuario = {$id_usuario}
+        $sql = "SELECT *, (select nome_carteira from tb_carteiras where id_carteira = tb_despesa.id_carteira limit 1) AS nome_carteira FROM tb_despesa WHERE id_usuario = {$id_usuario}
         AND data_do_debito >= '" . date('Y') . "-" . date('m') . "-01'
         AND data_do_debito <= '" . date('Y') . "-" . date('m') . "-31' AND status = 1 ORDER BY data_do_debito desc;";
         

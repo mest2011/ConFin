@@ -18,7 +18,7 @@ class GanhoBus extends Crud{
     public static function readGanho($id_usuario, $id_ganho = null){
         
         if($id_ganho === null){
-            $sql = "SELECT * FROM tb_ganho WHERE id_usuario = {$id_usuario} AND data_do_credito >= '".date('Y')."-".date('m')."-01'
+            $sql = "SELECT *, (select nome_carteira from tb_carteiras where id_carteira = tb_ganho.id_carteira limit 1) AS nome_carteira FROM tb_ganho WHERE id_usuario = {$id_usuario} AND data_do_credito >= '".date('Y')."-".date('m')."-01'
             AND data_do_credito <= '".date('Y')."-".date('m')."-31' and status = 1 order by data_do_credito DESC;";
             return parent::read($sql);
         }else{
