@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="css/bootstrap.min.css" >
 
 <?php include "imports/head_parameters.php"; ?>
 <?php
@@ -6,7 +6,7 @@ include_once "../controller/extrato_controller.php";
 include_once "../controller/gastos_controller.php";
 include_once "../controller/ganho_controller.php";
 
-$ganho = new GanhoController($_SESSION['id_usuario']);
+$ganho = new Ganhos($_SESSION['id_usuario']);
 $gastos = new Gastos($_SESSION['id_usuario']);
 
 $extrato = new ExtratoController($_SESSION['id_usuario']);
@@ -36,21 +36,23 @@ $extrato = new ExtratoController($_SESSION['id_usuario']);
                     <th>Descrição</th>
                     <th>Valor</th>
                     <th>Data da transação</th>
+                    <th>Carteira</th>
                     <th><button onclick=\"xlsx()\" class=\"btn btn-primary\"><img src=\"images/btn-download.png\" width=\"30px\"></button></th>
                 </thead>
             <tbody>";
             $result = $extrato->ver();
             if (gettype($result) === "array") {
                 foreach ($result as $key => $value) {
-                    $date = date_create($value->data);
+                    $date = date_create($value['data']);
                     $render .= "
                         
-                        <tr title='" . $value->titulo . "'>
-                            <td>" . $value->categoria . "</td>
-                            <td>" . $value->titulo . "</td>
-                            <td>" . $value->descricao . "</td>
-                            <td>R$ " . $value->valor . "</td>
+                        <tr title='" . $value['titulo'] . "'>
+                            <td>" . $value['tipo'] . "</td>
+                            <td>" . $value['titulo'] . "</td>
+                            <td>" . $value['descricao'] . "</td>
+                            <td>R$ " . $value['valor'] . "</td>
                             <td>" . date_format($date, 'd/m/Y') . "</td>
+                            <td>" . $value['nome_carteira'] . "</td>
                             <td></td>
                         </tr>";
                 }
@@ -113,9 +115,9 @@ $extrato = new ExtratoController($_SESSION['id_usuario']);
             window.location.href = `cad_extrato.php?id=${id}`
         }
     </script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="js/jquery-3.2.1.slim.min.js" ></script>
+    <script src="js/popper.min.js" ></script>
+    <script src="js/bootstrap.min.js" ></script>
     <?php include "imports/js.php"; ?>
 </body>
 

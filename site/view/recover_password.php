@@ -1,25 +1,27 @@
 <?php
 include_once '../home_page/imports.html';
+echo "<script src='https://www.google.com/recaptcha/api.js'></script>";
 include_once '../home_page/header.html';
 echo "<main>";
 include_once "../controller/cadastro_controller.php";
 include_once "../controller/recover_password_controller.php";
+require_once "../business/recaptchalib.php";
 
 
 $rst =  new ResetPsw();
 
 if (isset($_SESSION['user_id'], $_POST['senha'])) {
-    if($rst->alterarSenha($_POST['senha'])){
+    if ($rst->alterarSenha($_POST['senha'])) {
         echo "<script>alert('Sua senha foi alterada com sucesso!');
         window.location.href = '../home_page/index.php';</script>";
-    }else{
+    } else {
         echo "<script>alert('Erro ao alterar a senha!')</script>";
     }
 }
 if (isset($_GET['token'])) {
-    if($rst->validaToken($_GET['token'])){
-        
-        $render= "<h1>Insira abaixo a senha nova</h1>
+    if ($rst->validaToken($_GET['token'])) {
+
+        $render = "<h1>Insira abaixo a senha nova</h1>
         
         <form id=\"form-reset-psw\" action=\"\" method=\"POST\" class=\"form\">
             <label for=\"senha\">Senha:</label>
@@ -27,30 +29,54 @@ if (isset($_GET['token'])) {
             <small>Use uma senha forte com minúsculas, maiúsculas e números!</small>
             <input id=\"btn-enviar\" type=\"submit\" value=\"Alterar senha\">
         </form>";
-    }else{
+    } else {
         echo "<script>alert('Token inválido!');
         window.location.href = '../home_page/index.php';</script>";
     }
-}else{
+} else {
     $render = "<h1>Esqueceu a senha?</h1>
     <p>Informe os dados abaixo e encaminharemos para seu e-mail, um link de restauração!</p>
     <form id=\"form-reset-psw\" action=\"\" method=\"POST\" class=\"form\">
         <label for=\"email\">E-mail:</label>
         <input type=\"email\" id=\"email\" name=\"email\" placeholder=\"meu.email@email.com\" required>
         <small>informe o email usado no cadastro!</small>
+        <div class=\"g-recaptcha\" data-sitekey=\"6LdxTB4aAAAAACZXk1mudjILRtJ5TOvavN5sWABj\" data-theme=\"dark\"></div>
         <input id=\"btn-enviar\" type=\"submit\" value=\"Solicitar alteração de senha\">
     </form>";
 }
 if (isset($_POST['email'])) {
-    
-    if($rst->solicitaAlteracaoSenha($_POST['email'])){
-        echo "<script>alert('Foi encaminhado um e-mail para sua caixa de mensagens com o procedimento de restauração da senha!');
-        window.location.href = '../home_page/index.php';</script>";
 
-    }else{
-        echo "<script>alert('O e-mail informado não esta vinculado a nenhum usuario cadastrado! \\n\\nCrie um novo usuario\\n ou \\nNos envie seus nome e usuario por email para analisarmos. \\n\\n contato@mesttech.com.br')</script>";
+    // your secret key
+    $secret = "6LdxTB4aAAAAAJPWiqzogJ_DqQXGvI0W7rReJaFp";
+
+    // empty response
+    $response = null;
+
+    // check secret key
+    $reCaptcha = new ReCaptcha($secret);
+
+    // if submitted check response
+    if ($_POST["g-recaptcha-response"]) {
+        $response = $reCaptcha->verifyResponse(
+            $_SERVER["REMOTE_ADDR"],
+            $_POST["g-recaptcha-response"]
+        );
+    }
+
+    if ($response != null && $response->success) {
+
+        if ($rst->solicitaAlteracaoSenha($_POST['email'])) {   
+            echo "<script>alert('Foi encaminhado um e-mail para sua caixa de mensagens com o procedimento de restauração da senha!');
+            window.location.href = '../home_page/index.php';</script>";
+        } else {
+            echo "<script>alert('O e-mail informado não esta vinculado a nenhum usuario cadastrado! \\n\\nCrie um novo usuario\\n ou \\nNos envie seus nome e usuario por email para analisarmos. \\n\\n contato@mesttech.com.br')</script>";
+        }
+    } else {
+        echo "<script>alert('Por favor, marque o campo de eu não sou um robo!');
+    window.location.href = '../view/recover_password.php';</script>";
     }
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -87,7 +113,7 @@ if (isset($_POST['email'])) {
 <body>
     <main>
         <div id="main">
-            <?php echo $render;?>
+            <?php echo $render; ?>
 
         </div>
     </main>

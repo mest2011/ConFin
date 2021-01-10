@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="css/bootstrap.min.css" >
 <?php include "imports/head_parameters.php"; ?>  
 <?php
 include_once "../classes/Ganho.php";
@@ -6,7 +6,7 @@ include_once "../controller/ganho_controller.php";
 
 if (isset($_GET['id'])) {
     $ganho = new Ganho();
-    $ganho_controller = new GanhoController($_SESSION['id_usuario']);
+    $ganho_controller = new Ganhos($_SESSION['id_usuario']);
     $ganho = $ganho_controller->buscarGanho($_GET['id']);
 }
 
@@ -20,8 +20,9 @@ if (isset($_POST['valor'])) {
         $ganho->valor = $_POST['valor'];
         $ganho->id_ganho = $_POST['id_ganho'];
         $ganho->id_usuario = $_SESSION['id_usuario'];
+        $ganho->id_carteira = $_POST['carteira'];
 
-        $ganho_controller = new GanhoController($ganho->id_usuario);
+        $ganho_controller = new Ganhos($ganho->id_usuario);
         echo "<script>var saveStatus ='".$ganho_controller->atualizarGanho($ganho)."';</script>";
     } else {
 
@@ -32,8 +33,9 @@ if (isset($_POST['valor'])) {
         $ganho->valor = $_POST['valor'];
         $ganho->id_ganho = 0;
         $ganho->id_usuario = $_SESSION['id_usuario'];
+        $ganho->id_carteira = $_POST['carteira'];
 
-        $ganho_controller = new GanhoController($ganho->id_usuario);
+        $ganho_controller = new Ganhos($ganho->id_usuario);
         echo "<script>var saveStatus ='".$ganho_controller->salvarGanho($ganho)."';</script>";
     }
 }
@@ -69,6 +71,21 @@ if (isset($_POST['valor'])) {
                     <input class="form-control" id="ftitulo" type="text" value="<?php if (isset($_GET['id'])) echo $ganho->titulo; ?>" placeholder="Insira o titulo da transação" name="titulo" maxlength="20" required></Input>
                     <label class="form-check-label" for="fdescricao">Descrição</label>
                     <input class="form-control" id="fdescricao" type="text" value="<?php if (isset($_GET['id'])) echo $ganho->descricao; ?>" placeholder="Insira a descrição da transferência" name="descricao" maxlength="50">
+                    <label class="form-check-label" for="fcarteira">Carteira</label>
+                    <select class="form-control" id="fcarteira" name="carteira" required <?php //if (isset($_GET['id'])){echo "disabled";}?>>
+                        <?php
+                            $ganho_controller = new Ganhos($_SESSION['id_usuario']);
+                            
+                            foreach ($ganho_controller->listarCarteiras() as $key => $value) {
+                                echo "<option value=\"{$value['id_carteira']}\" ";
+                                if (isset($_GET['id']) and $ganho->id_carteira === $value['id_carteira']){
+                                     echo "selected";
+                                    }
+                                echo ">{$value['nome_carteira']}</option>";
+                            }
+                        ?>
+                        
+                    </select>
                     <label class="form-check-label" for="fcategoria">Categoria</label>
                     <select class="form-control" id="fcategoria" name="categoria" required> 
                         <option value="Outros" disabled selected>Selecione</option>
@@ -104,9 +121,9 @@ if (isset($_POST['valor'])) {
             }
         }
     </script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="js/jquery-3.2.1.slim.min.js" ></script>
+    <script src="js/popper.min.js" ></script>
+    <script src="js/bootstrap.min.js" ></script>
     <?php include "imports/js.php";?>
 </body>
 

@@ -1,6 +1,7 @@
 <?php
 include_once "../business/connection.php";
 include_once "../classes/Pessoa.php";
+include_once "../business/security.php";
 
 if (isset($_GET['checkExist'])) {
         $data = array();
@@ -47,6 +48,7 @@ if ($result != false) {
 
 function validaCampos(){
     $pessoa = new Pessoa();
+    $sec = new Security();
     if (isset($_POST['name']) and
         isset($_POST['cpf']) and
         isset($_POST['email']) and
@@ -64,8 +66,8 @@ function validaCampos(){
             $pessoa->cidade = $_POST['city'];
             $pessoa->pais = $_POST['country'];
             $pessoa->datanascimento = $_POST['date_of_birth'];
-            $pessoa->usuario = $_POST['user'];
-            $pessoa->senha = $_POST['password'];
+            $pessoa->usuario = $sec->fix_string($_POST['user']);
+            $pessoa->senha = $sec->fix_string($_POST['password']);
             return $pessoa;
     }else {
         return false;
@@ -89,14 +91,13 @@ function salvarUsuario($pessoa){
             $sql = "INSERT INTO tb_usuario (usuario, senha, id_pessoa) VALUES ('".$pessoa->usuario."', '".$pessoa->senha."', 
             $last_id);";
 
-            if($conn->query($sql) === TRUE){
+            if ($conn->query($sql) === true) {
                 $last_id = $conn->insert_id;
-
-                $sql = "INSERT INTO tb_saldo (id_usuario) VALUES ({$last_id});";
+            
+                $sql= "INSERT INTO tb_carteira (id_usuario) VALUES ({$last_id});";
                 $conn->query($sql);
-            }else {
-                echo "<script> alert(\"Error: ". $conn->error."\");</script>";
-                return false;
+            }else{
+                echo "<script>alert(\"Error: ". $conn->error."\")</script>";
             }
         } else {
             echo "<script> alert(\"Error: ". $conn->error."\");</script>";
