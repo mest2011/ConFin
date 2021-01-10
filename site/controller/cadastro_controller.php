@@ -94,7 +94,7 @@ function salvarUsuario($pessoa){
             if ($conn->query($sql) === true) {
                 $last_id = $conn->insert_id;
             
-                $sql= "INSERT INTO tb_carteiras (id_usuario) VALUES ({$last_id});";
+                $sql= "INSERT INTO tb_carteira (id_usuario) VALUES ({$last_id});";
                 $conn->query($sql);
             }else{
                 echo "<script>alert(\"Error: ". $conn->error."\")</script>";

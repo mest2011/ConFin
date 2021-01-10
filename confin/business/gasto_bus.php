@@ -96,7 +96,7 @@ class GastoBus extends Crud
 
     static function buscarListaGastosMes($id_usuario)
     {
-        $sql = "SELECT *, (select nome_carteira from tb_carteiras where id_carteira = tb_despesa.id_carteira limit 1) AS nome_carteira FROM tb_despesa WHERE id_usuario = {$id_usuario}
+        $sql = "SELECT *, (select nome_carteira from tb_carteira where id_carteira = tb_despesa.id_carteira limit 1) AS nome_carteira FROM tb_despesa WHERE id_usuario = {$id_usuario}
         AND data_do_debito >= '" . date('Y') . "-" . date('m') . "-01'
         AND data_do_debito <= '" . date('Y') . "-" . date('m') . "-31' AND status = 1 ORDER BY data_do_debito desc;";
         
@@ -119,9 +119,9 @@ class GastoBus extends Crud
 
     private static function atualizaSaldo($valor, $id_carteira)
     {
-        $saldo_atual = parent::read("SELECT saldo FROM tb_carteiras WHERE id_carteira = {$id_carteira} LIMIT 1;")[0]['saldo'];
+        $saldo_atual = parent::read("SELECT saldo FROM tb_carteira WHERE id_carteira = {$id_carteira} LIMIT 1;")[0]['saldo'];
         $saldo_atualizado = $saldo_atual - $valor;
-        $sql = "UPDATE tb_carteiras SET saldo = {$saldo_atualizado} WHERE id_carteira = {$id_carteira};";
+        $sql = "UPDATE tb_carteira SET saldo = {$saldo_atualizado} WHERE id_carteira = {$id_carteira};";
         return parent::update($sql);
     }
 

@@ -8,7 +8,7 @@ class ResetPsw
 
     function validaToken($token)
     {
-        $sql = "SELECT token, id_usuario FROM tb_alterar_senhas WHERE token = '{$token}' AND status = 1 AND timeDIFF(NOW(), data_criacao) < '00:10:00'";
+        $sql = "SELECT token, id_usuario FROM tb_alterar_senha WHERE token = '{$token}' AND status = 1 AND timeDIFF(NOW(), data_criacao) < '00:10:00'";
 
         $result = $this->read($sql)[0];
 
@@ -23,7 +23,7 @@ class ResetPsw
 
     function alterarSenha($senha)
     {
-        $sql = "UPDATE tb_alterar_senhas set status = 0 where id_usuario = {$_SESSION['user_id']}";
+        $sql = "UPDATE tb_alterar_senha set status = 0 where id_usuario = {$_SESSION['user_id']}";
 
         $this->update($sql);
 
@@ -45,7 +45,7 @@ class ResetPsw
 
                 $diretorio = str_replace("\\", "/", $_SERVER['SCRIPT_URI']);
 
-                $sql = "INSERT INTO tb_alterar_senhas (token, id_usuario) VALUES ('{$_token}', {$result['id_usuario']});";
+                $sql = "INSERT INTO tb_alterar_senha (token, id_usuario) VALUES ('{$_token}', {$result['id_usuario']});";
 
                 if ($this->create($sql)) {
                     new Email($email, $result['nome'], "Troca de senha", "
