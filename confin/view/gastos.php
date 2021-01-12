@@ -12,7 +12,7 @@ if (isset($_GET['id'])) {
     print_r($obj_gastos->excluir($_GET['id']));
     $url = strpos($_SERVER["REQUEST_URI"], "?");
     $url = substr($_SERVER["REQUEST_URI"], 0, $url);
-    header("Location: {$url}");
+    //header("Location: {$url}");
 }
 
 ?>
@@ -39,6 +39,7 @@ if (isset($_GET['id'])) {
                     <th>Descrição</th>
                     <th>Valor</th>
                     <th>Data do débito</th>
+                    <th>Carteira</th>
                     <th></th>
                 </thead>
             <tbody>";
@@ -54,6 +55,7 @@ if (isset($_GET['id'])) {
                             <td>" . $value['descricao'] . "</td>
                             <td>R$ -" . number_format($value['valor'], 2, ',', '.') . "</td>
                             <td>" . date_format($date, 'd/m/Y') . "</td>
+                            <td>" . $value['nome_carteira'] . "</td>
                             <td><button class=\"btn btn-warning\" onclick=\"editar({$value['id_despesa']})\">Editar</button>
                             <button class=\"btn btn-danger\" onclick=\"excluir({$value['id_despesa']})\">Excluir</button></td>
                         </tr>";

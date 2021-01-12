@@ -45,7 +45,7 @@ $obj_saldo =  new Saldo($_SESSION['id_usuario']);
                     </div>
                     <div id="total_gastos_container" class="cards card-1x3" onclick="trocaPagina('gastos.php')">
                         <fieldset>
-                            <legend>Total de gastos atual:</legend>
+                            <legend>Gastos do mês:</legend>
                             <div class="valor-1x3">
                                 <p>R$ <?php echo number_format($obj_gastos->total_de_gastos(), 2, ',', '.') ?> </p>
                             </div>
@@ -67,7 +67,7 @@ $obj_saldo =  new Saldo($_SESSION['id_usuario']);
                     <div id="gastos-mes" class="cards card-3x4">
                         <!-- arrumar id-->
                         <fieldset>
-                            <legend>Gastos do mês</legend>
+                            <legend>Despesas do mês</legend>
                             <div class="gastos-grafico">
                                 <h3>Grafico de gastos</h3>
                                 <div id="canvas-holder">

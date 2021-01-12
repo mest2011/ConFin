@@ -6,7 +6,7 @@ include_once "../controller/extrato_controller.php";
 include_once "../controller/gastos_controller.php";
 include_once "../controller/ganho_controller.php";
 
-$ganho = new GanhoController($_SESSION['id_usuario']);
+$ganho = new Ganhos($_SESSION['id_usuario']);
 $gastos = new Gastos($_SESSION['id_usuario']);
 
 $extrato = new ExtratoController($_SESSION['id_usuario']);
@@ -36,21 +36,23 @@ $extrato = new ExtratoController($_SESSION['id_usuario']);
                     <th>Descrição</th>
                     <th>Valor</th>
                     <th>Data da transação</th>
+                    <th>Carteira</th>
                     <th><button onclick=\"xlsx()\" class=\"btn btn-primary\"><img src=\"images/btn-download.png\" width=\"30px\"></button></th>
                 </thead>
             <tbody>";
             $result = $extrato->ver();
             if (gettype($result) === "array") {
                 foreach ($result as $key => $value) {
-                    $date = date_create($value->data);
+                    $date = date_create($value['data']);
                     $render .= "
                         
-                        <tr title='" . $value->titulo . "'>
-                            <td>" . $value->categoria . "</td>
-                            <td>" . $value->titulo . "</td>
-                            <td>" . $value->descricao . "</td>
-                            <td>R$ " . $value->valor . "</td>
+                        <tr title='" . $value['titulo'] . "'>
+                            <td>" . $value['tipo'] . "</td>
+                            <td>" . $value['titulo'] . "</td>
+                            <td>" . $value['descricao'] . "</td>
+                            <td>R$ " . $value['valor'] . "</td>
                             <td>" . date_format($date, 'd/m/Y') . "</td>
+                            <td>" . $value['nome_carteira'] . "</td>
                             <td></td>
                         </tr>";
                 }

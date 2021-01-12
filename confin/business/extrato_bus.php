@@ -7,37 +7,10 @@ class ExtratoBus extends Crud
 
     public static function buscar($id_usuario, $dt_inicio = "0", $dt_fim = "0")
     {
-        $array_extrato = array();
-        $sql = "SELECT * FROM tb_ganho where id_usuario = {$id_usuario} order by data_do_credito desc;";
-        $ganho = parent::read($sql);
-        $sql = "SELECT * FROM tb_despesa where id_usuario = {$id_usuario} order by data_do_debito desc;";
-        $gasto = parent::read($sql);
-
-        if (gettype($ganho) === "array") {
-            foreach ($ganho as $key => $value) {
-                $obj_extrato = new Extrato();
-                $obj_extrato->id_usuario = $value['id_usuario'];
-                $obj_extrato->titulo = $value['titulo'];
-                $obj_extrato->descricao = $value['descricao'];
-                $obj_extrato->categoria = $value['tipo'];
-                $obj_extrato->valor = number_format($value['valor'], 2, ',', '.');
-                $obj_extrato->data = $value['data_do_credito'];
-                array_push($array_extrato,  $obj_extrato);
-            }
-        }
-        if (gettype($gasto) === "array") {
-            foreach ($gasto as $key => $value) {
-                $obj_extrato = new Extrato();
-                $obj_extrato->id_usuario = $value['id_usuario'];
-                $obj_extrato->titulo = $value['titulo'];
-                $obj_extrato->descricao = $value['descricao'];
-                $obj_extrato->categoria = $value['tipo'];
-                $obj_extrato->valor = "-" . strval(number_format($value['valor'], 2, ',', '.'));
-                $obj_extrato->data = $value['data_do_debito'];
-                array_push($array_extrato,  $obj_extrato);
-            }
-        }
+        $sql = "SELECT titulo, tipo, descricao, valor, tb_ganho.data_do_credito AS data, (select nome_carteira from tb_carteira where id_carteira = tb_ganho.id_carteira limit 1) AS nome_carteira FROM tb_ganho WHERE id_usuario = {$id_usuario} AND status = 1
+        UNION
+        SELECT titulo, tipo, descricao, (valor * (-1)) AS valor, tb_despesa.data_do_debito AS data, (select nome_carteira from tb_carteira where id_carteira = tb_despesa.id_carteira limit 1) AS nome_carteira FROM tb_despesa WHERE id_usuario = {$id_usuario} AND status = 1 ORDER BY data DESC";
         
-        return $array_extrato;
+        return parent::read($sql);
     }
 }

@@ -6,7 +6,7 @@ include_once "../controller/ganho_controller.php";
 
 if (isset($_GET['id'])) {
     $ganho = new Ganho();
-    $ganho_controller = new GanhoController($_SESSION['id_usuario']);
+    $ganho_controller = new Ganhos($_SESSION['id_usuario']);
     $ganho = $ganho_controller->buscarGanho($_GET['id']);
 }
 
@@ -20,8 +20,9 @@ if (isset($_POST['valor'])) {
         $ganho->valor = $_POST['valor'];
         $ganho->id_ganho = $_POST['id_ganho'];
         $ganho->id_usuario = $_SESSION['id_usuario'];
+        $ganho->id_carteira = $_POST['carteira'];
 
-        $ganho_controller = new GanhoController($ganho->id_usuario);
+        $ganho_controller = new Ganhos($ganho->id_usuario);
         echo "<script>var saveStatus ='".$ganho_controller->atualizarGanho($ganho)."';</script>";
     } else {
 
@@ -32,8 +33,9 @@ if (isset($_POST['valor'])) {
         $ganho->valor = $_POST['valor'];
         $ganho->id_ganho = 0;
         $ganho->id_usuario = $_SESSION['id_usuario'];
+        $ganho->id_carteira = $_POST['carteira'];
 
-        $ganho_controller = new GanhoController($ganho->id_usuario);
+        $ganho_controller = new Ganhos($ganho->id_usuario);
         echo "<script>var saveStatus ='".$ganho_controller->salvarGanho($ganho)."';</script>";
     }
 }
@@ -69,6 +71,21 @@ if (isset($_POST['valor'])) {
                     <input class="form-control" id="ftitulo" type="text" value="<?php if (isset($_GET['id'])) echo $ganho->titulo; ?>" placeholder="Insira o titulo da transação" name="titulo" maxlength="20" required></Input>
                     <label class="form-check-label" for="fdescricao">Descrição</label>
                     <input class="form-control" id="fdescricao" type="text" value="<?php if (isset($_GET['id'])) echo $ganho->descricao; ?>" placeholder="Insira a descrição da transferência" name="descricao" maxlength="50">
+                    <label class="form-check-label" for="fcarteira">Carteira</label>
+                    <select class="form-control" id="fcarteira" name="carteira" required <?php //if (isset($_GET['id'])){echo "disabled";}?>>
+                        <?php
+                            $ganho_controller = new Ganhos($_SESSION['id_usuario']);
+                            
+                            foreach ($ganho_controller->listarCarteiras() as $key => $value) {
+                                echo "<option value=\"{$value['id_carteira']}\" ";
+                                if (isset($_GET['id']) and $ganho->id_carteira === $value['id_carteira']){
+                                     echo "selected";
+                                    }
+                                echo ">{$value['nome_carteira']}</option>";
+                            }
+                        ?>
+                        
+                    </select>
                     <label class="form-check-label" for="fcategoria">Categoria</label>
                     <select class="form-control" id="fcategoria" name="categoria" required> 
                         <option value="Outros" disabled selected>Selecione</option>

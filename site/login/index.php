@@ -1,5 +1,6 @@
 <?php
 include_once "../business/connection.php";
+include_once "../business/security.php";
 session_start();
 
 if (isset($_POST["user"]) and isset($_POST["password"])) {
@@ -11,11 +12,17 @@ if (isset($_POST["user"]) and isset($_POST["password"])) {
 }
 
 
-function validate($user, $passsword){
+function validate($user, $password){
     $db = new Db();
 
+    $sec = new Security();
+
+    $user = $sec->fix_string($user);
+    $password = $sec->fix_string($password);
+    //echo "<h1>{$user}<h1><br/> <h1>{$password}<h1>";
+
     $conn = $db->connect();
-    $sql = "SELECT * FROM tb_usuario WHERE usuario = '".$user."' and senha = '".$passsword."';";
+    $sql = "SELECT * FROM tb_usuario WHERE usuario = '".$user."' and senha = '".$password."' LIMIT 1;";
 
     $result = $conn->query($sql);
        
@@ -33,6 +40,7 @@ function validate($user, $passsword){
 
 
 }
+
 
 
 

@@ -1,5 +1,6 @@
 <?php
 include_once "../business/gasto_bus.php";
+include_once "../business/carteira_bus.php";
 
 class Gastos{
     private $total_gastos;
@@ -17,7 +18,7 @@ class Gastos{
     }
 
     function lista_gastos(){
-        if(strlen($this->lista_gastos) == 0){
+        if(strlen($this->lista_gastos) == 0 || $this->lista_gastos == null || $this->lista_gastos == ""){
             $this->lista_gastos = GastoBus::buscarListaGastosMes($this->_id_usuario);
         }        
         return $this->lista_gastos;
@@ -41,6 +42,10 @@ class Gastos{
 
     function atualizarGasto($obj_gasto){
         return GastoBus::atualizaGasto($obj_gasto);
+    }
+
+    function listarCarteiras(){
+        return CarteiraBus::carteiras($this->_id_usuario);
     }
 
 }
