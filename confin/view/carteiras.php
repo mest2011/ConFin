@@ -38,7 +38,7 @@ if (isset($_GET['id'])) {
                     <th>Saldo</th>
                     <th>Data da criação</th>
                     <th>Última transação</th>
-                    <th></th>
+                    <th><a href='../view/tranferenciaCarteira.php' class='btn btn-info'>Transferir</a></th>
                 </thead>
             <tbody>";
             $result = $carteira->buscarTodoscarteiras();

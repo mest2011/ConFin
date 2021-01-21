@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="css/bootstrap.min.css" >
+<link rel="stylesheet" href="css/bootstrap.min.css">
 
 <?php include "imports/head_parameters.php"; ?>
 <?php
@@ -31,8 +31,8 @@ $extrato = new ExtratoController($_SESSION['id_usuario']);
             $render = "
             <table id=\"tabela\" class='table table-hover' data-tabela-gastos>
                 <thead>
-                    <th>Categoria</th>
                     <th>Título</th>
+                    <th>Categoria</th>
                     <th>Descrição</th>
                     <th>Valor</th>
                     <th>Data da transação</th>
@@ -47,8 +47,8 @@ $extrato = new ExtratoController($_SESSION['id_usuario']);
                     $render .= "
                         
                         <tr title='" . $value['titulo'] . "'>
-                            <td>" . $value['tipo'] . "</td>
                             <td>" . $value['titulo'] . "</td>
+                            <td>" . $value['tipo'] . "</td>
                             <td>" . $value['descricao'] . "</td>
                             <td>R$ " . $value['valor'] . "</td>
                             <td>" . date_format($date, 'd/m/Y') . "</td>
@@ -115,9 +115,9 @@ $extrato = new ExtratoController($_SESSION['id_usuario']);
             window.location.href = `cad_extrato.php?id=${id}`
         }
     </script>
-    <script src="js/jquery-3.2.1.slim.min.js" ></script>
-    <script src="js/popper.min.js" ></script>
-    <script src="js/bootstrap.min.js" ></script>
+    <script src="js/jquery-3.2.1.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <?php include "imports/js.php"; ?>
 </body>
 
