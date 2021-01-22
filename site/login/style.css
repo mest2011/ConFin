@@ -139,6 +139,7 @@
 }
 
 #login .login_btn {
+    padding: initial !important;
     color: white;
     background-color: #E7BB41;
     width: 120px;

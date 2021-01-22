@@ -61,7 +61,7 @@ if (isset($_POST['carteira-origem'], $_POST['carteira-destino'], $_POST['valor']
 
                                 foreach ($carteiraController->listarCarteiras() as $key => $value) {
                                     echo "<option value=\"{$value['id_carteira']}\" ";
-                                    echo ">{$value['nome_carteira']} Saldo:{$value['saldo']}</option>";
+                                    echo ">{$value['nome_carteira']} - Saldo:{$value['saldo']}</option>";
                                 }
                                 ?>
 
@@ -73,7 +73,7 @@ if (isset($_POST['carteira-origem'], $_POST['carteira-destino'], $_POST['valor']
 
                                 foreach ($carteiraController->listarCarteiras() as $key => $value) {
                                     echo "<option value=\"{$value['id_carteira']}\" ";
-                                    echo ">{$value['nome_carteira']} Saldo:{$value['saldo']}</option>";
+                                    echo ">{$value['nome_carteira']} - Saldo:{$value['saldo']}</option>";
                                 }
                                 ?>
 
