@@ -203,7 +203,7 @@ td {
     border-radius: 0 0 1vh 0;
 }
 
-tr:hover {
+td:hover {
     color: #9792e3;
     background-color: #b3ffc8;
     cursor: pointer;

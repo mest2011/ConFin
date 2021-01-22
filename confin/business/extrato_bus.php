@@ -7,7 +7,7 @@ class ExtratoBus extends Crud
 
     public static function buscar($id_usuario, $dt_inicio = "0", $dt_fim = "0")
     {
-        $sql = "SELECT 'Tranferência' as titulo, 'Mesma conta' as tipo, concat('Conta origem: ', c.nome_carteira , ' Conta destino: ', d.nome_carteira) AS descricao, valor,  convert(tt.data_criacao, date) AS data, concat(c.nome_carteira,' => ',d.nome_carteira) AS nome_carteira FROM tb_transferencia AS tt
+        $sql = "SELECT 'Tranferência' as titulo, 'Entre carteiras' as tipo, concat('Conta origem: ', c.nome_carteira , '<br> Conta destino: ', d.nome_carteira) AS descricao, valor,  convert(tt.data_criacao, date) AS data, concat(c.nome_carteira,' => ',d.nome_carteira) AS nome_carteira FROM tb_transferencia AS tt
         JOIN tb_carteira c ON c.id_carteira = tt.id_carteira_origem
         JOIN tb_carteira d ON d.id_carteira = tt.id_carteira_destino
          WHERE tt.id_usuario = {$id_usuario} 

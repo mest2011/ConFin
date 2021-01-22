@@ -38,7 +38,8 @@ if (isset($_GET['id'])) {
                     <th>Saldo</th>
                     <th>Data da criação</th>
                     <th>Última transação</th>
-                    <th><a href='../view/tranferenciaCarteira.php' class='btn btn-info'>Transferir</a></th>
+                    <th><a href='../view/tranferenciaCarteira.php' class='btn btn-info' title='Transferir saldo entre carteiras'>Transferir</a> 
+                        <a href='../view/cad_carteira.php' class='btn btn-success' title='Nova carteira'>+</a></th>
                 </thead>
             <tbody>";
             $result = $carteira->buscarTodoscarteiras();
@@ -67,7 +68,7 @@ if (isset($_GET['id'])) {
     </section>
     <script>
         function excluir(id) {
-            if (confirm("Deseja mesmo excluir esse carteira?")) {
+            if (confirm("Deseja mesmo excluir essa carteira? \n\n Atenção! \nAo fazer isso você excluirá o saldo da carteira.")) {
                 window.location.href = window.location.href + `?id=${id}`
             }
         }

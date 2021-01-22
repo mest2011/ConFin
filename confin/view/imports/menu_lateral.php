@@ -8,21 +8,21 @@ new Session_security();
     </a>
 
     <ul class="lista">
-        <a href="../view/cad_ganho.php" title="Cadastrar Ganho">
+        <!-- <a href="../view/cad_ganho.php" title="Cadastrar Ganho">
             <li>↪ Cad. Ganho</li>
-        </a>
+        </a> -->
         <a href="../view/ganhos.php" title="Ver todos os ganhos do mês">
             <li>↪ Ganhos</li>
         </a>
-        <a href="../view/cad_gasto.php" title="Cadastrar Despesa">
+        <!-- <a href="../view/cad_gasto.php" title="Cadastrar Despesa">
             <li>↪ Cad. Despesa</li>
-        </a>
+        </a> -->
         <a href="../view/gastos.php" title="Ver todas as despesas do mês">
             <li>↪ Despesas</li>
 
-        <a href="../view/cad_carteira.php" title="Cadastro de carteiras">
+        <!-- <a href="../view/cad_carteira.php" title="Cadastro de carteiras">
             <li>↪ Cad. Carteiras</li>
-        </a>
+        </a> -->
 
         <a href="../view/carteiras.php" title="Ver todas as carteiras cadastradas!">
             <li>↪ Carteiras</li>

@@ -58,7 +58,7 @@ $extrato = new ExtratoController($_SESSION['id_usuario']);
                 }
                 $render .= "</tbody></table>";
             } else {
-                $render = "<b>" . $result . "</b>";
+                $render .= "<tr><td colspan='7'><b>" . $result . "</td></tr></b>";
             }
             echo $render;
             ?>

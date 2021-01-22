@@ -40,7 +40,7 @@ if (isset($_GET['id'])) {
                     <th>Valor</th>
                     <th>Data do débito</th>
                     <th>Carteira</th>
-                    <th></th>
+                    <th><a href='../view/cad_gasto.php' class='btn btn-success' title='Novo gasto'>+</a></th>
                 </thead>
             <tbody>";
             $result = $obj_gastos->lista_gastos();
@@ -62,7 +62,7 @@ if (isset($_GET['id'])) {
                 }
                 $render .= "</tbody></table>";
             } else {
-                $render = "<b>" . $result . "</b>";
+                $render .= "<tr><td colspan='7'><b>" . $result . "</td></tr></b>";
             }
             echo $render;
             ?>
