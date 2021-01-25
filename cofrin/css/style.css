@@ -1,0 +1,90 @@
+body {
+    background-color: #10121e;
+    color: aliceblue;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+hr {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    border: 0;
+    border-top: 1px solid gray;
+}
+
+h3 {
+    font-size: large;
+    font-weight: 700;
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.green-bgcolor {
+    background-color: #18c498;
+    color: aliceblue;
+}
+
+.green-color {
+    color: #18c498;
+}
+
+.btn-container {
+    margin-top: 30px;
+}
+
+.button {
+    cursor: pointer;
+    padding: 0.8vw 4.5vw;
+    border-radius: 10px;
+    transition-duration: 0.5s;
+}
+
+.btn-criar-conta {
+    background-color: #10121e;
+    border: #10121e;
+    color: aliceblue;
+}
+
+.btn-criar-conta:hover {
+    /* background-color: #18c49850; */
+    transition-duration: 0.5s;
+}
+
+.input-cofrin {
+    height: 3rem;
+    border-radius: 8px;
+}
+
+img {
+    width: 70%;
+    border-radius: 20px;
+    float: right;
+    margin-right: 15px;
+    box-shadow: 25px 25px 0px 0px #18c498;
+}
+
+label {
+    font-size: 1.2rem;
+    margin-top: 15px;
+}
+
+.remember-password {
+    margin-top: 10px;
+    font-size: x-small;
+}
+
+.remember-password a {
+    color: aliceblue;
+    text-decoration: underline;
+}
+
+.remember-password a:hover {
+    color: #18c498;
+    text-decoration: none;
+}
