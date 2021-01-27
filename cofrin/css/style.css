@@ -1,37 +1,95 @@
+* {
+    font-family: "Raleway", sans-serif;
+}
+
 body {
-    background-color: #10121e;
-    color: aliceblue;
+    overflow-x: hidden;
+    background-color: #111320;
+    color: #ffffff;
+}
+
+a {
+    color: #ffffff;
+    transition-duration: 0.2s;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #19d0a0;
+    transition-duration: 0.2s;
+}
+
+
+/* Menu superior */
+
+.menu {
+    display: flex;
+}
+
+.menu ul {
+    margin-left: auto;
+}
+
+.menu li {
+    margin: auto 2rem;
+}
+
+
+/* Corpo home */
+
+.bg-white {
+    background-color: #ffffff;
+    color: #111320;
+}
+
+
+/* logo */
+
+.div-logo {
+    color: #ffffff;
+    height: 3rem;
+    display: flex;
+}
+
+.div-logo-preta {
+    margin: 3vh 3vw;
+    color: #111320;
+}
+
+.div-logo img {
+    height: 1.3rem;
+    width: auto;
 }
 
 .container {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 hr {
-    margin-top: 2rem;
-    margin-bottom: 3rem;
+    margin-top: 0.5rem;
+    margin-bottom: 2.5rem;
     border: 0;
-    border-top: 1px solid gray;
+    border-top: 1px solid #ededed;
 }
 
 h3 {
     font-size: large;
-    font-weight: 700;
+    font-weight: bold;
 }
 
 h1 {
     font-size: 3rem;
-    font-weight: 700;
+    font-weight: bold;
     margin-bottom: 2rem;
 }
 
 .green-bgcolor {
-    background-color: #18c498;
-    color: aliceblue;
+    background-color: #19d0a0;
+    color: #ffffff;
 }
 
 .green-color {
-    color: #18c498;
+    color: #19d0a0;
 }
 
 .btn-container {
@@ -42,18 +100,59 @@ h1 {
     cursor: pointer;
     padding: 0.8vw 4.5vw;
     border-radius: 10px;
-    transition-duration: 0.5s;
+    font-weight: 500;
 }
 
 .btn-criar-conta {
-    background-color: #10121e;
-    border: #10121e;
-    color: aliceblue;
+    background-color: #111320;
+    border: #111320;
+    color: #ffffff;
 }
 
 .btn-criar-conta:hover {
-    /* background-color: #18c49850; */
+    color: #ffffff;
+    text-decoration: none;
     transition-duration: 0.5s;
+}
+
+.btn-login-google {
+    padding: 0.5rem 3rem 0.5rem 3rem;
+    background-color: #ffffff;
+    color: #111320;
+    margin: 1rem 0.5rem 0 0;
+    align-items: center;
+    vertical-align: middle;
+    justify-content: space-around;
+}
+
+.btn-login-facebook {
+    padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+    background-color: #1278F3;
+    color: #ffffff;
+    margin: 1rem 0.5rem 0 0;
+    align-items: center;
+    vertical-align: middle;
+    justify-content: space-around;
+}
+
+.btn-login-google img {
+    margin: -2px 20px 0 -20px;
+    width: 1rem;
+}
+
+.btn-login-facebook img {
+    margin: -5px 20px 0 -20px;
+    width: 1rem;
+}
+
+.btn-login-google:hover {
+    text-decoration: none;
+    color: #111320;
+}
+
+.btn-login-facebook:hover {
+    text-decoration: none;
+    color: #ffffff
 }
 
 .input-cofrin {
@@ -61,15 +160,17 @@ h1 {
     border-radius: 8px;
 }
 
-img {
-    width: 70%;
-    border-radius: 20px;
+.img-login {
     float: right;
-    margin-right: 15px;
-    box-shadow: 25px 25px 0px 0px #18c498;
+    width: 70%;
+}
+
+img {
+    width: 100%;
 }
 
 label {
+    font-weight: 500;
     font-size: 1.2rem;
     margin-top: 15px;
 }
@@ -77,14 +178,64 @@ label {
 .remember-password {
     margin-top: 10px;
     font-size: x-small;
+    font-weight: 500;
+    color: #ededed;
 }
 
 .remember-password a {
-    color: aliceblue;
+    color: #ededed;
     text-decoration: underline;
 }
 
 .remember-password a:hover {
-    color: #18c498;
+    color: #19d0a0;
     text-decoration: none;
+}
+
+#bg-cadastro {
+    height: 100vh;
+    background: url("../imagens/girl_in_boat.jpg") no-repeat center;
+    background-size: cover;
+}
+
+.fixed {
+    position: fixed;
+}
+
+#container-cadastro {
+    padding: 2rem 7rem 2rem 7rem;
+}
+
+.separator {
+    margin: 1.5rem auto;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ededed;
+}
+
+.separator::before {
+    margin-right: .25em;
+}
+
+.separator::after {
+    margin-left: .25em;
+}
+
+.confirm {
+    margin: 2rem 0;
+}
+
+.confirm input {}
+
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1500px;
+    }
 }

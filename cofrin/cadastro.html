@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Cofrin - Cadastro</title>
+</head>
+
+<body>
+    <main class="row">
+        <div class="col-md-4"></div>
+        <div id="bg-cadastro" class="col-md-4 fixed">
+            <a href="./index.html">
+                <div class="div-logo div-logo-preta">
+                    <h3>Cofrin</h3>
+                    <img src="./imagens/logo_porquinho.png" alt="logo_porquinho">
+                </div>
+            </a>
+            <hr>
+        </div>
+        <div class="col-md-6">
+            <div id="container-cadastro">
+                <div class="">
+                    <h1>Criar conta <span class="green-color">no Cofrin</span></h1>
+                    <p>Cadastre-se com:</p>
+                    <div>
+                        <a href="#" class="btn btn-login-google"><img src="./imagens/logo_google.png" alt="logo facebook">Google</a>
+                        <a href="#" class="btn btn-login-facebook"><img src="./imagens/logo_facebook.png" alt="logo facebook">Facebook</a>
+                    </div>
+                    <div class="separator">ou</div>
+                    <form action="" class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <label for="nome">Nome</label>
+                            <input type="text" class="form-control" name="nome" id="nome" placeholder="Jorge" required>
+                        </div>
+                        <div class="col-md-6  col-sm-12">
+                            <label for="sobrenome">Sobrenome</label>
+                            <input type="text" class="form-control" name="sobrenome" id="sobrenome" placeholder="Lima de Oliveira" required>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="email">E-mail</label>
+                            <input type="text" class="form-control" name="email" id="email" placeholder="Jorge@mail.com.br" required>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="psw">Senha</label>
+                            <input type="password" class="form-control" name="password" id="psw" placeholder="*********" required>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="data-nascimento">Data de nascimento</label>
+                            <input type="date" class="form-control" name="data-nascimento" id="data-nascimento" placeholder="dd/mm/aaaa" required>
+                        </div>
+                        <div class="col-md-12 confirm">
+
+                            <input type="checkbox" required>
+                            <small>Ao se cadastrar na plataforma você esta de acordo com os <span class="green-color">termos de privacidade</span> e <span class="green-color">licenças de uso</span></small>
+                        </div>
+                        <div class="col-md-12">
+                            <button class="button green-bgcolor">Criar conta</button>
+                        </div>
+
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+</html>

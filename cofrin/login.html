@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Cofrin - Login</title>
+</head>
+
+<body>
+    <main class="container container-fluid">
+        <a href="./index.html">
+            <div class="div-logo">
+                <h3>Cofrin</h3><img src="./imagens/logo_porquinho.png" alt="logo_porquinho">
+            </div>
+        </a>
+        <hr>
+        <section>
+            <form class="row" action="../site/login/index.php" method="post" autocomplete="on">
+                <div class="col-md-6">
+                    <h1>Log<span class="green-color">in</span></h1>
+                    <label for="user">E-mail:</label >
+                <input id="user" type="email" class="form-control input-cofrin" aria-label="Large" placeholder="Ex.: Joao@email.com.br" name="user" maxlength="20" required>
+                <label for="senha">Senha:</label >
+                <input id="senha" type="password" class="form-control input-cofrin" aria-label="Large" name="password" placeholder="**********" required>
+                <p class="remember-password">Esqueceu sua senha? <a href="../site/view/recover_password.php">Clique aqui</a></p>
+                
+            <div class="btn-container">
+                <button class="button green-bgcolor" type="submit">Login</button>
+                <a id="btn-criar-conta" class="button btn-criar-conta" href='../site/view/cadastro.php'>Criar conta</a>
+            </div>
+            </div>
+            <div class="col-md-6">
+                <div class="img-login">
+                    <img src="./imagens/moca_loira.png" alt="Moça olhando para o futuro">
+                </div>
+            </div>
+        </form>
+        </section>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+</html>

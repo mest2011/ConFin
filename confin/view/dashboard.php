@@ -8,7 +8,7 @@ include_once "../controller/saldo_controller.php";
 include_once "../controller/gastos_controller.php";
 
 if (!isset($_SESSION['id_usuario'], $_SESSION['status']) or $_SESSION['status'] <> "logado") {
-    header("Location: ../../site/home_page/index.php");
+    header("Location: ../../cofrin/login.html");
 }
 
 

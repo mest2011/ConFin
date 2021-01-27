@@ -14,7 +14,7 @@ class Session_security
 
         if (!isset($_SESSION['time'])) {
             session_destroy();
-            header("LOCATION: ../../site/home_page/index.php?erro=usuario_nao_logado");
+            header("LOCATION: ../../cofrin/login.html?erro=usuario_nao_logado");
         }
 
         $this->_time_session = $_SESSION['time'];
@@ -23,7 +23,7 @@ class Session_security
             $_SESSION['time'] = date_create();
         }else{
             session_destroy();
-            header("LOCATION: ../../site/home_page/index.php?erro=tempo_inatividade_excedido");
+            header("LOCATION: ../../cofrin/login.html?erro=tempo_inatividade_excedido");
         }
     }
 

@@ -36,7 +36,7 @@ if ($result != false) {
         echo "<script>alert(\"Erro ao salvar seus dados!\");</script>";
     }else{
         echo "<script>alert(\"Usuario salvo com sucesso!\");
-        window.location.href = \"../home_page/index.php\";</script>";
+        window.location.href = \"../../cofrin/login.html\";</script>";
     }
 
 }else{

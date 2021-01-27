@@ -8,7 +8,7 @@ if (isset($_POST["user"]) and isset($_POST["password"])) {
     $passsword = $_POST["password"];
     validate($user, $passsword);
 }else{
-    header("Location: ../home_page/index.php");
+    header("Location: ../../cofrin/login.html");
 }
 
 
@@ -35,7 +35,7 @@ function validate($user, $password){
         header("Location: ../../confin/view/dashboard.php");
     }else{
         $_SESSION["status"] = "";
-        header("Location: ../home_page/index.php?erro=userorpasswordinvalide");
+        header("Location: ../../cofrin/login.html?erro=userorpasswordinvalide");
     }
 
 

@@ -1,6 +1,6 @@
 <?php
 include_once "../controller/categoria_controller.php";
-if (!isset($_GET['id_usuario'])) header("Location: ../../site/home_page/index.php");
+if (!isset($_GET['id_usuario'])) header("Location: ../../cofrin/login.html");
 
 $categoria_con = new CategoriaController($_GET['id_usuario']);
 
