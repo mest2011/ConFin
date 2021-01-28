@@ -19,6 +19,25 @@ a:hover {
     transition-duration: 0.2s;
 }
 
+p {
+    font-size: 1.5rem;
+}
+
+.border-green {
+    border: solid 2px #19d0a0;
+    border-radius: 2rem;
+}
+
+
+/* .div-flutuante {
+    z-index: 1;
+    min-height: 93%;
+    width: 64%;
+    position: absolute;
+    margin-top: -3rem;
+    margin-left: 2rem;
+} */
+
 
 /* Menu superior */
 
@@ -28,10 +47,11 @@ a:hover {
 
 .menu ul {
     margin-left: auto;
+    margin-top: -7px;
 }
 
 .menu li {
-    margin: auto 2rem;
+    margin: auto 0 auto 2rem;
 }
 
 
@@ -39,6 +59,11 @@ a:hover {
 
 .bg-white {
     background-color: #ffffff;
+    color: #111320;
+}
+
+.bg-gray {
+    background-color: #ededed;
     color: #111320;
 }
 
@@ -83,8 +108,58 @@ h1 {
     margin-bottom: 2rem;
 }
 
+.h1-home {
+    font-size: 7rem;
+    font-weight: 500;
+}
+
+.h2-home {
+    font-size: 6rem;
+}
+
+.h3-home {
+    font-size: 3rem;
+}
+
+.h4-home {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.font-blue {
+    color: #271c72;
+}
+
+.card {
+    padding: 2rem;
+    height: 100%;
+}
+
+.card-pqusarcofrin {
+    height: 50vh;
+    background: url("../imagens/moco_revista_praia.jpg") no-repeat center;
+    background-size: cover;
+}
+
+.radius-up {
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+}
+
+.radius-down {
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+}
+
+
+/* Buttons botoes */
+
 .green-bgcolor {
     background-color: #19d0a0;
+    color: #ffffff;
+}
+
+.green-bgcolor:hover {
     color: #ffffff;
 }
 
@@ -92,8 +167,28 @@ h1 {
     color: #19d0a0;
 }
 
+.btn-green {
+    border-radius: 10px;
+    padding: 0.5rem 3rem;
+    background-color: #19d0a000;
+    border: solid 2px #19d0a0;
+    color: #19d0a0;
+}
+
+.btn-green a {
+    color: #19d0a0;
+}
+
 .btn-container {
     margin-top: 30px;
+}
+
+.btn-large {
+    border-radius: 1.1rem !important;
+    font-size: 1.5rem;
+    padding: 1rem 5rem;
+    border-radius: 10px;
+    margin-right: 1rem;
 }
 
 .button {
