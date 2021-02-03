@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/toastr.css">
     <title>Cofrin - Login</title>
 </head>
 
@@ -21,18 +22,18 @@
         </a>
         <hr>
         <section>
-            <form class="row" action="../site/login/index.php" method="post" autocomplete="on">
+            <form class="row" action="../controller/user_controller.php" method="POST" autocomplete="on">
                 <div class="col-md-6">
                     <h1>Log<span class="green-color">in</span></h1>
                     <label for="user">E-mail:</label >
-                <input id="user" type="email" class="form-control input-cofrin" aria-label="Large" placeholder="Ex.: Joao@email.com.br" name="user" maxlength="20" required>
+                <input id="user" type="email" class="form-control input-cofrin" aria-label="Large" placeholder="Ex.: Joao@email.com.br" name="user" maxlength="50" required>
                 <label for="senha">Senha:</label >
                 <input id="senha" type="password" class="form-control input-cofrin" aria-label="Large" name="password" placeholder="**********" required>
-                <p class="remember-password">Esqueceu sua senha? <a href="../site/view/recover_password.php">Clique aqui</a></p>
+                <p class="remember-password">Esqueceu sua senha? <a href="../../site/view/recover_password.php">Clique aqui</a></p>
                 
             <div class="btn-container">
                 <button class="button green-bgcolor" type="submit">Login</button>
-                <a id="btn-criar-conta" class="button btn-criar-conta" href='../site/view/cadastro.php'>Criar conta</a>
+                <a id="btn-criar-conta" class="button btn-criar-conta" href='./cadastro.html'>Criar conta</a>
             </div>
             </div>
             <div class="col-md-6">
@@ -43,10 +44,34 @@
         </form>
         </section>
     </main>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/toastr.js"></script>
+    <script src="./js/jquery-3.2.1.slim.min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script>
+        
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const error = urlParams.get('erro');
+        
+        //Toastr
+        toastr.options.closeButton = true;
+        toastr.options.closeMethod = 'fadeOut';
+        toastr.options.closeDuration = 300;
+        toastr.options.closeEasing = 'swing';
+        toastr.options.preventDuplicates = true;
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        $( document ).ready(function() {
+            if( error == "userorpasswordinvalide"){
+                toastr.error('Usuário ou senha incorretos!','Erro:')
+            }else if(error != null){
+                toastr.warning(error,'Atenção:')
+            }
+        });
+
+
+    </script>
 </body>
 
 </html>

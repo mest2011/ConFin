@@ -1,7 +1,7 @@
 <?php
 session_start();
 session_destroy();
-header("LOCATION: ../../cofrin/login.html");
+header("LOCATION: ../../cofrin/view/login.html");
 
 
 

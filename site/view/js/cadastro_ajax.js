@@ -35,14 +35,14 @@ function checkExist(inputForCheck) {
     var btnSalvar = document.getElementById("form_salvar");
 
     //Pegar valor referente ao campo que chamou a função
-    var value = document.getElementById("form_" + inputForCheck).value;
+    var value = document.getElementById(inputForCheck).value;
 
     if (value == null || value == undefined || value == "") {
         value = "0";
     }
 
     // Iniciar uma requisição
-    xmlreq.open("GET", "../controller/cadastro_controller.php?checkExist=" + inputForCheck + "&value=" + value, true);
+    xmlreq.open("GET", "../site/controller/cadastro_controller.php?checkExist=" + inputForCheck + "&value=" + value, true);
 
     // Atribui uma função para ser executada sempre que houver uma mudança de ado
     xmlreq.onreadystatechange = function() {
@@ -55,8 +55,10 @@ function checkExist(inputForCheck) {
                 result.innerHTML = xmlreq.responseText;
                 if (xmlreq.responseText.length > 0) {
                     btnSalvar.disabled = true;
+                    btnSalvar.style.filter = "grayscale(100)";
                 } else {
                     btnSalvar.disabled = false;
+                    btnSalvar.style.filter = "grayscale(0)";
                 }
             } else {
                 result.innerHTML = "Erro: " + xmlreq.statusText;
