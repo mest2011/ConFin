@@ -3,31 +3,34 @@
 include_once "../database/connection.php";
 include_once "../business/security.php";
 
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 
-if (isset($_POST["user"]) and isset($_POST["password"])) {
-    $user = $_POST["user"];
+if (isset($_POST["email"], $_POST["password"])) {
+    $user = $_POST["email"];
     $passsword = $_POST["password"];
     validate($user, $passsword);
 }else{
-    header("Location: ./login.html");
+    header("Location: ../view/login.html");
 }
 
 
 function validate($user, $password){
+    //echo "<h1>{$user}<h1><br/> <h1>{$password}<h1>";
     $db = new Db();
-
+    
     $sec = new Security();
-
+    
     $user = $sec->fix_string($user);
     $password = $sec->fix_string($password);
-    //echo "<h1>{$user}<h1><br/> <h1>{$password}<h1>";
-
+    
     $conn = $db->connect();
-    $sql = "SELECT * FROM tb_usuario WHERE usuario = '".$user."' and senha = '".$password."' LIMIT 1;";
-
+    $sql = "SELECT * FROM tb_usuario WHERE usuario = '{$user}' and senha = '{$password}' LIMIT 1;";
+    
+    //echo "<h1>{$sql}</h1>";
     $result = $conn->query($sql);
-       
+    
     if ($result->num_rows > 0) {
         $_SESSION["status"] = "logado";
         while($row = $result->fetch_assoc()){
