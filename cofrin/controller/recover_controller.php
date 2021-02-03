@@ -29,7 +29,7 @@ if (isset($_POST['token'])) {
 if (isset($_POST['email'])) {
 
     // your secret key
-    $secret = "6LfM9ygaAAAAAOawy8mYL-P3ij7Jd-kgFqNRAo6J-dhsfhsdfhsgfdsh";
+    $secret = "dgfshdgfhsdgfjksdhfkjsdhfkjshdfkj";
 
     // empty response
     $response = null;
