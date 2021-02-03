@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/toastr.css">
+    <link rel="icon" type="imagem/png" href="imagens/logo_porquinho.png" />
+    <title>Cofrin - Login</title>
+</head>
+
+<body>
+    <header class="">
+        <section class="container container-fluid">
+            <div class="col-md-12 menu">
+                <a href="./index.html" class="my-auto">
+                    <div class="div-logo">
+                        <h3 class="hover-green">Cofrin</h3><img src="./imagens/logo_porquinho.png" alt="logo_porquinho">
+                    </div>
+                </a>
+
+                <ul class="row ">
+                    <!-- <li><a href="">Preços</a></li> -->
+                    <li><a href="./index.html#sobre">Sobre</a></li>
+                    <li><a href="./contato.html">Contato</a></li>
+                    <a href="./cadastro.html">
+                        <li class="btn green-bgcolor">Cadastre-se</li>
+                    </a>
+                    <a href="./login.html">
+                        <li class="btn btn-green">Entrar</li>
+                    </a>
+                </ul>
+            </div>
+            <hr>
+        </section>
+    </header>
+    <main class="container container-fluid">
+        <section>
+            <form class="row fadeIn" onsubmit="event.preventDefault(); saveContact();" method="POST" autocomplete="on">
+                <div class="col-md-6">
+                    <h1>Contato</h1>
+                    <label for="name" class="mt-4">Nome:</label>
+                    <input id="name" type="text" class="form-control input-cofrin" aria-label="Large"
+                        placeholder="Ex.: Marcia Sobral" name="name" maxlength="50" required>
+                    <label for="email" class="mt-4">E-mail:</label>
+                    <input id="email" type="email" class="form-control input-cofrin" aria-label="Large"
+                        placeholder="Ex.: marcia123@email.com.br" name="email" maxlength="50" required>
+                    <label for="message" class="mt-4">Sua mensagem:</label>
+                    <textarea id="message" class="form-control rounded" rows="5" aria-label="Large"
+                        name="message" placeholder="Digite sua mensagem" maxlength="500" required></textarea>
+
+                    <div class="btn-container my-5">
+                        <button class="button green-bgcolor" type="submit">Enviar</button>
+                    </div>
+                </div>
+                <div class="col-md-6  fadeImg">
+                    <div class="img-login">
+                        <img src="./imagens/moca-computador.png" alt="Foto de cottonbro no Pexels">
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/toastr.js"></script>
+    <script src="./js/jquery-3.2.1.slim.min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script>
+        //Toastr
+        toastr.options.closeButton = true;
+        toastr.options.closeMethod = 'fadeOut';
+        toastr.options.closeDuration = 300;
+        toastr.options.closeEasing = 'swing';
+        toastr.options.preventDuplicates = true;
+
+        var _msgEnviadaAnteriormente = false;
+
+        const saveContact = async () => {
+            if (_msgEnviadaAnteriormente) {
+                toastr.warning("Sua mensagem já foi enviada!<br/> Logo entraremos em contato!", 'Obrigado!');
+                return false;
+            }
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            try {
+
+                var myHeaders = new Headers();
+                myHeaders.append("post", `name=${name}&email=${email}&message=${message}`);
+
+                var formdata = new FormData();
+                formdata.append("name", name);
+                formdata.append("email", email);
+                formdata.append("message", message);
+
+                const response = await fetch(`../controller/contact_controller.php`, {
+                    method: "POST",
+                    body: formdata,
+                    headers: myHeaders,
+                });
+
+                const resultJson = await response.json();
+                if (resultJson.search("Erro") > -1 && response.status == 200) {
+                    toastr.error(resultJson, 'Atenção:');
+                } else {
+                    _msgEnviadaAnteriormente = true;
+                    toastr.success(resultJson, 'Parabéns:', {
+                        timeOut: 0,
+                        extendedTimeOut: 0
+                    });
+                    //setTimeout(() => { window.location.href = "./index.html" }, 5000);
+                }
+            } catch (error) {
+                toastr.clear();
+                toastr.error("Erro ao salvar sua mensagem.<br/>Problema ao comunicar-se com o sistema!<br/>Tente mais tarde, por favor!", 'Ops!', {
+                    timeOut: 0,
+                    extendedTimeOut: 0
+                });
+            }
+
+
+        }
+
+
+
+    </script>
+</body>
+
+</html>

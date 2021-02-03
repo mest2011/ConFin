@@ -10,23 +10,24 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/toastr.css">
+    <link rel="icon" type="imagem/png" href="imagens/logo_porquinho.png" />
     <script type="text/javascript" src="../../confin/view/js/cadastro_ajax.js"></script>
     <title>Cofrin - Cadastro</title>
 </head>
 
 <body>
-    <main class="row">
-        <div class="col-md-4"></div>
-        <div id="bg-cadastro" class="col-md-4 fixed">
+    <main class="row col-sm-12">
+        <div class="col-lg-4 col-md-3"></div>
+        <div id="bg-cadastro" class="col-md-4 col-sm-12 fixed fadeImg">
             <a href="./index.html">
                 <div class="div-logo div-logo-preta">
-                    <h3>Cofrin</h3>
+                    <h3 class="hover-green">Cofrin</h3>
                     <img src="./imagens/logo_porquinho.png" alt="logo_porquinho">
                 </div>
             </a>
             <hr>
         </div>
-        <div class="col-md-6">
+        <div class="col-lg-6 col-md-9 col-sm-12 fadeIn">
             <div id="container-cadastro">
                 <div class="">
                     <h1>Crie sua conta <span class="green-color">no Cofrin</span></h1>
@@ -38,10 +39,11 @@
                                 src="./imagens/logo_facebook.png" alt="logo facebook">Facebook</a>
                     </div>
                     <div class="separator">ou</div>
-                    <form id="form" method="POST" class="row" onsubmit="event.preventDefault(); saveUser();">
+                    <form id="form" method="POST" class="row fadeImg" onsubmit="event.preventDefault(); saveUser();">
                         <div class="col-md-6 col-sm-12">
                             <label for="name">Nome</label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="Jorge" maxlength="20" required>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Jorge"
+                                maxlength="20" required>
                         </div>
                         <div class="col-md-6  col-sm-12">
                             <label for="lastName">Sobrenome</label>
@@ -81,6 +83,9 @@
 
                 </div>
             </div>
+        </div>
+        <div class="col-lg-2 col-md-12 col-sm-12 p-4 fadeIn">
+            <p>Já tem cadastro? <a href="./login.html"><span class="green-color">Entrar</span></a></p>
         </div>
     </main>
     <script src="./js/jquery.min.js"></script>
@@ -164,7 +169,7 @@
                 const response = await fetch(`../controller/cadastro_controller.php`, {
                     method: "POST",
                     body: formdata,
-                    headers:myHeaders,
+                    headers: myHeaders,
                 });
 
                 const resultJson = await response.json();
@@ -178,7 +183,7 @@
                         timeOut: 0,
                         extendedTimeOut: 0
                     });
-                    setTimeout(()=>{window.location.href = "./login.html"}, 3000);
+                    setTimeout(() => { window.location.href = "./login.html" }, 3000);
                 }
             } catch (error) {
                 console.log(error)

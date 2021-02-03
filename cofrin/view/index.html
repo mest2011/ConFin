@@ -8,9 +8,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/toastr.css">
     <link rel="stylesheet" href="./css/carousel.css">
+    <link rel="icon" type="imagem/png" href="imagens/logo_porquinho.png" />
     <title>Cofrin - Login</title>
 </head>
 
@@ -20,16 +22,16 @@
             <div class="col-md-12 menu">
                 <a href="./index.html" class="my-auto">
                     <div class="div-logo">
-                        <h3>Cofrin</h3><img src="./imagens/logo_porquinho.png" alt="logo_porquinho">
+                        <h3 class="hover-green">Cofrin</h3><img src="./imagens/logo_porquinho.png" alt="logo_porquinho">
                     </div>
                 </a>
 
                 <ul class="row ">
-                    <li><a href="">Preços</a></li>
-                    <li><a href="">Sobre</a></li>
-                    <li><a href="">Contato</a></li>
+                    <!-- <li><a href="">Preços</a></li> -->
+                    <li><a href="#sobre">Sobre</a></li>
+                    <li><a href="./contato.html">Contato</a></li>
                     <a href="./cadastro.html">
-                        <li class="btn btn-green">Cadastre-se</li>
+                        <li class="btn green-bgcolor">Cadastre-se</li>
                     </a>
                     <a href="./login.html">
                         <li class="btn btn-green">Entrar</li>
@@ -40,21 +42,21 @@
         </section>
     </header>
     <main>
-        <section class="container container-fluid">
+        <section class="container container-fluid fadeIn">
             <div class="row">
                 <div class="col-md-7 px-5 text-left">
                     <h1 class="h1-home">Controle suas despesas do <span class="green-color">jeito certo</span></h1>
                     <p class="my-5">Controle e gerencie suas despesas no dia a dia com o cofrin e tenha todos os seus planos realizados com o planejamento certo.</p>
                     <div>
                         <a href="./cadastro.html" class="btn green-bgcolor btn-large">Cadastrar</a>
-                        <button class="btn btn-criar-conta btn-large ">Saiba mais 
+                        <a href="#saiba-mais" class="btn btn-criar-conta btn-large ">Saiba mais 
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
                             </svg>
-                        </button>
+                        </a>
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5 fadeImg2">
                     <img src="./imagens/moca_loira.png" alt="Moça olhando para o futuro">
                 </div>
             </div>
@@ -62,16 +64,16 @@
         <section class="bg-white">
             <div class="container container-fluid">
                 <section class="row call-action-one my-5 py-5">
-                    <div class="col-md-6 px-5 py-5">
+                    <div class="col-md-6 px-5 py-5 fadeImg">
                         <img src="./imagens/moca_no_barquinho_borda.png" alt="">
                     </div>
-                    <div class="col-md-6 my-auto text-left px-5">
+                    <div class="col-md-6 my-auto text-left px-5 fadeIn">
                         <h2 class="h2-home font-blue">Tenha a liberdade que você <span class="green-color">merece</span></h2>
                         <p>Acesse e monitore de qualquer lugar sem precisar ter que lidar com planilhas e mais planilhas de gastos que te confundem mais do que ajudam</p>
                         <a href="./cadastro.html" class="btn btn-green mt-5 btn-large">Cadastrar</a>
                     </div>
                 </section>
-                <section class="pb-5">
+                <section id="saiba-mais" class="pb-5 fadeIn">
                     <h3 class="h3-home font-blue text-center my-5">Tudo que você precisa em <span class="green-color">um só lugar:</span></h3>
                     <hr class="m-5">
                     <div class="row m-4">
@@ -100,17 +102,17 @@
         </section>
         <section class="container container-fluid">
             <div class="row">
-                <div class="col-lg-6 col-md-9 px-5 my-auto text-right">
+                <div class="col-lg-6 col-md-9 px-5 my-auto text-right fadeIn">
                     <h2 class="h2-home">Sua vida financeira na <span class="green-color">palma da mão</span></h2>
                     <p class="my-4">Acesse de qualquer lugar sem burocracia</p>
                     <a href="./cadastro.html" class="btn btn-green btn-large mt-5">Criar conta</a>
                 </div>
-                <div class="col-lg-6 col-md-3 p-5">
+                <div class="col-lg-6 col-md-3 p-5 fadeImg">
                     <img src="./imagens/rapaz_lendo.png" alt="">
                 </div>
             </div>
         </section>
-        <section class="bg-white py-5">
+        <section id="sobre" class="bg-white py-5">
             <div class="container container-fluid">
                 <div>
                     <!-- <div class="">
@@ -118,8 +120,8 @@
                     </div> -->
 
                     <div>
-                        <div class="card-pqusarcofrin radius-up row"></div>
-                        <div class="bg-gray radius-down justify-content-center row">
+                        <div class="card-pqusarcofrin radius-up row fadeImg"></div>
+                        <div class="bg-gray radius-down justify-content-center row fadeIn">
                             <div class="col-md-5 p-5 text-left ">
                                 <h3 class="h4-home font-blue mb-4">Razões para confiar no <span class="green-color">Cofrin?</span></h3>
                                 <p>Aqui seus dados estão seguros e não são públicos, evitando que seus dados trafeguem pela internet.</p>
@@ -133,7 +135,7 @@
                 </div>
 
 
-                <div class="py-5 text-center">
+                <div class="py-5 text-center fadeIn">
                     <h3 class="h3-home my-5">Quem usa <span class="green-color">recomenda:</span></h3>
                     <div class="py-5">
                         <!-- Carrossel -->
@@ -142,7 +144,7 @@
 
                             <div class="mySlides fade col-10">
                                 <div class="row ">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-5 fadeImg">
                                         <img src="./imagens/menina_sorrindo_celular.png" alt="Comentario menina celular nokia lumia">
                                     </div>
                                     <div class="col-sm-7 px-5 my-auto text-left">
@@ -155,7 +157,7 @@
 
                             <div class="mySlides fade col-10">
                                 <div class="row ">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-5 fadeImg">
                                         <img src="./imagens/menina_sorrindo_celular.png" alt="Comentario menina celular nokia lumia">
                                     </div>
                                     <div class="col-sm-7 px-5 my-auto text-left">
@@ -168,7 +170,7 @@
 
                             <div class="mySlides fade col-10">
                                 <div class="row ">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-5 fadeImg">
                                         <img src="./imagens/menina_sorrindo_celular.png" alt="Comentario menina celular nokia lumia">
                                     </div>
                                     <div class="col-sm-7 px-5 my-auto text-left">
@@ -200,20 +202,20 @@
         </div>
         <div class="menu">
             <a href="./index.html">
-                <div class="div-logo">
-                    <h3>Cofrin</h3><img src="./imagens/logo_porquinho.png" alt="logo_porquinho">
+                <div class="div-logo fadeImg">
+                    <h3 class="hover-green">Cofrin</h3><img src="./imagens/logo_porquinho.png" alt="logo_porquinho">
                 </div>
             </a>
 
             <ul class="row mb-2">
-                <li><a href="">Termos de uso</a></li>
-                <li><a href="">Politica de privacidade</a></li>
+                <li><a href="" onclick="event.preventDefault();funcaoIndisponivel();">Termos de uso</a></li>
+                <li><a href="" onclick="event.preventDefault();funcaoIndisponivel();">Politica de privacidade</a></li>
             </ul>
         </div>
         <div class="col-sm-12 text-center my-5">
             <small>Copyright © 2021 </small>
-            <small>Developed by: <a href="https://www.linkedin.com/in/mest/" target="_blank"><span class="green-color">Miguel Eto Sobral Teixeira</span></a></small>
-            <small>Design by: <a href="https://www.behance.net/jonathanCotting" target="_blank"><span class="green-color">Jonathan Richard Cotting de Ferreira</span></a></small>
+            <small>Developed by: <a href="https://www.linkedin.com/in/mest/" target="_blank"><span class="green-color">Miguel Eto</span></a></small>
+            <small>Design by: <a href="https://www.behance.net/jonathanCotting" target="_blank"><span class="green-color">Jonathan Richard Cotting</span></a></small>
         </div>
     </footer>
 
@@ -242,6 +244,12 @@
                 toastr.warning(error, 'Atenção:')
             }
         });
+
+        function funcaoIndisponivel() {
+            toastr.warning('Função indisponivel! Estamos trabalhando para disponibiliza-la o quanto antes!', 'Atenção:', {
+                timeOut: 5000
+            });
+        }
     </script>
 </body>
 
