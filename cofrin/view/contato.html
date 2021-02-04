@@ -17,24 +17,42 @@
 <body>
     <header class="">
         <section class="container container-fluid">
-            <div class="col-md-12 menu">
-                <a href="./index.html" class="my-auto">
-                    <div class="div-logo">
-                        <h3 class="hover-green">Cofrin</h3><img src="./imagens/logo_porquinho.png" alt="logo_porquinho">
-                    </div>
-                </a>
+            <div class="mb-4">
 
-                <ul class="row ">
-                    <!-- <li><a href="">Preços</a></li> -->
-                    <li><a href="./index.html#sobre">Sobre</a></li>
-                    <li><a href="./contato.html">Contato</a></li>
-                    <a href="./cadastro.html">
-                        <li class="btn green-bgcolor">Cadastre-se</li>
+                <nav class="navbar navbar-expand-md navbar-dark">
+                    <a href="./index.html" class="navbar-brand my-auto">
+                        <div class="div-logo my-auto">
+                            <h3 class="hover-green my-auto">Cofrin</h3><img class="my-auto" src="./imagens/logo_porquinho.png"
+                                alt="logo_porquinho">
+                        </div>
                     </a>
-                    <a href="./login.html">
-                        <li class="btn btn-green">Entrar</li>
-                    </a>
-                </ul>
+
+                    <button class="navbar-toggler my-auto " type="button" data-toggle="collapse"
+                        data-target="#navbarText" aria-controls="navbarText"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse my-auto" id="navbarText">
+                        <ul class="navbar-nav mr-auto"></ul>
+                        <ul class="navbar-nav  my-2 my-lg-0">
+                            <li class="nav-item ml-4 my-md-auto my-1">
+                                <a href="./index.html?target=sobre">Sobre</a>
+                            </li>
+                            <li class="nav-item ml-4 my-md-auto my-1">
+                                <a href="./contato.html">Contato</a>
+                            </li>
+                            <a href="./cadastro.html" class="ml-4 my-2">
+                                <li class="nav-item btn green-bgcolor">Cadastre-se</li>
+                            </a>
+                            <a href="./login.html" class="nav-item ml-4 my-2">
+                                <li class="btn btn-green mr-auto">Entrar</li>
+                            </a>
+
+                        </ul>
+                        
+                    </div>
+                </nav>
             </div>
             <hr>
         </section>
@@ -45,10 +63,10 @@
                 <div class="col-md-6">
                     <h1>Contato</h1>
                     <label for="name" class="mt-4">Nome:</label>
-                    <input id="name" type="text" class="form-control input-cofrin" aria-label="Large"
+                    <input id="name" type="text" class="form-control" aria-label="Large"
                         placeholder="Ex.: Marcia Sobral" name="name" maxlength="50" required>
                     <label for="email" class="mt-4">E-mail:</label>
-                    <input id="email" type="email" class="form-control input-cofrin" aria-label="Large"
+                    <input id="email" type="email" class="form-control" aria-label="Large"
                         placeholder="Ex.: marcia123@email.com.br" name="email" maxlength="50" required>
                     <label for="message" class="mt-4">Sua mensagem:</label>
                     <textarea id="message" class="form-control rounded" rows="5" aria-label="Large"
@@ -58,7 +76,7 @@
                         <button class="button green-bgcolor" type="submit">Enviar</button>
                     </div>
                 </div>
-                <div class="col-md-6  fadeImg">
+                <div class="col-md-6  fadeImg mobile-off">
                     <div class="img-login">
                         <img src="./imagens/moca-computador.png" alt="Foto de cottonbro no Pexels">
                     </div>

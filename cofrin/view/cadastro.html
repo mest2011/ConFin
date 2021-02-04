@@ -16,10 +16,11 @@
 </head>
 
 <body>
-    <main class="row col-sm-12">
-        <div class="col-lg-4 col-md-3"></div>
-        <div id="bg-cadastro" class="col-md-4 col-sm-12 fixed fadeImg">
-            <a href="./index.html">
+    
+    <main class="row">
+        
+        <div id="bg-cadastro" class="col-md-4 fixed fadeImg">
+            <a href="./index.html" class="mobile-off">
                 <div class="div-logo div-logo-preta">
                     <h3 class="hover-green">Cofrin</h3>
                     <img src="./imagens/logo_porquinho.png" alt="logo_porquinho">
@@ -27,16 +28,60 @@
             </a>
             <hr>
         </div>
+        <div class="col-lg-4 col-md-3 col-sm-12">
+            <header class="mobile-on">
+                <section class="container container-fluid">
+                    <div class="mb-4">
+        
+                        <nav class="navbar navbar-expand-md navbar-dark">
+                            <a href="./index.html" class="navbar-brand my-auto">
+                                <div class="div-logo my-auto">
+                                    <h3 class="hover-green my-auto">Cofrin</h3><img class="my-auto" src="./imagens/logo_porquinho.png"
+                                        alt="logo_porquinho">
+                                </div>
+                            </a>
+        
+                            <button class="navbar-toggler my-auto " type="button" data-toggle="collapse"
+                                data-target="#navbarText" aria-controls="navbarText"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+        
+                            <div class="collapse navbar-collapse my-auto" id="navbarText">
+                                <ul class="navbar-nav mr-auto"></ul>
+                                <ul class="navbar-nav  my-2 my-lg-0">
+                                    <li class="nav-item ml-4 my-md-auto my-1">
+                                        <a href="./index.html?target=sobre">Sobre</a>
+                                    </li>
+                                    <li class="nav-item ml-4 my-md-auto my-1">
+                                        <a href="./contato.html">Contato</a>
+                                    </li>
+                                    <a href="./cadastro.html" class="ml-4 my-2">
+                                        <li class="nav-item btn green-bgcolor">Cadastre-se</li>
+                                    </a>
+                                    <a href="./login.html" class="nav-item ml-4 my-2">
+                                        <li class="btn btn-green mr-auto">Entrar</li>
+                                    </a>
+        
+                                </ul>
+                                
+                            </div>
+                        </nav>
+                    </div>
+                    <hr>
+                </section>
+            </header>
+        </div>
         <div class="col-lg-6 col-md-9 col-sm-12 fadeIn">
             <div id="container-cadastro">
                 <div class="">
                     <h1>Crie sua conta <span class="green-color">no Cofrin</span></h1>
                     <p>Cadastre-se com:</p>
-                    <div>
+                    <div class="d-md-flex">
                         <a href="#" onclick="funcaoIndisponivel();" class="btn btn-login-google"><img
-                                src="./imagens/logo_google.png" alt="logo facebook">Google</a>
+                                src="./imagens/logo_google.png" alt="logo facebook"><p>Google</p></a>
                         <a href="#" onclick="funcaoIndisponivel();" class="btn btn-login-facebook"><img
-                                src="./imagens/logo_facebook.png" alt="logo facebook">Facebook</a>
+                                src="./imagens/logo_facebook.png" alt="logo facebook"><p>Facebook</p></a>
                     </div>
                     <div class="separator">ou</div>
                     <form id="form" method="POST" class="row fadeImg" onsubmit="event.preventDefault(); saveUser();">
@@ -84,8 +129,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-2 col-md-12 col-sm-12 p-4 fadeIn">
-            <p>Já tem cadastro? <a href="./login.html"><span class="green-color">Entrar</span></a></p>
+        <div class="col-lg-2 col-md-12 col-sm-12 p-4 my-sm-5 fadeIn">
+            <h4>Já tem cadastro? <a href="./login.html"><span class="green-color">Entrar</span></a></h4>
         </div>
     </main>
     <script src="./js/jquery.min.js"></script>
