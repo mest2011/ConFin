@@ -1,0 +1,107 @@
+*{
+    font-family: 'Raleway', sans-serif !important;
+}
+
+body {
+    background-color: #FFF;
+}
+
+h1,
+h2,
+h3,
+h4,
+legend {
+    color: #111320;
+}
+
+h1{
+    font-size: 4vw;
+    font-weight: bold;
+}
+h2{
+    font-size: 3.5vw;
+    font-weight: bold;
+}
+h3{
+    font-size: 2.5vw;
+    font-weight: bold;
+}
+h4{
+    font-size: 2vw;
+    font-weight: bold;
+}
+
+legend{
+    font-size: 1.5vw !important;
+}
+
+.font-purple{
+    color:#271C72;
+}
+
+.font-green{
+    color: #19D0A0;
+}
+
+.font-red{
+    color: #D01962 ;
+}
+
+.font-gray{
+    color: #A0A1A6 ;
+}
+
+
+p {
+    font-size: 1vw;
+    color: #111320;
+}
+
+a {
+    text-decoration: none;
+    color: #5A5766;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #111320;
+}
+
+.disabled {
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+/Edge */
+    user-select: none;
+    /* Standard */
+    filter: grayscale(1);
+}
+
+.conteudo {
+    padding-left: 13vw !important;
+}
+
+/* Imagens */
+.card-poligono{
+    height: 10px;
+}
+
+.card-icone{
+    height: 35px;
+}
+
+
+
+@media (max-device-width:900px) {
+    .conteudo {
+        padding-left: 10vw !important;
+    }
+}
+
+@media (max-device-width:500px) {
+    h1 {
+        font-size: 6vh !important;
+    }
+}

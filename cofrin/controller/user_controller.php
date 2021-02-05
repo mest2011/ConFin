@@ -37,7 +37,7 @@ function validate($user, $password){
             $id = $row['id_usuario'];}
         $_SESSION["id_usuario"] = $id;
         $_SESSION['time'] = date_create();
-        header("Location: ../../confin/view/dashboard.php");
+        header("Location: ../../app/view/dashboard.php");
     }else{
         $_SESSION["status"] = "";
         $_SESSION["id_usuario"] = "";
