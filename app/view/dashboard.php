@@ -25,223 +25,205 @@ $obj_saldo =  new Saldo($_SESSION['id_usuario']);
 </head>
 
 <body>
-    <section id="dashboard_principal">
-        <?php include "imports/menu_lateral.php"; ?>
-        <div id="dashboard_main" class="conteudo">
-            <header>
-                <h3>Olá, Miguel</h3>
+    <section>
+        <div class="row">
+            <header class="col-md-1 col-sm-2">
+                <?php include "imports/menu_lateral.php"; ?>
             </header>
-            <main>
-                <section id="dashboard_top_cards">
-                    <div id="saldo_container" class="cards p-4" onclick="trocaPagina('extrato.php')">
-                        <fieldset class="d-block">
-                            <div class="d-flex">
-                                <img src="./images/ganhos.png" class="my-auto card-icone" alt="ganhos">&nbsp;
-                                <legend class="my-auto">Saldo atual:</legend>
-                            </div>
-                            <div class="d-flex align-items-baseline my-2">
-                                <p class="font-purple font-weight-bold">R$</p>
-                                <h3 class="font-purple"><?php echo number_format($obj_saldo->saldo(), 2, ',', '.') ?> </h3>
-                            </div>
-                            <div class="d-flex align-text-bottom">
-                                <img src="../view/images/Polígono 7.png" class="my-auto card-poligono" alt="Ganho">&nbsp;<p class="font-green my-auto font-weight-bold">+5,2%</p>&nbsp;<small class="my-auto font-gray">em relação ao ultimo mês</small>
-                            </div>
-                        </fieldset>
-
+            <main class="col-md-11 col-sm-10 d-flex">
+                <section class="col-md-9 d-block pr-5">
+                    <div class="d-block pt-4">
+                        <h3>Olá, Miguel</h3>
                     </div>
-                    <div id="total_gastos_container" class="cards p-4" onclick="trocaPagina('gastos.php')">
-                        <fieldset class="d-block">
-                            <div class="d-flex">
-                                <img src="./images/gastos.png" class="my-auto card-icone" alt="gastos">&nbsp;
-                                <legend class="my-auto">Gastos do mês:</legend>
-                            </div>
-                            <div class="d-flex align-items-baseline my-2">
-                                <p class="font-purple font-weight-bold">R$</p>
-                                <h3 class="font-purple"><?php echo number_format($obj_gastos->total_de_gastos(), 2, ',', '.') ?> </h3>
-                            </div>
-                            <div class="d-flex align-text-bottom">
-                                <img src="../view/images/Polígono 9.png" class="my-auto card-poligono" alt="Perca">&nbsp;<p class="font-red my-auto font-weight-bold">+5,2%</p>&nbsp;<small class="my-auto font-gray">em relação ao ultimo mês</small>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div id="meta_container" class="cards p-4">
-                        <fieldset class="d-block">
-                            <div class="d-flex">
-                                <img src="./images/favorito.png" class="my-auto card-icone" alt="favorito">&nbsp;
-                                <legend class="my-auto">Meta atual:</legend>
-                            </div>
-                            <div class="d-flex align-items-baseline my-2">
-                                <p class="font-purple font-weight-bold">R$</p>
-                                <h3 class="font-purple"><?php echo number_format($obj_gastos->total_de_gastos(), 2, ',', '.') ?> </h3>
-                            </div>
-                            <div class="d-flex align-text-bottom">
-                                <img src="../view/images/Polígono 7.png" class="my-auto card-poligono" alt="Ganho">&nbsp;<p class="font-green my-auto font-weight-bold">90%</p>&nbsp;<small class="my-auto font-gray">da meta alcançada</small>
-                            </div>
-                        </fieldset>
-
-                    </div>
-                </section>
-                <section id="dashboard-middle-cards">
-                    <div id="gastos-mes" class="cards card-3x4">
-                        <!-- arrumar id-->
-                        <fieldset>
-                            <legend>Despesas do mês</legend>
-                            <div class="gastos-grafico">
-                                <h3>Grafico de gastos</h3>
-                                <div id="canvas-holder">
-                                    <canvas id="chart-area"></canvas>
+                    <section class="d-flex">
+                        <div class="cards pointer p-4" onclick="trocaPagina('extrato.php')">
+                            <fieldset class="d-block">
+                                <div class="d-flex pb-2">
+                                    <img src="./images/ganhos.png" class="my-auto card-icone" alt="ganhos">&nbsp;
+                                    <legend class="my-auto">Saldo atual:</legend>
                                 </div>
-                                <script>
-                                    var randomScalingFactor = function() {
-                                        return Math.round(Math.random() * 100);
-                                    };
+                                <div class="d-flex align-items-baseline my-2">
+                                    <p class="font-purple font-weight-bold">R$</p>
+                                    <h3 class="font-purple number"><?php echo number_format($obj_saldo->saldo(), 2, ',', '.') ?> </h3>
+                                </div>
+                                <div class="d-flex align-items-baseline pt-2">
+                                    <img src="../view/images/Polígono 7.png" class="card-poligono" alt="Ganho">&nbsp;<p class="font-green font-weight-bold">+<span class="number">5,2</span>%</p>&nbsp;<small class=" font-gray">em relação ao ultimo mês</small>
+                                </div>
+                            </fieldset>
 
-                                    var config = {
-                                        type: 'doughnut',
-                                        data: {
-                                            datasets: [{
-                                                data: [
-                                                    <?php include_once '../database/crud.php';
-                                                    $result = Crud::read("SELECT SUM(valor) AS total, tipo FROM tb_despesa WHERE data_do_debito >= '" . date('Y') . "-" . date('m') . "-01'
+                        </div>
+                        <div class="cards pointer p-4" onclick="trocaPagina('gastos.php')">
+                            <fieldset class="d-block">
+                                <div class="d-flex pb-2">
+                                    <img src="./images/gastos.png" class="my-auto card-icone" alt="gastos">&nbsp;
+                                    <legend class="my-auto">Gastos do mês:</legend>
+                                </div>
+                                <div class="d-flex align-items-baseline my-2">
+                                    <p class="font-purple font-weight-bold">R$</p>
+                                    <h3 class="font-purple number"><?php echo number_format($obj_gastos->total_de_gastos(), 2, ',', '.') ?> </h3>
+                                </div>
+                                <div class="d-flex align-items-baseline pt-2">
+                                    <img src="../view/images/Polígono 9.png" class="card-poligono" alt="Perca">&nbsp;<p class="font-red font-weight-bold">+<span class="number">5,2</span>%</p>&nbsp;<small class="font-gray">em relação ao ultimo mês</small>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="cards pointer p-4">
+                            <fieldset class="d-block">
+                                <div class="d-flex pb-2">
+                                    <img src="./images/favorito.png" class="my-auto card-icone" alt="favorito">&nbsp;
+                                    <legend class="my-auto">Meta atual:</legend>
+                                </div>
+                                <div class="d-flex align-items-baseline my-2">
+                                    <p class="font-purple font-weight-bold">R$</p>
+                                    <h3 class="font-purple number"><?php echo number_format($obj_gastos->total_de_gastos(), 2, ',', '.') ?> </h3>
+                                </div>
+                                <div class="d-flex align-items-baseline pt-2">
+                                    <img src="../view/images/Polígono 7.png" class="card-poligono" alt="Ganho">&nbsp;<p class="font-green font-weight-bold"><span class="number">90</span>%</p>&nbsp;<small class="font-gray">da meta alcançada</small>
+                                </div>
+                            </fieldset>
+
+                        </div>
+                    </section>
+                    <section class="d-flex">
+                        <div class="hand-shake pointer cards p-4 pb-5 bg-green col-4">
+                            <h4 class="font-purple font-weight-bold mt-2 mx-2 pb-5">Recomende <span class="font-white"> para amigos</span> e desbloqueie funções <span class="font-white">especiais</span></h4>
+                        </div>
+                        <div class="cards p-4">
+                            <fieldset>
+                                <legend>Meus gastos:</legend>
+                                <div class="chart-area">
+                                    <canvas id="chart-area" width="100"></canvas>
+                                    <script>
+                                        var randomScalingFactor = function() {
+                                            return Math.round(Math.random() * 100);
+                                        };
+
+                                        var config = {
+                                            type: 'doughnut',
+                                            data: {
+                                                datasets: [{
+                                                    data: [
+                                                        <?php include_once '../database/crud.php';
+                                                        $result = Crud::read("SELECT SUM(valor) AS total, tipo FROM tb_despesa WHERE data_do_debito >= '" . date('Y') . "-" . date('m') . "-01'
                                                     AND data_do_debito <= '" . date('Y') . "-" . date('m') . "-31' AND id_usuario= {$_SESSION['id_usuario']} AND status = 1 GROUP BY tipo;");
 
-                                                    if (gettype($result) == "array") {
-                                                        $categoria = '';
-                                                        foreach ($result as $key => $value) {
-                                                            echo $value['total'] . ",";
-                                                            $categoria .= "'" . $value['tipo'] . "',";
+                                                        if (gettype($result) == "array") {
+                                                            $categoria = '';
+                                                            foreach ($result as $key => $value) {
+                                                                echo $value['total'] . ",";
+                                                                $categoria .= "'" . $value['tipo'] . "',";
+                                                            }
                                                         }
-                                                    }
-                                                    ?>
-                                                ],
-                                                borderColor: "rgb(221,236,219)",
-                                                hoverBorderColor: "rgb(90,87,102)",
-                                                backgroundColor: [
-                                                    "rgba(255,10,10,0.5)",
-                                                    "rgba(255,128,10,0.5)",
-                                                    "rgba(255,246,10,0.5)",
-                                                    "rgba(51,239,54,0.5)",
-                                                    "rgba(51,239,214,0.5)",
-                                                    "rgba(62,149,205,0.5)",
-                                                    "rgba(10,10,255,0.5)",
-                                                    "rgba(144,10,255,0.5)",
-                                                    "rgba(195,51,239,0.5)",
-                                                    "rgba(239,51,208,0.5)",
-                                                    "rgba(206,206,206,0.5)"
-                                                ],
-                                                hoverBackgroundColor: [
-                                                    "rgba(255,10,10,1)",
-                                                    "rgba(255,128,10,1)",
-                                                    "rgba(255,246,10,1)",
-                                                    "rgba(51,239,54,1)",
-                                                    "rgba(51,239,214,1)",
-                                                    "rgba(62,149,205,1)",
-                                                    "rgba(10,10,255,1)",
-                                                    "rgba(144,10,255,1)",
-                                                    "rgba(195,51,239,1)",
-                                                    "rgba(239,51,208,1)",
-                                                    "rgba(206,206,206,1)"
-                                                ],
-                                                label: 'Conjunto de dados'
-                                            }],
-                                            labels: [
-                                                <?php echo $categoria; ?>
-                                            ]
-
-                                        },
-                                        options: {
-                                            tooltips: {
-                                                backgroundColor: '#9792E3ab',
-                                                titleFontSize: 20,
-                                                titleFontColor: '#fff',
-                                                bodyFontColor: '#fff',
-                                                bodyFontSize: 20,
-                                                displayColors: false,
-                                                xPadding: 10,
-                                                yPadding: 10,
-                                                rtl: true
+                                                        ?>
+                                                    ],
+                                                    borderColor: "rgba(160, 161, 166,0.2)",
+                                                    hoverBorderColor: "rgb(25, 208, 160)",
+                                                    backgroundColor: [
+                                                        "rgba(255, 60, 60,0.5)",
+                                                        "rgba(255, 128,60,0.5)",
+                                                        "rgba(255, 236,60,0.5)",
+                                                        "rgba(184, 255,60,0.5)",
+                                                        "rgba(60, 255,143,0.5)",
+                                                        "rgba(60, 255,224,0.5)",
+                                                        "rgba(60, 169,255,0.5)",
+                                                        "rgba(60, 88, 255,0.5)",
+                                                        "rgba(140, 60,255,0.5)",
+                                                        "rgba(212, 60,255,0.5)",
+                                                        "rgba(255, 60,226,0.5)",
+                                                    ],
+                                                    hoverBackgroundColor: [
+                                                        "rgb(255, 60, 60)",
+                                                        "rgb(255, 128, 60)",
+                                                        "rgb(255, 236, 60)",
+                                                        "rgb(184, 255, 60)",
+                                                        "rgb(60, 255, 143)",
+                                                        "rgb(60, 255, 224)",
+                                                        "rgb(60, 169, 255)",
+                                                        "rgb(60, 88, 255)",
+                                                        "rgb(140, 60, 255)",
+                                                        "rgb(212, 60, 255)",
+                                                        "rgb(255, 60, 226)",
+                                                    ],
+                                                    label: 'Conjunto de dados'
+                                                }],
+                                                labels: [
+                                                    <?php echo $categoria; ?>
+                                                ]
 
                                             },
-                                            legend: {
-                                                display: true,
-                                                position: "right",
-                                                labels: {
-                                                    fontSize: 18,
-                                                    fontFamily: 'Arial',
-                                                    fontColor: "#9792e3",
-                                                    borderColor: "#9792e3"
+                                            options: {
+                                                tooltips: {
+                                                    backgroundColor: '#9792E3ab',
+                                                    titleFontSize: 20,
+                                                    titleFontColor: '#fff',
+                                                    bodyFontColor: '#fff',
+                                                    bodyFontSize: 20,
+                                                    displayColors: false,
+                                                    xPadding: 10,
+                                                    yPadding: 10,
+                                                    rtl: true
+
+                                                },
+                                                legend: {
+                                                    display: true,
+                                                    position: "left",
+                                                    labels: {
+                                                        fontFamily: 'Arial',
+                                                        fontColor: "#9792e3",
+                                                        borderColor: "#9792e3"
+                                                    }
                                                 }
                                             }
-                                        }
-                                    };
+                                        };
 
-                                    window.onload = function() {
-                                        var ctx = document.getElementById('chart-area').getContext('2d');
-                                        window.myPie = new Chart(ctx, config);
-                                    };
-                                </script>
-                            </div>
-                            <div class="gastos-tabela">
-                                <?php
-                                echo "<table class='table'><thead>
-                                    <th class='th-ini'>Titulo</th>
-                                    <th>Valor</th>
-                                    <th class='th-fim'>Data</th>
-                                </thead>";
-                                $contador = 0;
-                                $result = $obj_gastos->lista_gastos();
-                                if (gettype($result) === "array") {
-                                    foreach ($result as $key => $value) {
-                                        $date = date_create($value['data_do_debito']);
-                                        echo "<tr onclick=\"trocaPagina('cad_gasto.php?id={$value['id_despesa']}')\" title='" . $value['descricao'] . "'><td class='td-ini'>" . $value['titulo'] . "</td><td>R$ " . number_format($value['valor'], 2, ',', '.') . "</td>
-                                        <td class='td-fim'>" . date_format($date, 'd/m') . "</td>
-                                        </tr>";
-                                        if ($contador < 8) {
-                                            $contador++;
-                                        } else {
-                                            echo "<tfoot><td colspan=\"4\"><a href=\"../view/gastos.php\">Ver todos...</a></td></tfoot>";
-                                            break;
-                                        }
-                                    }
-                                } else {
-                                    echo "<td colspan='4'>Não há gastos cadastrados ainda!</td>";
-                                }
+                                        window.onload = function() {
+                                            var ctx = document.getElementById('chart-area').getContext('2d');
+                                            window.myPie = new Chart(ctx, config);
+                                        };
+                                    </script>
+                                </div>
 
-                                echo "</table>";
-                                ?>
-                            </div>
-                        </fieldset>
+                            </fieldset>
+                        </div>
+
+                    </section>
+                </section>
+                <section class="col-md-3 d-md-block d-none dash-gastos">
+                    <div class="px-4 pt-5">
+                        <h4 class="pt-3">Últimas despesas:</h4>
                     </div>
-                    <div id="debitos-futuros" class="cards card-1x4">
-                        <!-- arrumar id-->
-                        <fieldset>
-                            <legend>Debitos futuros</legend>
-                            <?php
-                            $render = "<table class='table'><thead><th class='th-ini'>Titulo</th><th>Valor</th><th class='th-fim'>Data</th></thead>";
-                            $contador = 0;
-                            $result = $obj_gastos->lista_gastos_futuros();
-                            if (gettype($result) === "array") {
-                                foreach ($result as $key => $value) {
-                                    if ($contador < 9) {
-                                        $date = date_create($value['data_do_debito']);
-                                        $render .= "<tr title='" . $value['descricao'] . "'><td class='td-ini'>" . $value['titulo'] . "</td><td>R$ " . number_format($value['valor'], 2, ',', '.') . "</td>
-                                                    <td class='td-fim'>" . date_format($date, 'd/m') . "</td></tr>";
-                                        $contador++;
-                                    } else {
-                                        $render .= "<tfoot><td colspan=\"3\"><a href=\"../view/gastos.php\">Ver todos...</a></td></tfoot>";
-                                        break;
-                                    }
-                                }
-                                $render .= "</table>";
-                            } else {
-                                $render = "<b>" . $result . "</b>";
-                            }
-                            echo $render;
+                    <div class="p-2">
+                        <?php
+                        $contador = 0;
+                        $result = $obj_gastos->lista_gastos();
+                        if (gettype($result) === "array") {
 
-                            ?>
-                        </fieldset>
+                            foreach ($result as $key => $value) {
+                                if ($contador < 4) {
+                                    $date = date_create($value['data_do_debito']);
+                                    echo "<div class=\"cartao p-3 mr-2 d-flex  my-4\" onclick=\"trocaPagina('cad_gasto.php?id={$value['id_despesa']}')\" title='" . $value['descricao'] . "'>
+                                            <h4 class=\"cartao my-auto p-2 mx-4\">💸</h4>
+                                            <div class=\"my-auto \">";
+
+                                    echo "<p class=\"my-auto font-purple\">{$value['titulo']}</p>
+                                            <small class=\"my-auto font-gray\">" . date_format($date, 'd/m/Y') . "</small>";
+                                    echo '</div>
+                                            </div>';
+                                    $contador++;
+                                } else {
+                                    echo "<a class=\"mx-auto my-2 text-center\" href='../view/gastos.php'><p class=\"font-green font-weight-bold\">Ver tudo...</p></a>";
+                                }
+                            }
+                        } else {
+                            echo "<td colspan='4'>Não há gastos cadastrados ainda!</td>";
+                        }
+
+                        echo "</table>";
+                        ?>
+
                     </div>
                 </section>
+
             </main>
             <footer></footer>
         </div>

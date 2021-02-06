@@ -25,11 +25,30 @@ if (isset($_GET['id'])) {
 <title>Lista de gastos mensais</title>
 </head>
 
-<body>
-    <section class="body main">
+<body class="row">
+<header class="col-md-1 col-sm-2">
         <?php include "imports/menu_lateral.php"; ?>
+    </header>
+    <main class="col-md-11 col-sm-10 d-block">
+        <div class="d-block">
+            <div class="d-flex my-5">
+                <img class="card-icone my-auto" src="./images/ganhos.png" alt="">
+                <h4 class="font-purple my-auto ml-2">Aqui ficam os seus gastos</h4>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p class="font-green">Recebidos</p>
+                <div class="font-purple d-flex pr-5 align-items-center">
+                    <small class="mx-2">Filtrar por:</small>
+                    <select name="filtro" id="filter">
+                        <option value="Data">Data</option>
+                        <option value="Valor">Valor</option>
+                        <option value="Carteira">Carteira</option>
+                    </select>
+                    <small class="mx-2">Download</small>
+                </div>
+            </div>
+        </div>
         <section class="main conteudo">
-            <h1>Gastos do mês</h1>
             <?php
             $render = "
             <table class='table table-hover' data-tabela-gastos>

@@ -16,8 +16,6 @@
     echo '<link rel="stylesheet" href="../view/css/reset.css">';
     echo '<link rel="stylesheet" href="css/bootstrap.min.css">';
     
-    echo '<link rel="preconnect" href="https://fonts.gstatic.com">';
-    echo ' <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">';
     echo '<link rel="stylesheet" href="../view/css/global.css">';
     
 

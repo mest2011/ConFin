@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="css/bootstrap.min.css" >
+<link rel="stylesheet" href="css/bootstrap.min.css">
 
 <?php include "imports/head_parameters.php"; ?>
 <?php
@@ -25,49 +25,35 @@ if (isset($_GET['id'])) {
 <title>Lista de ganhos do mês</title>
 </head>
 
-<body>
-    <section class="body main">
+<body class="row">
+    <header class="col-md-1 col-sm-2">
         <?php include "imports/menu_lateral.php"; ?>
-        <section class="main conteudo">
-            <h1>Ganhos do mês</h1>
-            <?php
-            $render = "
-            <table class='table table-hover' data-tabela-gastos>
-                <thead>
-                    <th>Categoria</th>
-                    <th>Título</th>
-                    <th>Descrição</th>
-                    <th>Valor</th>
-                    <th>Data do crédito</th>
-                    <th>Carteira</th>
-                    <th><a href='../view/cad_ganho.php' class='btn btn-success' title='Novo ganho'>+</a></th>
-                </thead>
-            <tbody>";
-            $result = $ganho->buscarTodosGanhos();
-            if (gettype($result) === "array") {
-                foreach ($result as $key => $value) {
-                    $date = date_create($value['data_do_credito']);
-                    $render .= "
-                        
-                        <tr title='" . $value['descricao'] . "'>
-                            <td>" . $value['tipo'] . "</td>
-                            <td>" . $value['titulo'] . "</td>
-                            <td>" . $value['descricao'] . "</td>
-                            <td>R$ " . number_format($value['valor'], 2, ',', '.') . "</td>
-                            <td>" . date_format($date, 'd/m/Y') . "</td>
-                            <td>" . $value['nome_carteira'] . "</td>
-                            <td><button class=\"btn btn-warning\" onclick=\"editar({$value['id_ganho']})\">Editar</button>
-                            <button class=\"btn btn-danger\" onclick=\"excluir({$value['id_ganho']})\">Excluir</button></td>
-                        </tr>";
-                }
-                $render .= "</tbody></table>";
-            } else {
-                $render .= "<tr><td colspan='7'><b>" . $result . "</td></tr></b>";
-            }
-            echo $render;
-            ?>
+    </header>
+    <main class="col-md-11 col-sm-10 d-block">
+        <section>
+            <div class="d-block">
+                <div class="d-flex my-5">
+                    <img class="card-icone my-auto" src="./images/ganhos.png" alt="">
+                    <h4 class="font-purple my-auto ml-2">Aqui ficam seus ganhos</h4>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="font-green">Recebidos</p>
+                    <div class="font-purple d-flex pr-5 align-items-center">
+                        <small class="mx-2">Filtrar por:</small>
+                        <select name="filtro" id="filter">
+                            <option value="Data">Data</option>
+                            <option value="Valor">Valor</option>
+                            <option value="Carteira">Carteira</option>
+                        </select>
+                        <small class="mx-2">Download</small>
+                    </div>
+                </div>
+            </div>
         </section>
-    </section>
+        <section>
+
+        </section>
+    </main>
     <script>
         function excluir(id) {
             if (confirm("Deseja mesmo excluir esse ganho?")) {
@@ -79,10 +65,10 @@ if (isset($_GET['id'])) {
             window.location.href = `cad_ganho.php?id=${id}`
         }
     </script>
-    <script src="js/jquery-3.2.1.slim.min.js" ></script>
-    <script src="js/popper.min.js" ></script>
-    <script src="js/bootstrap.min.js" ></script>
-    <?php include "imports/js.php";?>
+    <script src="js/jquery-3.2.1.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <?php include "imports/js.php"; ?>
 </body>
 
 </html>

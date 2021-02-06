@@ -1,9 +1,16 @@
-*{
-    font-family: 'Raleway', sans-serif !important;
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@500&family=Raleway:wght@500&display=swap");
+
+* {
+  font-family: "Raleway", sans-serif !important;
 }
 
 body {
-    background-color: #FFF;
+  background-color: #fff;
+}
+
+.number {
+  font-family: "Noto Sans HK", sans-serif !important;
 }
 
 h1,
@@ -11,97 +18,144 @@ h2,
 h3,
 h4,
 legend {
-    color: #111320;
+  color: #111320;
 }
 
-h1{
-    font-size: 4vw;
-    font-weight: bold;
+h1 {
+  font-size: 4vw;
+  font-weight: bold;
 }
-h2{
-    font-size: 3.5vw;
-    font-weight: bold;
+h2 {
+  font-size: 3.5vw;
+  font-weight: bold;
 }
-h3{
-    font-size: 2.5vw;
-    font-weight: bold;
+h3 {
+  font-size: 2.5vw;
+  font-weight: bold;
 }
-h4{
-    font-size: 2vw;
-    font-weight: bold;
-}
-
-legend{
-    font-size: 1.5vw !important;
+h4 {
+  font-size: 2vw;
+  font-weight: bold;
 }
 
-.font-purple{
-    color:#271C72;
+legend {
+  font-size: 1.5vw !important;
 }
 
-.font-green{
-    color: #19D0A0;
+header {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100vh;
 }
 
-.font-red{
-    color: #D01962 ;
+.cartao {
+  margin: 0.5vw;
+  box-shadow: 0 0 0.4vw #a0a1a6;
+  background: #fff;
+  border: none !important;
+  border-radius: 1vw;
 }
 
-.font-gray{
-    color: #A0A1A6 ;
+.cartao:hover{
+    box-shadow: 0 0 0.4vw #19d0a0;
 }
 
+/* Font colors */
+.font-white {
+  color: #ffffff;
+}
+
+.font-purple {
+  color: #271c72;
+}
+
+.font-green {
+  color: #19d0a0;
+}
+
+.font-red {
+  color: #d01962;
+}
+
+.font-gray {
+  color: #a0a1a6;
+}
+
+.bg-gray{
+  background-color: #EDEDED;
+}
+
+.bg-green {
+  background-color: #19d0a0 !important;
+}
 
 p {
-    font-size: 1vw;
-    color: #111320;
+  font-size: 1vw;
+  color: #111320;
 }
 
 a {
-    text-decoration: none;
-    color: #5A5766;
+  text-decoration: none;
+  color: #5a5766;
 }
 
 a:hover {
-    text-decoration: none;
-    color: #111320;
+  text-decoration: none;
+  color: #111320;
+}
+
+.pointer:hover{
+  cursor: pointer;
 }
 
 .disabled {
-    -webkit-user-select: none;
-    /* Safari */
-    -moz-user-select: none;
-    /* Firefox */
-    -ms-user-select: none;
-    /* IE10+/Edge */
-    user-select: none;
-    /* Standard */
-    filter: grayscale(1);
+  -webkit-user-select: none;
+  /* Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE10+/Edge */
+  user-select: none;
+  /* Standard */
+  filter: grayscale(1);
 }
 
-.conteudo {
-    padding-left: 13vw !important;
+.menu-perfil {
+  position: absolute;
+  bottom: 3vh;
+}
+
+.selectable-none {
+  -webkit-touch-callout: none; /* iPhone OS, Safari */
+  -webkit-user-select: none; /* Chrome, Safari 3 */
+  -khtml-user-select: none; /* Safari 2 */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+  user-select: none; /* Possível implementação no futuro */
+  /* cursor: default; */
 }
 
 /* Imagens */
-.card-poligono{
-    height: 10px;
+.logo {
+  width: 2.3vw;
+  height: fit-content;
+}
+.card-poligono {
+  height: 10px;
 }
 
-.card-icone{
-    height: 35px;
+.card-icone {
+  height: 35px;
 }
 
-
-
-@media (max-device-width:900px) {
-    .conteudo {
-        padding-left: 10vw !important;
-    }
+.menu-icon {
+  width: 20px;
+  height: fit-content;
 }
 
-@media (max-device-width:500px) {
-    h1 {
-        font-size: 6vh !important;
-    }
+.menu-avatar {
+  background-color: #fff;
+  border-radius: 10vw;
+  width: 45px;
+  height: fit-content;
 }
