@@ -17,7 +17,7 @@ class Email{
         $this->_name = $name;
         $this->_subject = $subject;
         $this->_message = $message;
-        $this->_headers = "From: contato@mesttech.com.br";
+        $this->_headers = "From: contato@cofrin.mesttech.com.br";
         $this->send_email();
 
     }

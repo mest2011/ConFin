@@ -16,6 +16,7 @@
     echo '<link rel="stylesheet" href="../view/css/reset.css">';
     echo '<link rel="stylesheet" href="css/bootstrap.min.css">';
     
+    echo '<link rel="stylesheet" href="../view/css/style.css">';
     echo '<link rel="stylesheet" href="../view/css/global.css">';
     
 

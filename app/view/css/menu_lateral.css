@@ -1,9 +1,10 @@
 .menu-lateral {
+    position: fixed;
+    left: -20px;
+    top: 0;
     display: inline-block !important;
     background-color: #111320;
     display: block;
-    top: 0;
-    left: 0;
     height: 100%;
     border-radius: 0 2vw 2vw 0;
     z-index: 1;

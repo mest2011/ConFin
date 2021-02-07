@@ -1,0 +1,35 @@
+.container-transactions{
+    box-shadow: inset 0 1px 6px black;
+    height: 100%;
+    width: 100vw;
+    position: absolute;
+    right: 0;
+    z-index: 0;
+}
+
+.container-transactions-select{
+    border-radius: 0.8vw;
+    font-size: 1vw;
+    font-weight: bold;
+    border: solid 1px gray;
+}
+
+.container-transactions-add{
+    height: 25px;
+}
+
+.hover-on{
+    display: none;
+}
+
+.hover-off{
+    display: block;
+}
+
+.hover-alter:hover .hover-on{
+    display: block;
+}
+
+.hover-alter:hover .hover-off{
+    display: none;
+}

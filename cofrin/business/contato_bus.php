@@ -20,7 +20,7 @@ class ContatoBus extends Crud{
         if (parent::create($sql)) {
             return "Sua mensagem foi recebida! Entraremos em contato em breve!";
         }else{
-            return "Erro ao salvar sua mensagem! Tente mais tarde ou envie um e-mail para contato@mesttech.com.br";
+            return "Erro ao salvar sua mensagem! Tente mais tarde ou envie um e-mail para contato@cofrin.mesttech.com.br";
         }
     }
 }

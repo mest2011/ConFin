@@ -1,5 +1,5 @@
 * {
-  font-family: "Raleway", sans-serif;
+  font-family: "Raleway", sans-serif !important;
 }
 
 body {
@@ -33,16 +33,9 @@ p {
   transition-duration: 0.2s;
 }
 
-/* .div-flutuante {
-    z-index: 1;
-    min-height: 93%;
-    width: 64%;
-    position: absolute;
-    margin-top: -3rem;
-    margin-left: 2rem;
-} */
-
-
+.zindex-mobile-menu{
+ z-index: -1;
+}
 /* Corpo home */
 
 .bg-white {
@@ -85,7 +78,6 @@ hr {
 }
 
 h3 {
-  font-size: large;
   font-weight: bold;
 }
 
@@ -489,4 +481,8 @@ label {
   .border-green {
     border-radius: 2.5vw !important;
   }
+
+  .zindex-mobile-menu{
+    z-index: 0;
+   }
 }

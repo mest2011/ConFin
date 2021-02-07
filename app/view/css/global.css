@@ -38,6 +38,15 @@ h4 {
   font-weight: bold;
 }
 
+h5 {
+  font-size: 1.5vw;
+}
+
+p {
+  font-size: 1vw;
+  color: #111320;
+}
+
 legend {
   font-size: 1.5vw !important;
 }
@@ -89,9 +98,8 @@ header {
   background-color: #19d0a0 !important;
 }
 
-p {
-  font-size: 1vw;
-  color: #111320;
+.bg-purple {
+  background-color: #271c72 !important;
 }
 
 a {
