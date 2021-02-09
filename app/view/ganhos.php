@@ -17,22 +17,21 @@ if (isset($_GET['id'])) {
 
 ?>
 
-
-
-
-<link rel="stylesheet" href="../view/css/table.css">
+<!-- Begin emoji-picker Stylesheets -->
+<link href="lib/css/emoji.css" rel="stylesheet">
+    <!-- End emoji-picker Stylesheets -->
 
 <title>Lista de ganhos do mês</title>
 </head>
 
-<body class="row">
+<body class="d-flex">
     <header class="col-md-1 col-sm-2">
         <?php include "imports/menu_lateral.php"; ?>
     </header>
     <main class="col-md-11 col-sm-10 d-block">
         <section>
             <div class="d-block">
-                <div class="d-flex mt-5 mb-3">
+                <div class="d-flex mt-5 mb-3 emoji-picker-container">
                     <img class="card-icone my-auto" src="./images/ganhos.png" alt="">
                     <h4 class="font-purple my-auto ml-2">Aqui ficam seus ganhos</h4>
                 </div>
@@ -66,7 +65,7 @@ if (isset($_GET['id'])) {
                         $render .= "
                         <div class=\"cartao pointer p-3 mr-4 d-block  my-4\" onclick=\"editar({$value['id_ganho']})\" title=\"trabalho\" >
                             <div class=\"d-flex w-100\">
-                                <h4 class=\"cartao my-auto p-2 mx-2\">💰</h4>
+                                <input type=\"text\" class=\"cartao my-auto p-2 mx-2\" name=\"icon\" value=\"💰\" onclick=\"document.execCommand('91')\">
                                 <div class=\"my-auto d-flex w-100 justify-content-between\">
                                     <div>
                                         <h4 class=\"my-auto font-purple\">" . $value['titulo'] . "</h4>

@@ -65,8 +65,8 @@ header {
   border-radius: 1vw;
 }
 
-.cartao:hover{
-    box-shadow: 0 0 0.4vw #19d0a0;
+.cartao:hover {
+  box-shadow: 0 0 0.4vw #19d0a0;
 }
 
 /* Font colors */
@@ -90,8 +90,15 @@ header {
   color: #a0a1a6;
 }
 
-.bg-gray{
-  background-color: #EDEDED;
+.font-title-modal {
+  font-size: xx-large;
+  font-weight: bold;
+  color: #271c72;
+}
+
+
+.bg-gray {
+  background-color: #ededed;
 }
 
 .bg-green {
@@ -112,7 +119,7 @@ a:hover {
   color: #111320;
 }
 
-.pointer:hover{
+.pointer:hover {
   cursor: pointer;
 }
 
@@ -161,9 +168,3 @@ a:hover {
   height: fit-content;
 }
 
-.menu-avatar {
-  background-color: #fff;
-  border-radius: 10vw;
-  width: 45px;
-  height: fit-content;
-}
