@@ -1,10 +1,31 @@
 <?php
 
 
-echo "<script src=\"../view/js/scripts.js\"></script>";
-echo "<script src=\"../view/js/menu-lateral.js\"></script>";
-echo '<script src="js/xlsx.full.min.js"></script>
-<script type="text/javascript" src="js/FileSaver.min.js"></script>';
+echo "<script src=\"./lib/js/jquery-3.5.1.min.js\"></script>
+
+        <script src=\"./lib/js/popper.min.js\"></script>
+
+        <script src=\"./lib/js/bootstrap.min.js\"></script>
+        
+        <script src=\"./lib/js/xlsx.full.min.js\"></script>
+
+        <script src=\"./lib/js/toastr.js\"></script>
+
+        <script src=\"./lib/js/FileSaver.min.js\"></script>
+
+        <script src=\"./lib/js/twemoji.min.js\"></script>
+
+        <script src=\"./lib/js/jquery.mask.min.js\"></script>
+
+        <script src=\"./lib/js/jquery.mask.min.js\"></script>
+
+        <script src=\"./js/valida-campo.js\"></script>
+
+        <script src=\"./lib/js/DisMojiPicker.js\"></script>";
+
+echo "<script src=\"./js/scripts.js\"></script>";
+
+echo "<script src=\"./js/menu-lateral.js\"></script>";
 
 echo "<script>
         function s2ab(s) {

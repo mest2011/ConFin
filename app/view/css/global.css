@@ -22,29 +22,33 @@ legend {
 }
 
 h1 {
-  font-size: 4vw;
+  font-size: 4em;
   font-weight: bold;
 }
 h2 {
-  font-size: 3.5vw;
+  font-size: 3.5em;
   font-weight: bold;
 }
 h3 {
-  font-size: 2.5vw;
+  font-size: 2.5em;
   font-weight: bold;
 }
 h4 {
-  font-size: 2vw;
+  font-size: 2em;
   font-weight: bold;
 }
 
 h5 {
-  font-size: 1.5vw;
+  font-size: 1.5em;
 }
 
 p {
-  font-size: 1vw;
+  font-size: 1em;
   color: #111320;
+}
+
+small{
+  font-size: 0.8em;
 }
 
 legend {

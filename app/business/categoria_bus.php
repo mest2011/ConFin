@@ -11,7 +11,11 @@ class CategoriaBus extends Crud
 
         $sql = "INSERT INTO tb_categoria (id_usuario, nome_categoria, tipo) VALUES ({$id_usuario}, '{$nome}', {$tipo});";
 
-        return parent::create($sql);
+        if (parent::create($sql)) {
+            return "Categoria salva com sucesso!";
+        } else {
+            return "Erro ao salvar a categoria!";
+        }
     }
 
     static function readCategoria($id_usuario, $tipo)
@@ -20,7 +24,13 @@ class CategoriaBus extends Crud
 
         $sql = "SELECT * FROM tb_categoria WHERE id_usuario = {$id_usuario} and tipo = {$tipo} ORDER BY nome_categoria asc;";
 
-        return parent::read($sql);
+        $result = parent::read($sql);
+
+        if(!$result){
+            return "Erro ao buscar categorias";
+        }else{
+            return $result;
+        }
     }
 
     static function deleteCategoria($id_usuario, $id_categoria)
@@ -30,6 +40,10 @@ class CategoriaBus extends Crud
 
         $sql = "DELETE FROM tb_categoria WHERE id_categoria = {$id_categoria} AND id_usuario = {$id_usuario};";
 
-        return parent::delete($sql);
+        if (parent::delete($sql)) {
+            return "Categoria deletada com sucesso!";
+        } else {
+            return "Erro ao deletar a categoria!";
+        }
     }
 }

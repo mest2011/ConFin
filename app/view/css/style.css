@@ -9,7 +9,7 @@
 
 .container-transactions-select{
     border-radius: 0.8vw;
-    font-size: 1vw;
+    font-size: 0.8em;
     font-weight: bold;
     border: solid 1px gray;
 }
@@ -54,4 +54,14 @@
 #lista .emoji{
     height: 3vw !important;
     padding: 4px !important;
+}
+
+.btn-white{
+    background-color: #FFF !important;
+    border: #fff;
+}
+
+.btn-white:hover{
+    background-color: #EDEDED !important;
+    border: #A0A1A6;
 }

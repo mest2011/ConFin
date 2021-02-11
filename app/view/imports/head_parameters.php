@@ -17,10 +17,11 @@
     echo '<link rel="stylesheet" href="css/bootstrap.min.css">';
     
     echo '<link rel="stylesheet" href="../view/css/style.css">';
-    echo '<link rel="stylesheet" href="../view/css/global.css">';
+    echo '<link rel="stylesheet" href="../view/css/global.css">
+            <link rel="stylesheet" href="./lib/css/toastr.css">';
     
 
-    echo '<link rel="icon" type="imagem/png" href="images/crescimento.png" />';
+    echo '<link rel="icon" type="imagem/png" href="images/logo_porquinho.png" />';
 
     echo '<link rel="stylesheet" href="../view/css/menu_lateral.css">';
     

@@ -13,9 +13,9 @@ class Crud
             $result = $conn->query($sql);
 
             if ($result === TRUE) {
-                $resposta = "Dado(s) salvo(s) com sucesso!";
+                $resposta = true;
             } else {
-                $resposta = "Erro ao salvar o(s) dado(s)";
+                $resposta = false;
             }
 
             $db->close($conn);
@@ -23,7 +23,7 @@ class Crud
         } catch (\Throwable $th) {
 
             $db->close($conn);
-            $resposta = "Erro ao salvar o(s) dado(s)";
+            $resposta = false;
             return $resposta;
         }
     }
@@ -54,7 +54,7 @@ class Crud
         } catch (\Throwable $th) {
 
             $db->close($conn);
-            $resposta = "Erro ao buscar o(s) dado(s)";
+            $resposta = false;
             return $resposta;
         }
     }
@@ -69,9 +69,9 @@ class Crud
             $result = $conn->query($sql);
 
             if ($result === TRUE) {
-                $resposta = "Dado(s) atualizado(s) com sucesso!";
+                $resposta = true;
             } else {
-                $resposta = "Erro ao atualizar o(s) dado(s)";
+                $resposta = false;
             }
 
             $db->close($conn);
@@ -79,7 +79,7 @@ class Crud
         } catch (\Throwable $th) {
 
             $db->close($conn);
-            $resposta = "Erro ao salvar o(s) dado(s)";
+            $resposta = false;
             return $resposta;
         }
     }
@@ -94,9 +94,9 @@ class Crud
             $result = $conn->query($sql);
 
             if ($result === TRUE) {
-                $resposta = "Dado(s) excluido(s) com sucesso!";
+                $resposta = true;
             } else {
-                $resposta = "Erro ao excluir o(s) dado(s)";
+                $resposta = false;
             }
 
             $db->close($conn);
@@ -104,7 +104,7 @@ class Crud
         } catch (\Throwable $th) {
 
             $db->close($conn);
-            $resposta = "Erro ao salvar o(s) dado(s)";
+            $resposta = false;
             return $resposta;
         }
     }

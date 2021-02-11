@@ -1,55 +1,60 @@
 .menu-lateral {
-    position: fixed;
-    left: -20px;
-    top: 0;
-    display: inline-block !important;
-    background-color: #111320;
-    display: block;
-    height: 100%;
-    border-radius: 0 2vw 2vw 0;
-    z-index: 1;
+  position: fixed;
+  left: -20px;
+  top: 0;
+  display: inline-block !important;
+  background-color: #111320;
+  display: block;
+  height: 100%;
+  border-radius: 0 2vw 2vw 0;
+  z-index: 1;
 }
 
-.menu-expand{
-    display: none;
+.menu-expand {
+  display: none;
 }
 
-.menu-lateral:hover{
-    position: fixed;
+.menu-lateral:hover {
+  position: fixed;
 }
 
-.menu-lateral:hover .menu-expand{
-    display: block;
+.menu-lateral:hover .menu-expand {
+  display: block;
 }
 
-.menu-lateral:hover .menu-expand-invert{
-    display: none !important;
+.menu-lateral:hover .menu-expand-invert {
+  display: none !important;
 }
 
-.menu-opcoes:hover{
-    transition-duration: 0.3s;
-    text-decoration: none;
-    color: #fff !important;
-    background: #2d2f3b;    
-    box-shadow: inset -4px 0em #19d0a0;
+.menu-opcoes:hover {
+  transition-duration: 0.3s;
+  text-decoration: none;
+  color: #fff !important;
+  background: #2d2f3b;
+  box-shadow: inset -4px 0em #19d0a0;
 }
 
-.menu-opcoes .menu-expand-img{
-    transition-duration: 0.3s;
-    display: none;
+.menu-opcoes .menu-expand-img {
+  transition-duration: 0.3s;
+  display: none;
 }
 
-.menu-opcoes .menu-expand-invert-img{
-    transition-duration: 0.3s;
-    display: flex;
+.menu-opcoes .menu-expand-invert-img {
+  transition-duration: 0.3s;
+  display: flex;
 }
 
-.menu-opcoes:hover .menu-expand-img{
-    transition-duration: 0.3s;
-    display: flex;
+.menu-opcoes:hover .menu-expand-img {
+  transition-duration: 0.3s;
+  display: flex;
 }
 
-.menu-opcoes:hover .menu-expand-invert-img{
-    transition-duration: 0.3s;
-    display: none;
+.menu-opcoes:hover .menu-expand-invert-img {
+  transition-duration: 0.3s;
+  display: none;
+}
+
+.menu-avatar {
+  height: 50px;
+  background-color: #fff;
 }

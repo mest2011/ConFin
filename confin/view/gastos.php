@@ -9,10 +9,10 @@ $obj_gastos = new Gastos($_SESSION['id_usuario']);
 
 // excluir gasto
 if (isset($_GET['id'])) {
-    print_r($obj_gastos->excluir($_GET['id']));
+    echo "<script>alert('{$obj_gastos->excluir($_GET['id'])}')</script>";
     $url = strpos($_SERVER["REQUEST_URI"], "?");
     $url = substr($_SERVER["REQUEST_URI"], 0, $url);
-    //header("Location: {$url}");
+    header("Location: {$url}");
 }
 
 ?>

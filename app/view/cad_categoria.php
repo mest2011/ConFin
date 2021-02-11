@@ -1,8 +1,8 @@
 <?php
 include_once "../controller/categoria_controller.php";
-if (!isset($_GET['id_usuario'])) header("Location: ../../cofrin/login.html");
+if (!isset($_GET['id_usuario'])) header("Location: ../../cofrin/view/login.html");
 
-$categoria_con = new CategoriaController($_GET['id_usuario']);
+$categoria_con = new Categorias($_GET['id_usuario']);
 
 if (isset($_GET['ajax'])) {
     if (isset($_GET['nome'], $_GET['tipo'])) {
@@ -17,7 +17,7 @@ if (isset($_GET['ajax'])) {
             echo "<span id='lista-categoria' class='alert alert-warning'>".$return."</span>";  
         } else{
            echo "<table id='lista-categoria' class=\"table table-striped table-hover\">
-                    <thead class=\" table-info\">
+                    <thead class=\" table-info bg-green\">
                         <tr>
                         <th scope=\"col\" class=\"col-10\">Nome</th>
                         <th scope=\"col\" class=\"col-2\">Apagar</th>

@@ -6,38 +6,42 @@ include_once "../classes/Gasto.php";
 class GastoBus extends Crud
 {
     
-    static function salvarNovoGasto($obj_gasto)
+    static function salvarNovoGasto($id_usuario, $obj_gasto)
     {
         $obj_gasto->valor = str_replace('.', '', $obj_gasto->valor);
         $obj_gasto->valor = str_replace(',', '.', $obj_gasto->valor);
-        if ($obj_gasto->qtd_recorrente > 1) {
-            $sql = "INSERT INTO tb_despesa (titulo, descricao, tipo, data_do_debito, valor, id_usuario, qtd_recorrente, contador_recorrente)
-            VALUES ('{$obj_gasto->titulo}', '{$obj_gasto->descricao}', '{$obj_gasto->categoria}', '{$obj_gasto->data}', 
-            {$obj_gasto->valor}, {$obj_gasto->id_usuario}, {$obj_gasto->qtd_recorrente}, 1)";
+        // if ($obj_gasto->qtd_recorrente > 1) {
+        //     $sql = "INSERT INTO tb_despesa (titulo, descricao, tipo, data_do_debito, valor, id_usuario, qtd_recorrente, contador_recorrente)
+        //     VALUES ('{$obj_gasto->titulo}', '{$obj_gasto->descricao}', '{$obj_gasto->categoria}', '{$obj_gasto->data}', 
+        //     {$obj_gasto->valor}, {$obj_gasto->id_usuario}, {$obj_gasto->qtd_recorrente}, 1)";
 
-            parent::create($sql);
+        //     parent::create($sql);
 
-            $id_recorrente = parent::read("SELECT id_despesa FROM tb_despesa WHERE id_usuario = {$obj_gasto->id_usuario} AND qtd_recorrente = {$obj_gasto->qtd_recorrente} AND titulo = '{$obj_gasto->titulo}' and valor = {$obj_gasto->valor} ORDER BY id_despesa desc limit 1")[0]['id_despesa'];
-            parent::update("UPDATE tb_despesa SET id_recorrente = {$id_recorrente} WHERE id_despesa = {$id_recorrente}");
+        //     $id_recorrente = parent::read("SELECT id_despesa FROM tb_despesa WHERE id_usuario = {$obj_gasto->id_usuario} AND qtd_recorrente = {$obj_gasto->qtd_recorrente} AND titulo = '{$obj_gasto->titulo}' and valor = {$obj_gasto->valor} ORDER BY id_despesa desc limit 1")[0]['id_despesa'];
+        //     parent::update("UPDATE tb_despesa SET id_recorrente = {$id_recorrente} WHERE id_despesa = {$id_recorrente}");
 
-            for ($contador=2; $contador <= $obj_gasto->qtd_recorrente; $contador++) { 
-                $sql = "INSERT INTO tb_despesa (titulo, descricao, tipo, data_do_debito, valor, id_usuario, qtd_recorrente, contador_recorrente, id_recorrente)
-                VALUES ('{$obj_gasto->titulo}', '{$obj_gasto->descricao}', '{$obj_gasto->categoria}', DATE_ADD('{$obj_gasto->data}', INTERVAL ".($contador-1)." MONTH), 
-                {$obj_gasto->valor}, {$obj_gasto->id_usuario}, {$obj_gasto->qtd_recorrente}, {$contador}, {$id_recorrente})";
+        //     for ($contador=2; $contador <= $obj_gasto->qtd_recorrente; $contador++) { 
+        //         $sql = "INSERT INTO tb_despesa (titulo, descricao, tipo, data_do_debito, valor, id_usuario, qtd_recorrente, contador_recorrente, id_recorrente)
+        //         VALUES ('{$obj_gasto->titulo}', '{$obj_gasto->descricao}', '{$obj_gasto->categoria}', DATE_ADD('{$obj_gasto->data}', INTERVAL ".($contador-1)." MONTH), 
+        //         {$obj_gasto->valor}, {$obj_gasto->id_usuario}, {$obj_gasto->qtd_recorrente}, {$contador}, {$id_recorrente})";
 
-                parent::create($sql);
-            }
+        //         parent::create($sql);
+        //     }
 
-            self::atualizaSaldo(($obj_gasto->valor * $obj_gasto->qtd_recorrente), $obj_gasto->id_carteira);
+        //     self::atualizaSaldo(($obj_gasto->valor * $obj_gasto->qtd_recorrente), $obj_gasto->id_carteira);
 
-        } else {
+        // } else {
             $sql = "INSERT INTO tb_despesa (titulo, descricao, tipo, data_do_debito, valor, id_usuario, id_carteira)
-                    VALUES ('{$obj_gasto->titulo}', '{$obj_gasto->descricao}', '{$obj_gasto->categoria}', '{$obj_gasto->data}', {$obj_gasto->valor}, $obj_gasto->id_usuario, $obj_gasto->id_carteira);";
+                    VALUES ('{$obj_gasto->titulo}', '{$obj_gasto->descricao}', '{$obj_gasto->categoria}', '{$obj_gasto->data}', {$obj_gasto->valor}, $id_usuario, $obj_gasto->id_carteira);";
             
             self::atualizaSaldo(($obj_gasto->valor), $obj_gasto->id_carteira);
 
-            return parent::create($sql);
-        }
+            if(parent::create($sql)){
+                return "Gasto salvo com sucesso!";
+            }else {
+                return "Erro : Erro ao salvar o gasto!";
+            }
+        //}
     }
 
     static function atualizaGasto($obj_gasto)
@@ -61,7 +65,12 @@ class GastoBus extends Crud
                  valor = {$obj_gasto->valor} 
                  WHERE id_despesa = {$obj_gasto->id_despesa};";
 
-        return parent::update($sql);
+        if(parent::update($sql)){
+            return "Dados atualizados!";
+        }else {
+            return "Erro : Erro ao atualizar o gasto!";
+        }
+        
     }
 
     static function excluirGasto($id)
@@ -70,7 +79,11 @@ class GastoBus extends Crud
         $obj_carteira = parent::read("SELECT valor, id_carteira from tb_despesa where id_despesa = {$id} limit 1;")[0];
         self::atualizaSaldo(($obj_carteira['valor'] / -1), $obj_carteira['id_carteira']);
 
-        return parent::delete($sql);
+        if(parent::delete($sql)){
+            return "Gasto deletado!";
+        }else {
+            return "Erro : Erro ao deletadar o gasto!";
+        }
     }
 
     static function buscarListaGastosFuturos($id_usuario)

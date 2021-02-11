@@ -9,14 +9,13 @@ $ganho = new Ganhos($_SESSION['id_usuario']);
 
 // excluir ganho
 if (isset($_GET['id'])) {
-    print_r($ganho->deletarGanho($_GET['id']));
+    echo "<script>alert('{$ganho->deletarGanho($_GET['id'])}')</script>";
     $url = strpos($_SERVER["REQUEST_URI"], "?");
     $url = substr($_SERVER["REQUEST_URI"], 0, $url);
     header("Location: {$url}");
 }
 
 ?>
-
 
 
 
