@@ -61,6 +61,7 @@ header {
   height: 100vh;
 }
 
+
 .cartao {
   margin: 0.5vw;
   box-shadow: 0 0 0.4vw #a0a1a6;
@@ -71,6 +72,17 @@ header {
 
 .cartao:hover {
   box-shadow: 0 0 0.4vw #19d0a0;
+}
+
+.hover-bg-gray:hover{
+  background: #EDEDED;
+  border-radius: 0.3rem;
+  transition-duration: 0.2s;
+}
+
+.hover-red:hover{
+  color: #d01962;
+  transition-duration: 0.2s;
 }
 
 /* Font colors */
@@ -107,6 +119,12 @@ header {
 
 .bg-green {
   background-color: #19d0a0 !important;
+}
+
+.bg-darkgreen:hover {
+  background-color: #169e7b !important;
+  color: #EDEDED !important;
+  transition-duration: 0.3s;
 }
 
 .bg-purple {

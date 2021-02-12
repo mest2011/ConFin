@@ -7,6 +7,7 @@ class Ganho{
     PUBLIC $id_carteira; 
     PUBLIC $categoria;
     PUBLIC $valor;
+    PUBLIC $icone;
     PUBLIC $data_do_credito;  
 }
 ?>

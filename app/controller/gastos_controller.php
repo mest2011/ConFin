@@ -26,7 +26,6 @@ if (isset($_POST['titulo'], $_POST['data'], $_POST['carteira'], $_POST['descrica
     }
 
     $gasto = new Gastos($_SESSION['id_usuario']);
-    //$gasto = new Gastos(1);
 
     try {
         //Create and Update
@@ -39,7 +38,9 @@ if (isset($_POST['titulo'], $_POST['data'], $_POST['carteira'], $_POST['descrica
             $obj_gasto->data = $_POST['data'];
             $obj_gasto->valor = $_POST['valor'];
             $obj_gasto->id_carteira = $_POST['carteira'];
-            //$obj_gasto->icon = $_POST['icon'];
+            if(isset($_POST['icone'])){
+                $obj_gasto->icone = $_POST['icone'];
+            }
             if (isset($_POST['id'])) {
                 $obj_gasto->id_despesa = $_POST['id'];
                 print_r(json_encode($gasto->atualizarGasto($obj_gasto)));

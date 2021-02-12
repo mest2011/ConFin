@@ -10,6 +10,7 @@ class Gasto{
     PUBLIC $id_despesa; 
     PUBLIC $id_usuario; 
     public $id_recorrente;
+    public $icone;
     public $recorrente;
     public $contador_recorrente;
     public $qtd_recorente;

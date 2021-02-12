@@ -202,7 +202,7 @@ $obj_saldo =  new Saldo($_SESSION['id_usuario']);
                                 if ($contador < 4) {
                                     $date = date_create($value['data_do_debito']);
                                     echo "<div class=\"cartao p-3 mr-2 d-flex  my-4\" onclick=\"trocaPagina('cad_gasto.php?id={$value['id_despesa']}')\" title='" . $value['descricao'] . "'>
-                                            <h4 class=\"cartao my-auto p-2 mx-4\">💸</h4>
+                                            <h4 class=\"cartao my-auto p-2 mx-4\">{$value['icone']}</h4>
                                             <div class=\"my-auto \">";
 
                                     echo "<p class=\"my-auto font-purple\">{$value['titulo']}</p>
@@ -212,6 +212,7 @@ $obj_saldo =  new Saldo($_SESSION['id_usuario']);
                                     $contador++;
                                 } else {
                                     echo "<a class=\"mx-auto my-2 text-center\" href='../view/gastos.php'><p class=\"font-green font-weight-bold\">Ver tudo...</p></a>";
+                                    break;
                                 }
                             }
                         } else {
