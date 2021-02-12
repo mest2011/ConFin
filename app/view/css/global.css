@@ -131,6 +131,10 @@ header {
   background-color: #271c72 !important;
 }
 
+.bg-lightpurple {
+  background-color: #6b77cc !important;
+}
+
 a {
   text-decoration: none;
   color: #5a5766;
@@ -188,5 +192,17 @@ a:hover {
 .menu-icon {
   width: 20px;
   height: fit-content;
+}
+
+.z-index--1{
+  z-index: -1;
+}
+
+.z-index-0{
+  z-index: 0;
+}
+
+.z-index-1{
+  z-index: 1;
 }
 

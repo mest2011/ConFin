@@ -1,12 +1,7 @@
 <link rel="stylesheet" href="css/bootstrap.min.css">
 
 <?php include "imports/head_parameters.php"; ?>
-<?php
-include_once "../controller/ganho_controller.php";
 
-$ganho = new Ganhos($_SESSION['id_usuario']);
-
-?>
 <title>Lista de ganhos do mês</title>
 
 <link rel="stylesheet" href="./lib/css/emojis.css">

@@ -18,6 +18,14 @@
     height: 25px;
 }
 
+.container-transactions-add2{
+    height: 50px;
+}
+
+.card-wallet{
+    min-width: 300px !important;
+}
+
 .hover-on{
     display: none;
 }
@@ -64,4 +72,18 @@
 .btn-white:hover{
     background-color: #EDEDED !important;
     border: #A0A1A6;
+}
+
+.btn-p-fixed-bottom-left{
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+}
+
+.input-color{
+    width: 2em;
+    height: 2em;
+    padding: 0;
+    background: #fff;
+    border: 0;
 }

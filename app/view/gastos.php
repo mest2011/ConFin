@@ -1,13 +1,7 @@
 <link rel="stylesheet" href="css/bootstrap.min.css">
 
 <?php include "imports/head_parameters.php"; ?>
-<?php
-include_once "../controller/gastos_controller.php";
 
-$obj_gastos = new Gastos($_SESSION['id_usuario']);
-
-
-?>
 <title>Lista de gastos mensais</title>
 
 <link rel="stylesheet" href="./lib/css/emojis.css">

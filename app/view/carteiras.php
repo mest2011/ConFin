@@ -1,86 +1,295 @@
-<link rel="stylesheet" href="css/bootstrap.min.css" >
+<link rel="stylesheet" href="css/bootstrap.min.css">
 
 <?php include "imports/head_parameters.php"; ?>
-<?php
-include_once "../controller/carteira_controller.php";
-
-$carteira = new Carteiras($_SESSION['id_usuario']);
-
-
-// excluir carteira
-if (isset($_GET['id'])) {
-    print_r($carteira->deletarCarteira($_GET['id']));
-    $url = strpos($_SERVER["REQUEST_URI"], "?");
-    $url = substr($_SERVER["REQUEST_URI"], 0, $url);
-    header("Location: {$url}");
-}
-
-?>
-
-
-
-
-<link rel="stylesheet" href="../view/css/table.css">
 
 <title>Lista de carteiras</title>
+
 </head>
 
-<body>
-    <section class="body main">
+<body class="d-flex" onload="loadCards()">
+    <header class="col-md-1 col-sm-2">
         <?php include "imports/menu_lateral.php"; ?>
-        <section class="main conteudo">
-            <h1>Carteiras</h1>
-            <?php
-            $render = "
-            <table class='table table-hover' data-tabela-carteiras>
-                <thead>
-                    <th>Nome da carteira</th>
-                    <th>Saldo</th>
-                    <th>Data da criação</th>
-                    <th>Última transação</th>
-                    <th><a href='../view/tranferenciaCarteira.php' class='btn btn-info' title='Transferir saldo entre carteiras'>Transferir</a> 
-                        <a href='../view/cad_carteira.php' class='btn btn-success' title='Nova carteira'>+</a></th>
-                </thead>
-            <tbody>";
-            $result = $carteira->buscarTodoscarteiras();
-            if (gettype($result) === "array") {
-                foreach ($result as $key => $value) {
-                    $date_create = date_create($value['data_criacao']);
-                    $date_alter = date_create($value['data_update']);
-                    $render .= "
-                        
-                        <tr title='" . $value['nome_carteira'] . "'>
-                            <td>" . $value['nome_carteira'] . "</td>
-                            <td>R$ " . number_format($value['saldo'], 2, ',', '.') . "</td>
-                            <td>" . date_format($date_create, 'd/m/Y') . "</td>
-                            <td>" . date_format($date_alter, 'd/m/Y') . "</td>
-                            <td><button class=\"btn btn-warning\" onclick=\"editar({$value['id_carteira']})\">Editar</button>
-                            <button class=\"btn btn-danger\" onclick=\"excluir({$value['id_carteira']})\">Excluir</button></td>
-                        </tr>";
-                }
-                $render .= "</tbody></table>";
-            } else {
-                $render = "<b>" . $result . "</b>";
-            }
-            echo $render;
-            ?>
+    </header>
+    <main class="col-md-11 col-sm-10 d-block">
+        <section>
+            <div class="d-block">
+                <div id="emojis" style="position: fixed; z-index: 1; bottom: 0; display:none"></div>
+                <div class="d-flex mt-5 mb-3">
+                    <img class="card-icone my-auto bg-gray p-2 rounded" src="./images/carteira.png" alt="">
+                    <h4 class="font-purple my-auto ml-2">Carteiras</h4>
+                </div>
+                <div class="d-flex justify-content-between mb-3">
+                    <h5 class="font-purple my-auto">Aqui ficam suas carteiras</h5>
+                    <div class="font-purple d-flex pr-5 align-items-center mb-3">
+                        <!-- <small class="mx-2">Filtrar por:</small>
+                        <select class="container-transactions-select p-1" name="filtro" id="filter">
+                            <option value="" selected></option>
+                            <option value="Data">Data</option>
+                            <option value="Valor">Valor</option>
+                            <option value="Carteira">Carteira</option>
+                        </select> -->
+                        <a class="hover-alter z-index-1 ml-3 btn-p-fixed-bottom-left align-itens-right" onclick="fechaSideModal(); setTimeout(()=>{loadSideModal()}, 500)">
+                            <p class="hover-on">Adicionar carteria</p>
+                            <img class="container-transactions-add2 hover-off my-auto ml-auto" src="./images/add-blue.png" alt="">
+                            <img class="container-transactions-add2 hover-on my-auto ml-auto" src="./images/add-blue-hover.png" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
         </section>
-    </section>
+        <section>
+            <div class="side-modal p-5" id="side-modal"></div>
+            <div id="container-cards" class="col-12 d-flex flex-wrap"></div>
+        </section>
+
+    </main>
+    <?php include "imports/js.php"; ?>
+
     <script>
-        function excluir(id) {
-            if (confirm("Deseja mesmo excluir essa carteira? \n\n Atenção! \nAo fazer isso você excluirá o saldo da carteira.")) {
-                window.location.href = window.location.href + `?id=${id}`
+        $('.modal-btn-fechar').click(function() {
+            $('#ModalCadCategoria').modal('toggle');
+            document.getElementById('form-categoria').innerHTML = "";
+            carregarCategorias();
+        });
+
+
+        //Toastr
+        toastr.options.closeButton = true;
+        toastr.options.closeMethod = 'fadeOut';
+        toastr.options.closeDuration = 300;
+        toastr.options.closeEasing = 'swing';
+        toastr.options.preventDuplicates = true;
+
+        const id_usuario = <?php echo $_SESSION['id_usuario']; ?>
+
+        //Requisições
+        const loadCards = async (orderBy = false) => {
+            var myHeaders = new Headers();
+            myHeaders.append("post", `funcao=listar`);
+
+            var formdata = new FormData();
+            formdata.append("funcao", "listar");
+
+            var requestOptions = {
+                method: 'POST',
+                body: formdata,
+                headers: myHeaders,
+                redirect: 'follow'
+            };
+
+            const response = await fetch(`../controller/carteira_controller.php`, requestOptions)
+            const resultJson = await response.json();
+
+            if (resultJson === "0 dados encontrados") {
+                return;
+            }
+
+            document.getElementById('container-cards').innerHTML = "";
+            for (var i = 0; i < resultJson.length; i++) {
+                document.getElementById('container-cards').innerHTML += `
+                <div class="cartao card-wallet pointer p-4 mr-4 d-block  my-4" style="background-color: ${resultJson[i]['cor']} !important;"
+                onclick=\"fechaSideModal(); setTimeout(()=>{loadSideModal(
+                            ${resultJson[i]['id_carteira']},
+                            '${resultJson[i]['cor']}',
+                            '${resultJson[i]['saldo']}',
+                            '${resultJson[i]['descricao']}',
+                            '${resultJson[i]['nome_carteira']}')}, 500)\"
+                                 title="trabalho">
+                    <div class="d-flex w-100">
+                        <div class="my-auto d-flex w-100 justify-content-between">
+                            <div>
+                                <h4 class="my-auto font-white">${resultJson[i]['nome_carteira']}</h4>
+                            </div>
+                            <div class="my-auto d-flex">
+                                <p class="hover-red font-white hover-bg-gray my-auto mx-2 p-1 font-weight-bold" onmouseover="this.innerText = 'Excluir?'" onmouseout="this.innerText = '. . .'" onclick="
+                                            event.stopPropagation();                                            
+                                            if(confirm('Deseja mesmo excluir esse gasto?')){
+                                                deletarGasto(${resultJson[i]['id_carteira']});
+                                            }
+                                            ">. . .
+                                <p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-2">
+                        <div class="d-flex w-100 justify-content-between my-auto">
+                            <div class="d-block">
+                                <small class="font-gray font-weight-bold">Saldo atual</small>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-baseline my-2">
+                            <p class="font-weight-bold font-green">R$</p>
+                            <h2 class="number font-green">${resultJson[i]['saldo']}</h2>
+                        </div>
+
+                        <small class="font-gray font-weight-bold d-block">Descrição</small>
+                        <small class="font-white font-weight-bold">${resultJson[i]['descricao']}</small>
+                    </div>
+                </div>
+                    `;
             }
         }
 
-        function editar(id) {
-            window.location.href = `cad_carteira.php?id=${id}`
+        const deletarGasto = async (id) => {
+            try {
+
+                var myHeaders = new Headers();
+                myHeaders.append("post", `id=${id}&funcao=excluir`);
+
+                var formdata = new FormData();
+                formdata.append("id", id);
+                formdata.append("funcao", "excluir");
+
+
+                const response = await fetch(`../controller/carteira_controller.php`, {
+                    method: "POST",
+                    body: formdata,
+                    headers: myHeaders,
+                });
+
+                const resultJson = await response.json();
+                if (resultJson.search("Erro") > -1 && response.status == 200) {
+                    toastr.error(resultJson, 'Atenção:');
+                } else {
+                    _msgEnviadaAnteriormente = true;
+                    toastr.success(resultJson, 'Parabéns:');
+                    loadCards();
+                    //setTimeout(() => { window.location.href = "./index.html" }, 5000);
+                }
+            } catch (error) {
+                console.log(error)
+                toastr.clear();
+                toastr.warning("Erro no envio dos dados.<br/>Problema ao comunicar-se com o sistema!<br/>Tente mais tarde, por favor!", 'Ops!');
+            }
+        }
+
+        function loadSideModal(
+            id = '',
+            cor = '#6b77cc',
+            saldo = 'XX,XX',
+            descricao = '',
+            nome_carteira = 'Nome') {
+            let sideModal = document.getElementById('side-modal');
+
+            sideModal.innerHTML = `
+                <form id="form-ganho" onsubmit="event.preventDefault(); saveGanho();">
+                    <div class="d-block">
+                        <input class="d-none" type="text" id="form-id" name="form-id" value="${id}">
+                        <h4 class="font-purple">Adicionar carteira</h4>
+                        <div class="cartao card-wallet p-4 mr-4 d-block  my-4" style="background-color: ${cor} !important;" title="trabalho">
+                    <div class="d-flex w-100">
+                        <div class="my-auto d-flex w-100 justify-content-between">
+                            <div>
+                                <h4 class="my-auto font-white">${nome_carteira}</h4>
+                            </div>
+                            <div class="my-auto d-flex">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-2">
+                        <div class="d-flex w-100 justify-content-between my-auto">
+                            <div class="d-block">
+                                <small class="font-gray font-weight-bold">Saldo atual</small>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-baseline my-2">
+                            <p class="font-weight-bold font-green">R$</p>
+                            <h2 class="number font-green">${saldo}</h2>
+                        </div>
+
+                        <small class="font-gray font-weight-bold d-block">Descrição</small>
+                        <small class="font-white font-weight-bold">...</small>
+                    </div>
+                </div>
+                    </div>
+                    <hr/>
+                    <div class="d-block mt-5">
+                        <div class="d-flex my-4">
+                            <p for="form-cor" class="col-sm-4">Cor:</p>
+                            <input type="color" id="form-cor" name="form-cor" value="${cor}" class="input-color"/>
+                        </div>
+                        <div class="d-flex my-4">
+                            <p class="col-sm-4">Nome:</p>
+                            <input class="form-control col-sm-4" id="form-nome" name="form-nome" type="text" value="${nome_carteira}" maxlength="30" required>
+                        </div>
+                        <div class="d-flex my-4">
+                            <p class="col-sm-4">Descrição:</p>
+                            <textarea class="form-control col-sm-8" id="form-descricao" placeholder="Adicione mais detalhes sobre o gasto..." rows="4" maxlength="50" required>${descricao}</textarea>
+                        </div>
+                        
+                        <div class="d-flex my-5 col-sm-12">
+                            <a class="btn btn-white col-6 mx-2" onclick="fechaSideModal()">Cancelar</a>
+                            <button submit="form-ganho" class="btn btn-success col-6 mx-2">Salvar</button>
+                        </div>
+                    </div>
+                    </form>
+                `;
+
+            $('#side-modal').fadeIn(500).css({
+                'margin-right': '0',
+                'z-index': '1'
+            });
+        }
+
+        const saveGanho = async () => {
+
+            let id = document.getElementById('form-id').value;
+            let nome = document.getElementById('form-nome').value;
+            let cor = document.getElementById('form-cor').value;
+            let descricao = document.getElementById('form-descricao').value;
+
+            console.log(id);
+            console.log(nome);
+            console.log(cor);
+            console.log(descricao);
+
+            try {
+
+                var myHeaders = new Headers();
+                myHeaders.append("post", `id_usuario=${id_usuario}&id=${id}&nome_cateira=${nome}&cor=${cor}&descricao=${descricao}&funcao=salvar`);
+
+
+                var formdata = new FormData();
+                formdata.append("funcao", "salvar");
+                formdata.append("id_usuario", id_usuario);
+                if (id > 0) {
+                    formdata.append("id", id);
+                }
+                formdata.append("nome_cateira", nome);
+                formdata.append("cor", cor);
+                formdata.append("descricao", descricao);
+
+
+
+                const response = await fetch(`../controller/carteira_controller.php`, {
+                    method: "POST",
+                    body: formdata,
+                    headers: myHeaders,
+                });
+
+                const resultJson = await response.json();
+                if (resultJson.search("Erro") > -1 && response.status == 200) {
+                    toastr.error(resultJson, 'Atenção:');
+                } else {
+                    _msgEnviadaAnteriormente = true;
+                    toastr.success(resultJson, 'Parabéns:');
+                    loadCards();
+                    fechaSideModal();
+                    //setTimeout(() => { window.location.href = "./index.html" }, 5000);
+                }
+            } catch (error) {
+                console.log(error)
+                toastr.clear();
+                toastr.warning("Erro no envio dos dados.<br/>Problema ao comunicar-se com o sistema!<br/>Tente mais tarde, por favor!", 'Ops!');
+            }
+        }
+
+        function fechaSideModal() {
+            $('#side-modal').css({
+                'margin-right': '-55%'
+            }).fadeOut(500);
         }
     </script>
-    <script src="js/jquery-3.2.1.slim.min.js" ></script>
-    <script src="js/popper.min.js" ></script>
-    <script src="js/bootstrap.min.js" ></script>
-    <?php include "imports/js.php";?>
 </body>
 
 </html>

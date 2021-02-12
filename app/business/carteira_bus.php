@@ -7,8 +7,8 @@ class CarteiraBus extends Crud
 
     public static function createCarteira($obj_carteira)
     {
-        $sql = "INSERT INTO tb_carteira ( id_usuario, nome_carteira)
-                VALUES ( {$obj_carteira->id_usuario}, '{$obj_carteira->nome_carteira}');";
+        $sql = "INSERT INTO tb_carteira ( id_usuario, nome_carteira, cor, descricao)
+                VALUES ( {$obj_carteira->id_usuario}, '{$obj_carteira->nome_carteira}', '{$obj_carteira->cor}', '{$obj_carteira->descricao}');";
         //echo "<h1>alert('$sql')</h1>";
 
         if (parent::create($sql)) {
@@ -21,10 +21,10 @@ class CarteiraBus extends Crud
     public static function readCarteira($id_usuario, $id_carteira = null)
     {
         if ($id_carteira === null) {
-            $sql = "SELECT * FROM tb_carteira WHERE id_usuario = {$id_usuario} AND status = 1 ORDER BY nome_carteira ASC;";
+            $sql = "SELECT id_carteira, nome_carteira, format(saldo, 2, 'de_DE') as saldo, cor, descricao FROM tb_carteira WHERE id_usuario = {$id_usuario} AND status = 1 ORDER BY nome_carteira ASC;";
             $result = parent::read($sql);
         } else {
-            $sql = "SELECT * FROM tb_carteira WHERE id_usuario = {$id_usuario}  and status = 1 and id_carteira = {$id_carteira} LIMIT 1";
+            $sql = "SELECT  id_carteira, nome_carteira, format(saldo, 2, 'de_DE') as saldo, cor, descricao FROM tb_carteira WHERE id_usuario = {$id_usuario}  and status = 1 and id_carteira = {$id_carteira} LIMIT 1";
             $obj_carteira = self::converteCarteira(parent::read($sql)[0]);
             $result = $obj_carteira;
         }
@@ -38,12 +38,11 @@ class CarteiraBus extends Crud
 
     public static function updateCarteira($obj_carteira)
     {
-        $obj_carteira->saldo = str_replace('.', '', $obj_carteira->saldo);
-        $obj_carteira->saldo = str_replace(',', '.', $obj_carteira->saldo);
-
 
         $sql = "UPDATE tb_carteira SET
-                nome_carteira = '{$obj_carteira->nome_carteira}'
+                nome_carteira = '{$obj_carteira->nome_carteira}',
+                cor = '{$obj_carteira->cor}',
+                descricao = '{$obj_carteira->descricao}'
                 WHERE id_carteira = {$obj_carteira->id_carteira}";
 
 
