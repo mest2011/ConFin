@@ -1,11 +1,48 @@
 <?php
 include_once "../business/extrato_bus.php";
+include_once "../controller/session_controller.php";
+
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+
+
+if (isset($_POST['funcao'])) {
+
+    //valida sessão
+    $sessao = new Session_security("isValid");
+
+    if (!$sessao->validaSessao("isValid")) {
+        print_r(json_encode("Erro : tempo de sessao excedido!"));
+        exit();
+    }
+
+    if (!isset($_SESSION['id_usuario'])) {
+        print_r(json_encode("Erro na sessao atual, entre novamente no sistema!"));
+        exit();
+    }
+
+    $extratos = new Extratos($_SESSION['id_usuario']);
+
+
+    try {
+        //Read
+        if ($_POST['funcao'] == 'listar') {
+            print_r(json_encode($extratos->buscar()));
+            exit();
+        }
+    } catch (\Throwable $th) {
+        print_r(json_encode("Erro : Erro no processamento da solicitação!"));
+        exit();
+    }
+}
 
 
 
 
-
-class ExtratoController{
+class Extratos
+{
     private $_id_usuario;
 
     function __construct($id_usuario)
@@ -13,9 +50,8 @@ class ExtratoController{
         $this->_id_usuario = $id_usuario;
     }
 
-    function ver($dt_inicio = "0", $dt_fim = "0"){
+    function buscar($dt_inicio = "0", $dt_fim = "0")
+    {
         return ExtratoBus::buscar($this->_id_usuario, $dt_inicio = "0", $dt_fim = "0");
     }
 }
-
-?>

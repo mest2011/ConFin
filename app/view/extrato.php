@@ -1,20 +1,6 @@
 <link rel="stylesheet" href="css/bootstrap.min.css">
 
 <?php include "imports/head_parameters.php"; ?>
-<?php
-include_once "../controller/extrato_controller.php";
-include_once "../controller/gastos_controller.php";
-include_once "../controller/ganho_controller.php";
-
-$ganho = new Ganhos($_SESSION['id_usuario']);
-$gastos = new Gastos($_SESSION['id_usuario']);
-
-$extrato = new ExtratoController($_SESSION['id_usuario']);
-
-
-?>
-
-
 
 
 <link rel="stylesheet" href="../view/css/table.css">
@@ -22,103 +8,114 @@ $extrato = new ExtratoController($_SESSION['id_usuario']);
 <title>Lista de extratos do mês</title>
 </head>
 
-<body>
-    <section class="body main">
+<body class="d-flex" onload="loadCards()">
+    <header class="col-md-1 col-sm-2">
         <?php include "imports/menu_lateral.php"; ?>
-        <section class="main conteudo">
-            <h1>Extrato</h1>
-            <?php
-            $render = "
-            <table id=\"tabela\" class='table table-hover' data-tabela-gastos>
-                <thead>
-                    <th>Título</th>
-                    <th>Categoria</th>
-                    <th>Descrição</th>
-                    <th>Valor</th>
-                    <th>Data da transação</th>
-                    <th>Carteira</th>
-                    <th><button onclick=\"xlsx()\" class=\"btn btn-primary\"><img src=\"images/btn-download.png\" width=\"30px\"></button></th>
-                </thead>
-            <tbody>";
-            $result = $extrato->ver();
-            if (gettype($result) === "array") {
-                foreach ($result as $key => $value) {
-                    $date = date_create($value['data']);
-                    $render .= "
-                        
-                        <tr title='" . $value['titulo'] . "'>
-                            <td>" . $value['titulo'] . "</td>
-                            <td>" . $value['tipo'] . "</td>
-                            <td>" . $value['descricao'] . "</td>
-                            <td>R$ " . $value['valor'] . "</td>
-                            <td>" . date_format($date, 'd/m/Y') . "</td>
-                            <td>" . $value['nome_carteira'] . "</td>
-                            <td></td>
-                        </tr>";
-                }
-                $render .= "</tbody></table>";
-            } else {
-                $render .= "<tr><td colspan='7'><b>" . $result . "</td></tr></b>";
-            }
-            echo $render;
-            ?>
+    </header>
+    <main class="col-md-11 col-sm-10 d-block">
+        <section>
+            <div class="d-block">
+                <div id="emojis" style="position: fixed; z-index: 1; bottom: 0; display:none"></div>
+                <div class="d-flex mt-5 mb-3">
+                    <img class="card-icone my-auto p-2 bg-gray rounded" src="./images/calendario.png" alt="">
+                    <h4 class="font-purple my-auto ml-2">Extrato</h4>
+                </div>
+                <div class="d-flex justify-content-between mb-3">
+                    <h5 class="font-green my-auto">Transações</h5>
+                    <div class="font-purple d-flex pr-5 align-items-center my-4">
+                        <!-- <small class="mx-2">Filtrar por:</small>
+                        <select class="container-transactions-select p-1" name="filtro" id="filter">
+                            <option value="" selected></option>
+                            <option value="Data">Data</option>
+                            <option value="Valor">Valor</option>
+                            <option value="Carteira">Carteira</option>
+                        </select> -->
+                        <!-- <a class="hover-alter ml-3" onclick="fechaSideModal(); setTimeout(()=>{loadSideModal()}, 500)">
+                            <img class="container-transactions-add hover-off my-auto" src="./images/plus.png" alt="">
+                            <img class="container-transactions-add my-auto hover-on" src="./images/plus-green.png" alt="">
+                        </a> -->
+                    </div>
+                </div>
+            </div>
+            <section class="container-transactions bg-gray d-flex">
+                <div class="col-md-1 col-sm-2"></div>
+
+                <div class="col-md-11 col-sm-10 p-4">
+                    <div class="side-modal p-5" id="side-modal"></div>
+                    <div id="container-cards" class="col-12 d-block"></div>
+                </div>
+            </section>
         </section>
-    </section>
-    <script>
-        function xlsx() {
-            try {
-                var wb = XLSX.utils.table_to_book(document.getElementById('tabela'), {
-                    sheet: "planilha",
-                    raw: true
-                });
-
-                var wscols = [{
-                        wch: 15
-                    },
-                    {
-                        wch: 15
-                    },
-                    {
-                        wch: 15
-                    },
-                    {
-                        wch: 15
-                    },
-                    {
-                        wch: 15
-                    }
-                ];
-
-                wb["Sheets"]["planilha"]["!cols"] = wscols;
-
-                var wbout = XLSX.write(wb, {
-                    bookType: 'xlsx',
-                    type: 'binary'
-                });
-                saveAs(new Blob([s2ab(wbout)], {
-                    type: "application/octet-stream"
-                }), 'Extrato' + '.xlsx');
-
-            } catch (err) {
-                console.log(err);
-            }
-        }
-
-
-        function excluir(id) {
-            if (confirm("Deseja mesmo excluir esse extrato?")) {
-                window.location.href = window.location.href + `?id=${id}`
-            }
-        }
-
-        function editar(id) {
-            window.location.href = `cad_extrato.php?id=${id}`
-        }
-    </script>
-    <script src="js/jquery-3.2.1.slim.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    </main>
     <?php include "imports/js.php"; ?>
+    <script>
+
+        //Toastr
+        toastr.options.closeButton = true;
+        toastr.options.closeMethod = 'fadeOut';
+        toastr.options.closeDuration = 300;
+        toastr.options.closeEasing = 'swing';
+        toastr.options.preventDuplicates = true;
+
+        const id_usuario = <?php echo $_SESSION['id_usuario']; ?>
+
+        //Requisições
+        const loadCards = async (orderBy = false) => {
+            var myHeaders = new Headers();
+            myHeaders.append("post", `funcao=listar`);
+
+            var formdata = new FormData();
+            formdata.append("funcao", "listar");
+
+            var requestOptions = {
+                method: 'POST',
+                body: formdata,
+                headers: myHeaders,
+                redirect: 'follow'
+            };
+
+            const response = await fetch(`../controller/extrato_controller.php`, requestOptions)
+            const resultJson = await response.json();
+
+            if (resultJson === "0 dados encontrados") {
+                return;
+            }
+
+            document.getElementById('container-cards').innerHTML = "";
+            for (var i = 0; i < resultJson.length; i++) {
+                document.getElementById('container-cards').innerHTML += `
+                    <div class=\"cartao p-3 mr-4 d-block  my-4\"  title=\"trabalho\" >
+                            <div class=\"d-flex w-100\">
+                                <h4 class=\"cartao  bg-gray my-auto p-2 mx-2\">${resultJson[i]['icone']}</h4>
+                                <div class=\"my-auto d-flex w-100 justify-content-between\">
+                                    <div>
+                                        <h4 class=\"my-auto font-purple\">${resultJson[i]['titulo']}</h4>
+                                        <small class=\"my-auto font-gray\">Data da transação: ${resultJson[i]['data_ptbr']}</small>
+                                    </div>
+                                    <div class=\"my-auto d-flex\">
+                                        <h4 class=\"${(resultJson[i]['valor'] < 0)? 'font-red' : 'font-green'} number my-auto\">R$${resultJson[i]['valor']}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class=\"my-4\">
+                            <div class=\"m-2\">
+                            <div class=\"d-flex w-100 justify-content-between my-auto\">
+                                <div class=\"d-block\">
+                                    <!--<p class=\"d-block font-weight-bold my-auto\">Categoria:</p> -->
+                                    <p class=\"${(resultJson[i]['valor'] < 0)? 'font-red' : 'font-green'} font-weight-bold\">${resultJson[i]['tipo']}</p>
+                                </div>
+                            <small class=\"font-white bg-purple p-2 rounded mb-auto\">${resultJson[i]['nome_carteira']}</small>
+                            </div>
+                            <small class=\"d-block font-weight-bold my-auto\">Descrição:</small>
+                            <small class=\"font-gray\">${resultJson[i]['descricao']}</small>
+                            </div>
+
+                        </div>`;
+            }
+        }
+
+
+    </script>
 </body>
 
 </html>

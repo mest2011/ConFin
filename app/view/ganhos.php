@@ -135,7 +135,7 @@
                                 <div class=\"my-auto d-flex w-100 justify-content-between\">
                                     <div>
                                         <h4 class=\"my-auto font-purple\">${resultJson[i]['titulo']}</h4>
-                                        <small class=\"my-auto font-gray\">Data da débito: ${resultJson[i]['data_do_credito_ptbr']}</small>
+                                        <small class=\"my-auto font-gray\">Data da crédito: ${resultJson[i]['data_do_credito_ptbr']}</small>
                                     </div>
                                     <div class=\"my-auto d-flex\">
                                         <h4 class=\"font-green number my-auto\">R$${resultJson[i]['valor']}</h4>
