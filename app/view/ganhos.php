@@ -424,6 +424,9 @@
 
             const response = await fetch(`../controller/carteira_controller.php?id_usuario=${id_usuario}&funcao=listartudo`, requestOptions)
             const resultJson = await response.json();
+            if (resultJson === "0 dados encontrados") {
+                return;
+            }
 
             for (var i = 0; i < resultJson.length; i++) {
                 document.getElementById(selectContainer).innerHTML += `<option value="${resultJson[i]['id_carteira']}">${resultJson[i]['nome_carteira']}</option>`;
@@ -444,6 +447,9 @@
 
             const response = await fetch(`../controller/categoria_controller.php?id_usuario=${id_usuario}&funcao=listartudo&tipo=0`, requestOptions)
             const resultJson = await response.json();
+            if (resultJson === "0 dados encontrados") {
+                return;
+            }
 
             for (var i = 0; i < resultJson.length; i++) {
                 document.getElementById(selectContainer).innerHTML += `<option value="${resultJson[i]['nome_categoria']}">${resultJson[i]['nome_categoria']}</option>`;

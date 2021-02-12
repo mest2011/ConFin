@@ -28,11 +28,18 @@
                             <option value="Valor">Valor</option>
                             <option value="Carteira">Carteira</option>
                         </select> -->
-                        <a class="hover-alter z-index-1 ml-3 btn-p-fixed-bottom-left align-itens-right" onclick="fechaSideModal(); setTimeout(()=>{loadSideModal()}, 500)">
-                            <p class="hover-on">Adicionar carteria</p>
-                            <img class="container-transactions-add2 hover-off my-auto ml-auto" src="./images/add-blue.png" alt="">
-                            <img class="container-transactions-add2 hover-on my-auto ml-auto" src="./images/add-blue-hover.png" alt="">
-                        </a>
+                        <div class="btn-p-fixed-bottom-right z-index-1">
+                            <a class="hover-alter d-flex z-index-1 my-2 align-itens-right" onclick="fechaSideModal(); setTimeout(()=>{loadSideModalTransfer()}, 500)">
+                                <small class="hover-on my-auto mr-1">Transferir saldo</small>
+                                <img class="container-transactions-add hover-off my-2 ml-auto mr-3 " src="./images/transfer-green.png" alt="">
+                                <img class="container-transactions-add hover-on my-2 ml-auto  mr-3" src="./images/transfer.png" alt="">
+                            </a>
+                            <a class="hover-alter d-flex z-index-1 align-itens-right" onclick="fechaSideModal(); setTimeout(()=>{loadSideModal()}, 500)">
+                                <small class="hover-on my-auto mr-1">Adicionar carteira</small>
+                                <img class="container-transactions-add2 hover-off my-2 ml-auto mr-1 " src="./images/add-green.png" alt="">
+                                <img class="container-transactions-add2 hover-on my-2 ml-auto mr-1" src="./images/add-blue.png" alt="">
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -198,7 +205,7 @@
                         </div>
 
                         <small class="font-gray font-weight-bold d-block">Descrição</small>
-                        <small class="font-white font-weight-bold">...</small>
+                        <small class="font-white font-weight-bold">${descricao}</small>
                     </div>
                 </div>
                     </div>
@@ -231,6 +238,75 @@
             });
         }
 
+        function loadSideModalTransfer() {
+            let sideModal = document.getElementById('side-modal');
+
+            sideModal.innerHTML = `
+                <form id="form-ganho" onsubmit="event.preventDefault(); transferirSaldo();">
+                    <div class="d-block">
+                        <h4 class="font-purple">Transferencia entre carteiras</h4>
+                        <img class="w-100 mx-4 my-3" src="./images/img-tranferencia-carteiras.png" alt="Transferencia entre carteiras"/>
+                    </div>
+                    <hr/>
+                    <div class="d-block mt-5">
+                    <div class="d-flex my-4">
+                            <p class="col-sm-4">Carteira de origem:</p>
+                            <select id="form-carteira-origem" name="form-carteira-origem" class="form-control col-sm-6" required>
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="d-flex my-4">
+                            <p class="col-sm-4">Carteira de destino:</p>
+                            <select id="form-carteira-destino" name="form-carteira-destino" class="form-control col-sm-6" required>
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="d-flex my-4">
+                            <p class="col-sm-4">Valor:</p>
+                            <input class="form-control number col-sm-6 font-red mb-4 font-weight-bold" placeholder="R$" type="text" id="form-valor"  onfocus="ValidaCampos.MoedaUnitarioQuantidade('#form-valor', 2);" value=""  required>
+                        </div>
+                        
+                        <div class="d-flex my-5 col-sm-12">
+                            <a class="btn btn-white col-6 mx-2" onclick="fechaSideModal()">Cancelar</a>
+                            <button submit="form-ganho" class="btn btn-success col-6 mx-2">Salvar</button>
+                        </div>
+                    </div>
+                    </form>
+                `;
+
+            carregarCarteiras();
+
+            $('#side-modal').fadeIn(500).css({
+                'margin-right': '0',
+                'z-index': '1'
+            });
+        }
+
+        const buscarCarteiras = async (selectContainer, id_usuario) => {
+            var myHeaders = new Headers();
+            myHeaders.append("Cookie", "PHPSESSID=9e8p1o4t0fnhdcv3veig0fvrsc");
+
+            var formdata = new FormData();
+
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow'
+            };
+
+            const response = await fetch(`../controller/carteira_controller.php?id_usuario=${id_usuario}&funcao=listartudo`, requestOptions)
+            const resultJson = await response.json();
+
+            for (var i = 0; i < resultJson.length; i++) {
+                document.getElementById(selectContainer).innerHTML += `<option value="${resultJson[i]['id_carteira']}">${resultJson[i]['nome_carteira']}</option>`;
+            }
+        }
+
+        function carregarCarteiras() {
+            const localcarteiraorigem = buscarCarteiras('form-carteira-origem', id_usuario);
+            const localcarteiradestino = buscarCarteiras('form-carteira-destino', id_usuario);
+        }
+
         const saveGanho = async () => {
 
             let id = document.getElementById('form-id').value;
@@ -258,6 +334,53 @@
                 formdata.append("nome_cateira", nome);
                 formdata.append("cor", cor);
                 formdata.append("descricao", descricao);
+
+
+
+                const response = await fetch(`../controller/carteira_controller.php`, {
+                    method: "POST",
+                    body: formdata,
+                    headers: myHeaders,
+                });
+
+                const resultJson = await response.json();
+                if (resultJson.search("Erro") > -1 && response.status == 200) {
+                    toastr.error(resultJson, 'Atenção:');
+                } else {
+                    _msgEnviadaAnteriormente = true;
+                    toastr.success(resultJson, 'Parabéns:');
+                    loadCards();
+                    fechaSideModal();
+                    //setTimeout(() => { window.location.href = "./index.html" }, 5000);
+                }
+            } catch (error) {
+                console.log(error)
+                toastr.clear();
+                toastr.warning("Erro no envio dos dados.<br/>Problema ao comunicar-se com o sistema!<br/>Tente mais tarde, por favor!", 'Ops!');
+            }
+        }
+
+        const transferirSaldo = async () => {
+
+            let carteiraOrigem = document.getElementById('form-carteira-origem').value;
+            let carteiraDestino = document.getElementById('form-carteira-destino').value;
+            let valor = document.getElementById('form-valor').value;
+
+            console.log(carteiraOrigem);
+            console.log(carteiraDestino);
+            console.log(valor);
+
+            try {
+
+                var myHeaders = new Headers();
+                myHeaders.append("post", `id_carteira_origem=${carteiraOrigem}&id_carteira_destino=${carteiraDestino}&valor=${valor}&funcao=transferir`);
+
+
+                var formdata = new FormData();
+                formdata.append("funcao", "transferir");
+                formdata.append("id_carteira_origem", carteiraOrigem);
+                formdata.append("id_carteira_destino", carteiraDestino);
+                formdata.append("valor", valor);
 
 
 

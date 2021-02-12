@@ -42,6 +42,11 @@
     display: none;
 }
 
+.foto-perfil{
+    height: 120px;
+    width: auto;
+}
+
 .side-modal{
     width: 50vw;
     min-height: 100%;
@@ -74,9 +79,15 @@
     border: #A0A1A6;
 }
 
-.btn-p-fixed-bottom-left{
+.btn-p-fixed-bottom-right{
     position: fixed;
     bottom: 5%;
+    right: 5%;
+}
+
+.btn-p-fixed-bottom-right-2{
+    position: fixed;
+    bottom: 10%;
     right: 5%;
 }
 

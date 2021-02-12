@@ -45,8 +45,8 @@ new Session_security();
     <div class="menu-perfil d-flex pl-5 pr-4">
         <img class="menu-avatar rounded-circle my-auto mx-auto" src="./images/avatar.svg" alt="https://www.flaticon.com/authors/gregor-cresnar">
         <div class="menu-expand my-auto ml-2">
-            <p class="font-white my-auto">Miguel Eto Sobral Teixeira</p>
-            <a href=""><small class="font-green my-auto">Ver perfil ></small></a>
+            <p class="font-white my-auto"><?php echo $_SESSION['nome']?></p>
+            <a href="./perfil.php"><small class="font-green my-auto">Ver perfil ></small></a>
         </div>
     </div>
 </div>

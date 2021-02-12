@@ -16,3 +16,9 @@ function emojiUnicode (emoji) {
     }
     return comp.toString("16");
 };
+
+function funcaoIndisponivel() {
+    toastr.warning('Função indisponivel! Estamos trabalhando para disponibiliza-la o quanto antes!', 'Atenção:', {
+        timeOut: 3000
+    });
+}

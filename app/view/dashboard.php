@@ -47,7 +47,7 @@ $obj_saldo =  new Saldo($_SESSION['id_usuario']);
                                     <h3 class="font-purple number"><?php echo number_format($obj_saldo->saldo(), 2, ',', '.') ?> </h3>
                                 </div>
                                 <div class="d-flex align-items-baseline pt-2">
-                                    <img src="../view/images/Polígono 7.png" class="card-poligono" alt="Ganho">&nbsp;<p class="font-green font-weight-bold">+<span class="number">5,2</span>%</p>&nbsp;<small class=" font-gray">em relação ao ultimo mês</small>
+                                    <img src="../view/images/Polígono 7.png" class="card-poligono" alt="Ganho">&nbsp;<p class="font-green font-weight-bold">+<span class="number">0,0</span>%</p>&nbsp;<small class=" font-gray">em relação ao ultimo mês</small>
                                 </div>
                             </fieldset>
 
@@ -63,11 +63,11 @@ $obj_saldo =  new Saldo($_SESSION['id_usuario']);
                                     <h3 class="font-purple number"><?php echo number_format($obj_gastos->total_de_gastos(), 2, ',', '.') ?> </h3>
                                 </div>
                                 <div class="d-flex align-items-baseline pt-2">
-                                    <img src="../view/images/Polígono 9.png" class="card-poligono" alt="Perca">&nbsp;<p class="font-red font-weight-bold">+<span class="number">5,2</span>%</p>&nbsp;<small class="font-gray">em relação ao ultimo mês</small>
+                                    <img src="../view/images/Polígono 9.png" class="card-poligono" alt="Perca">&nbsp;<p class="font-red font-weight-bold">+<span class="number">0,0</span>%</p>&nbsp;<small class="font-gray">em relação ao ultimo mês</small>
                                 </div>
                             </fieldset>
                         </div>
-                        <div class="cards pointer p-4">
+                        <div class="cards pointer p-4" onclick="funcaoIndisponivel()">
                             <fieldset class="d-block">
                                 <div class="d-flex pb-2">
                                     <img src="./images/favorito.png" class="my-auto card-icone" alt="favorito">&nbsp;
@@ -75,17 +75,17 @@ $obj_saldo =  new Saldo($_SESSION['id_usuario']);
                                 </div>
                                 <div class="d-flex align-items-baseline my-2">
                                     <p class="font-purple font-weight-bold">R$</p>
-                                    <h3 class="font-purple number"><?php echo number_format($obj_gastos->total_de_gastos(), 2, ',', '.') ?> </h3>
+                                    <h3 class="font-purple number"><?php echo number_format('00.00', 2, ',', '.') ?> </h3>
                                 </div>
                                 <div class="d-flex align-items-baseline pt-2">
-                                    <img src="../view/images/Polígono 7.png" class="card-poligono" alt="Ganho">&nbsp;<p class="font-green font-weight-bold"><span class="number">90</span>%</p>&nbsp;<small class="font-gray">da meta alcançada</small>
+                                    <img src="../view/images/Polígono 7.png" class="card-poligono" alt="Ganho">&nbsp;<p class="font-green font-weight-bold"><span class="number">0</span>%</p>&nbsp;<small class="font-gray">da meta alcançada</small>
                                 </div>
                             </fieldset>
 
                         </div>
                     </section>
                     <section class="d-flex">
-                        <div class="hand-shake pointer cards p-4 pb-5 bg-green col-4">
+                        <div class="hand-shake cards p-4 pb-5 bg-green col-4">
                             <h4 class="font-purple font-weight-bold mt-2 mx-2 pb-5">Recomende <span class="font-white"> para amigos</span> e desbloqueie funções <span class="font-white">especiais</span></h4>
                         </div>
                         <div class="cards p-4">
