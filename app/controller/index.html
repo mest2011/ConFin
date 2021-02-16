@@ -1,0 +1,98 @@
+<!-- <html>
+
+<head lang="pt-br">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Envio de Arquivos</title>
+    </head>
+
+<body>
+    <form action="usuario_controller.php" method="post" enctype="multipart/form-data">
+        <h2>Envio de Arquivos</h2>
+
+        Foto: 
+        <input type="file" name="file" accept=".jpg, .jpeg">
+        <br>
+        Ficha Médica:
+        <input type="text" name="id" value="1">
+        <input type="text" name="funcao" value="salvarfoto">
+        <hr>
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+
+</html> -->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload</title>
+</head>
+<body>
+
+<h1>Upload!</h1>
+
+<form id="upload-form" action="" method="post">
+  <input type="file" name="file" id="file" accept=".jpg">
+  <input type="submit" value="Upload image" name="submit">
+</form>
+
+<div id="gallery">
+  <!-- images -->
+</div>
+
+<script type="text/javascript">
+  const CLIENT_ID = '';
+
+  const gallery = document.getElementById('gallery');
+
+  const doUpload = (url, options) => {
+    const promiseCallback = (resolve, reject) => {
+
+      const getFetchJson = (response) => {
+        if(!response.ok) return reject(response);
+        return response.json().then(resolve);
+      }
+
+      fetch(url, options)
+        .then(getFetchJson)
+        .catch(reject);
+    };
+    return new Promise(promiseCallback);
+  };
+
+  const addImage = (url) => {
+    gallery.innerHTML += `<img src="${url}" width="300" />`; 
+  }
+
+  const onSuccess = (result) => {
+    const { data: { link } } = result;
+    addImage(link);
+  };
+
+  const uploadImage = (e) => {
+    e.preventDefault();
+
+    const file = document.getElementById('file');
+
+    const data = new FormData();
+    data.append('file', file.files[0]);
+
+    doUpload('usuario_controller.php', {
+      method: 'POST',
+      body: data,
+      headers: {
+        'Authorization': `Client-ID ${CLIENT_ID}`,
+      }
+    })
+    .then(onSuccess)
+    .catch(console.error);
+  }
+
+  const form = document.getElementById('upload-form');
+  form.addEventListener('submit', uploadImage)
+</script>
+
+</body>
+</html>
+

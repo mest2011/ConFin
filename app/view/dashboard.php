@@ -33,7 +33,7 @@ $obj_saldo =  new Saldo($_SESSION['id_usuario']);
             <main class="col-md-11 col-sm-10 d-flex">
                 <section class="col-md-9 d-block pr-5">
                     <div class="d-block pt-4">
-                        <h3>Olá, Miguel</h3>
+                        <h3>Olá, <?php echo explode(" ", $_SESSION['nome'])[0];?></h3>
                     </div>
                     <section class="d-flex">
                         <div class="cards pointer p-4" onclick="trocaPagina('extrato.php')">

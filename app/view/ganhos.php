@@ -322,7 +322,7 @@
                         </div>
                         <div class="d-flex my-4">
                             <p class="col-sm-4">Valor total:</p>
-                            <input class="form-control number col-sm-6 font-red font-weight-bold" placeholder="R$" type="text" id="form-valor"  onfocus="ValidaCampos.MoedaUnitarioQuantidade('#form-valor', 2);" value="${valor}"  required>
+                            <input class="form-control number col-sm-6 font-green font-weight-bold" placeholder="R$" type="text" id="form-valor"  onfocus="ValidaCampos.MoedaUnitarioQuantidade('#form-valor', 2);" value="${valor}"  required>
                         </div>
                         
                         <div class="d-flex my-5 col-sm-12">

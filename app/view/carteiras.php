@@ -94,7 +94,7 @@
             document.getElementById('container-cards').innerHTML = "";
             for (var i = 0; i < resultJson.length; i++) {
                 document.getElementById('container-cards').innerHTML += `
-                <div class="cartao card-wallet pointer p-4 mr-4 d-block  my-4" style="background-color: ${resultJson[i]['cor']} !important;"
+                <div class="cartao card-wallet pointer p-0 mr-4 d-block  my-4"
                 onclick=\"fechaSideModal(); setTimeout(()=>{loadSideModal(
                             ${resultJson[i]['id_carteira']},
                             '${resultJson[i]['cor']}',
@@ -102,10 +102,10 @@
                             '${resultJson[i]['descricao']}',
                             '${resultJson[i]['nome_carteira']}')}, 500)\"
                                  title="trabalho">
-                    <div class="d-flex w-100">
-                        <div class="my-auto d-flex w-100 justify-content-between">
+                    <div class="d-flex w-100"  style="border-radius: 1vw 1vw 0 0; background-color: ${resultJson[i]['cor']} !important;">
+                        <div class="my-auto d-flex w-100 justify-content-between px-4 pb-2 pt-4 ">
                             <div>
-                                <h4 class="my-auto font-white">${resultJson[i]['nome_carteira']}</h4>
+                                <h4 class="my-auto font-white text-shadow">${resultJson[i]['nome_carteira']}</h4>
                             </div>
                             <div class="my-auto d-flex">
                                 <p class="hover-red font-white hover-bg-gray my-auto mx-2 p-1 font-weight-bold" onmouseover="this.innerText = 'Excluir?'" onmouseout="this.innerText = '. . .'" onclick="
@@ -118,7 +118,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="my-2">
+                    <div class="my-2 py-2 px-4">
                         <div class="d-flex w-100 justify-content-between my-auto">
                             <div class="d-block">
                                 <small class="font-gray font-weight-bold">Saldo atual</small>
@@ -130,7 +130,7 @@
                         </div>
 
                         <small class="font-gray font-weight-bold d-block">Descrição</small>
-                        <small class="font-white font-weight-bold">${resultJson[i]['descricao']}</small>
+                        <small class="font-gray">${resultJson[i]['descricao']}</small>
                     </div>
                 </div>
                     `;
@@ -187,7 +187,7 @@
                     <div class="d-flex w-100">
                         <div class="my-auto d-flex w-100 justify-content-between">
                             <div>
-                                <h4 class="my-auto font-white">${nome_carteira}</h4>
+                                <h4 class="my-auto font-white text-shadow">${nome_carteira}</h4>
                             </div>
                             <div class="my-auto d-flex">
                             </div>
@@ -205,7 +205,7 @@
                         </div>
 
                         <small class="font-gray font-weight-bold d-block">Descrição</small>
-                        <small class="font-white font-weight-bold">${descricao}</small>
+                        <small class="font-white font-weight-bold text-shadow">${descricao}</small>
                     </div>
                 </div>
                     </div>

@@ -4,9 +4,6 @@ include_once "../classes/Carteira.php";
 include_once "../controller/session_controller.php";
 
 //init session
-if (!isset($_SESSION)) {
-    session_start();
-}
 
 if (!isset($_SESSION)) {
     session_start();

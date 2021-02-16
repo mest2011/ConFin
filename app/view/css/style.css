@@ -98,3 +98,37 @@
     background: #fff;
     border: 0;
 }
+
+
+.text-shadow{
+    text-shadow: 0 0 2px black;
+}
+
+
+.btn-success {
+    background-color: #19D0A0;
+    border: #24e6b3;
+}
+
+.btn-success:hover {
+    background-color: #1ab88f;
+    border: #189272;
+}
+
+.btn-danger {
+    background-color: #D01962;
+    border: #ea337c;
+}
+
+.btn-danger:hover {
+    background-color: #b41252;
+    border: #8e0d40;
+}
+
+.hover-color-darkgreen:hover{
+    color: #1ab88f;
+}
+
+.hover-color-darkred:hover{
+    color: #b41252;
+}
