@@ -26,7 +26,7 @@ function validate($user, $password){
     $password = $sec->fix_string($password);
     
     $conn = $db->connect();
-    $sql = "SELECT id_usuario, usuario, (SELECT nome FROM tb_pessoa WHERE id_pessoa = tb_usuario.id_pessoa LIMIT 1) as nome FROM tb_usuario WHERE usuario = '{$user}' and senha = '{$password}' LIMIT 1;";
+    $sql = "SELECT id_usuario, usuario, (SELECT nome FROM tb_pessoa WHERE id_pessoa = tb_usuario.id_pessoa LIMIT 1) as nome, (SELECT foto FROM tb_pessoa WHERE id_pessoa = tb_usuario.id_pessoa LIMIT 1) as foto FROM tb_usuario WHERE usuario = '{$user}' and senha = '{$password}' LIMIT 1;";
     
     //echo "<h1>{$sql}</h1>";
     $result = $conn->query($sql);
@@ -37,11 +37,13 @@ function validate($user, $password){
             $id = $row['id_usuario'];
             $nome = $row['nome'];
             $usuario = $row['usuario'];
+            $foto = $row['foto'];
         }
         $_SESSION["id_usuario"] = $id;
         $_SESSION['time'] = date_create();
         $_SESSION['nome'] = $nome;
         $_SESSION['usuario'] = $usuario;
+        $_SESSION['foto'] = $foto;
         header("Location: ../../app/view/dashboard.php");
     }else{
         $_SESSION["status"] = "";

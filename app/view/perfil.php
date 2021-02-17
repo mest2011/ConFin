@@ -19,7 +19,7 @@
                 <div class="d-block mt-5">
                     <h5 class="font-purple my-auto">Sua foto</h5>
                     <div class="d-flex my-5">
-                        <img id="foto" class="foto-perfil rounded-circle my-auto mr-4" src="./images/avatar.svg" alt="">
+                        <img id="foto" class="foto-perfil rounded-circle my-auto mr-4" src="./images/avatar.svg" alt="Foto de perfil" onerror="this.src='../../uploads/avatar.svg'">
                         <div class=" my-auto">
                             <div class="d-flex">
                                 <p class="font-green font-weight-bold pointer hover-color-darkgreen" onclick="document.getElementById('form-file').click()">Enviar nova foto</p>
@@ -89,6 +89,7 @@
             for (var i = 0; i < resultJson.length; i++) {
                 document.getElementById('form-nome').value = `${resultJson[i]['nome']}`;
                 document.getElementById('form-email').value = `${resultJson[i]['email']}`;
+                document.getElementById('foto').src = `../../uploads/${resultJson[i]['foto']}`;
             }
         }
 
@@ -98,7 +99,7 @@
 
             console.log(nome);
 
-            try {
+           // try {
 
                 var myHeaders = new Headers();
                 myHeaders.append("post", `funcao=salvar&id=${id_usuario}&nome=${nome}`);
@@ -126,32 +127,30 @@
                     loadInfPerfil()
                     //setTimeout(() => { window.location.href = "./index.html" }, 5000);
                 }
-            } catch (error) {
-                console.log(error)
-                toastr.clear();
-                toastr.warning("Erro no envio dos dados.<br/>Problema ao comunicar-se com o sistema!<br/>Tente mais tarde, por favor!", 'Ops!');
-            }
+            // } catch (error) {
+            //     console.log(error)
+            //     toastr.clear();
+            //     toastr.warning("Erro no envio dos dados.<br/>Problema ao comunicar-se com o sistema!<br/>Tente mais tarde, por favor!", 'Ops!');
+            // }
         }
 
         const salvarFoto = async (tipo) => {
 
-            const files = event.target.files;
             let foto = document.getElementById('form-file');
 
 
             try {
 
                 var myHeaders = new Headers();
-                myHeaders.append("post", `funcao=salvarfoto&id=${id_usuario}&foto=${foto}${(tipo=="deafult")?'&tipo=default':""}&file=${foto}`);
-                myHeaders.append('Content-Type', 'multipart/form-data');
+                myHeaders.append("post", `funcao=salvarfoto&id=${id_usuario}${(tipo == 'default')?'&tipo=default': ''}`);
 
 
                 var formdata = new FormData();
                 formdata.append("funcao", "salvarfoto");
-                (tipo == 'default') ? formdata.append("tipo", 'default'): null;
                 formdata.append("id", id_usuario);
-                formdata.append("foto", foto);
-                formdata.append('file', files[0]);
+                if (tipo == 'default') {
+                    formdata.append("tipo", 'default');
+                }
 
 
 
@@ -178,46 +177,6 @@
         }
 
 
-        //fetch using a Request and a Headers objects
-        // uploading an image along with other POST data
-        //using jsonplaceholder for the data
-
-        const url = 'https://postman-echo.com/post';
-
-        document.addEventListener('DOMContentLoaded', init);
-
-        function init() {
-            document.getElementById('btnSubmit').addEventListener('click', upload);
-        }
-
-        function upload(ev) {
-            ev.preventDefault(); //stop the form submitting
-
-            //create any headers we want
-            let h = new Headers();
-            h.append('Accept', 'application/json'); //what we expect back
-            //bundle the files and data we want to send to the server
-            let fd = new FormData();
-            fd.append('user-id', document.getElementById('user_id').value);
-
-            let myFile = document.getElementById('avatar_img').files[0];
-            fd.append('avatar', myFile, "avatar.png");
-            // $_FILES['avatar']['file_name']  "avatar.png"
-            let req = new Request(url, {
-                method: 'POST',
-                headers: h,
-                mode: 'no-cors',
-                body: fd
-            });
-
-            fetch(req)
-                .then((response) => {
-                    document.getElementById('output').textContent = "Response received from server";
-                })
-                .catch((err) => {
-                    console.log('ERROR:', err.message);
-                });
-        }
     </script>
 </body>
 

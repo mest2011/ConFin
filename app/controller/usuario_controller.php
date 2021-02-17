@@ -1,16 +1,57 @@
 <?php
+
+
+
+
+
+
+
+
+
+
+
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Max-Age: 86400');    // cache for 1 day
+}
+
+// Access-Control headers are received during OPTIONS requests
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+    
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+    header("Access-Control-Allow-Headers:        {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+    
+}
+
+
+
+
+
+
 include_once "../business/usuario_bus.php";
 include_once "../classes/Usuario.php";
 include_once "../controller/session_controller.php";
+
+
 
 if (!isset($_SESSION)) {
     session_start();
 }
 
+// if(isset($_FILES["foto"], $_POST['id'], $_POST['funcao'], $_POST['tipo'])){
+    
+//     print_r(json_encode($_FILES['foto']['size']));
+//     exit();
+    
+// }
 
 
 if (isset($_POST['funcao'])) {
-
+    
     //valida sessão
     // $sessao = new Session_security("isValid");
 
@@ -24,48 +65,54 @@ if (isset($_POST['funcao'])) {
     //     exit();
     // }
 
-    // $user_controller = new Usuarios($_SESSION['id_usuario']);
+    //$user_controller = new Usuarios($_SESSION['id_usuario']);
 
     $user_controller = new Usuarios(1);
-
 
     try {
         //Savar foto pefil
         if ($_POST['funcao'] == 'salvarfoto' and isset($_POST['id'])) {
-            
-            if(isset($_POST['tipo'])){
-                if($_POST['tipo'] == "default"){
+
+            if (isset($_POST['tipo'])) {
+                if ($_POST['tipo'] == "default") {
                     $_POST['funcao'] = 'salvar';
-                    $_POST['foto'] = "../../uploads/default.svg";
+                    $_POST['foto'] = "default.svg";
+                    $_SESSION['foto'] = "default.svg";
+                } else {
+                    $hash_name = hash('ripemd160', date("Y/m/d H:i:s"));
+
+                    if (isset($_FILES["foto"]["name"], $_FILES["foto"]["type"], $_FILES["foto"]["size"])) {
+                        $nomeArqFoto      = $_FILES["foto"]["name"];
+                        $tipoArqFoto     = $_FILES["foto"]["type"];
+                        $tamanhoArqFoto     = $_FILES["foto"]["size"];
+                        $nomeTempArqFoto = $_FILES["foto"]["tmp_name"];
+
+                        if ($tipoArqFoto != "image/jpg" && $tipoArqFoto != "image/jpeg") {
+                            print_r(json_encode("Erro : Arquivo fora do formato aceito! Apenas JPG e JPEG!"));
+                            exit();
+                        }
+
+                        try {
+                            $imgConvert = new Simpleimage();
+                            $imgConvert->load($nomeTempArqFoto);
+                            $imgConvert->resizeToHeight(200);
+                            $imgConvert->save("../../uploads/{$_POST['id']}arq.{$hash_name}.jpg");
+
+                            $_POST['funcao'] = 'salvar';
+                            $_POST['foto'] = "{$_POST['id']}arq.{$hash_name}.jpg";
+                            $_SESSION['foto'] = "{$_POST['id']}arq.{$hash_name}.jpg";
+
+                            print_r(json_encode("Foto salva com sucesso!"));
+                            exit();
+                        } catch (\Throwable $th) {
+                            print_r(json_encode("Erro : Erro ao salvar o arquivo!"));
+                            exit();
+                        }
+                    } else {
+                        print_r(json_encode("Erro : Erro ao receber o arquivo!"));
+                        exit();
+                    }
                 }
-            }
-            $hash_name = hash('ripemd160', date("Y/m/d H:i:s"));
-
-            if (isset($_FILES["file"]["name"], $_FILES["file"]["type"], $_FILES["file"]["size"])) {
-                $nomeArqFoto      = $_FILES["file"]["name"];
-                $tipoArqFoto     = $_FILES["file"]["type"];
-                $tamanhoArqFoto     = $_FILES["file"]["size"];
-                $nomeTempArqFoto = $_FILES["file"]["tmp_name"];
-
-                if ($tipoArqFoto != "image/jpg" && $tipoArqFoto != "image/jpeg") {
-                    print_r(json_encode("Erro : Arquivo fora do formato aceito! Apenas JPG e JPEG!"));
-                }
-
-                try {
-                    $imgConvert = new Simpleimage();
-                    $imgConvert->load($nomeTempArqFoto);
-                    $imgConvert->resizeToHeight(200);
-                    $imgConvert->save("../../uploads/{$_POST['id']}arq.{$hash_name}.jpg");
-
-                    $_POST['funcao'] = 'salvar';
-                    $_POST['foto'] = "../../uploads/{$_POST['id']}arq.{$hash_name}.jpg";
-
-                    print_r(json_encode("Foto salva com sucesso!"));
-                } catch (\Throwable $th) {
-                    print_r(json_encode("Erro : Erro ao salvar o arquivo!"));
-                }
-            }else{
-                print_r(json_encode("Erro : Erro ao receber o arquivo!"));
             }
         }
         //Create and Update
@@ -223,3 +270,5 @@ class SimpleImage
         $this->image = $new_image;
     }
 }
+
+print_r(json_encode("Não executou nada"));

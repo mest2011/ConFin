@@ -25,74 +25,57 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Upload</title>
+    <title>Upload</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
+
 <body>
 
-<h1>Upload!</h1>
+    <h1>Upload!</h1>
 
-<form id="upload-form" action="" method="post">
-  <input type="file" name="file" id="file" accept=".jpg">
-  <input type="submit" value="Upload image" name="submit">
-</form>
+    <div>
+        <div class="form-group">
+            <label for="upfile-2">Profile Picture</label>
+            <input type="file" class="form-control" id="upfile-2" accept=".jpg">
+        </div>
+        <div class="form-group">
+            <button id="upload" class="btn btn-outline-primary">Upload</button>
+        </div>
+    </div>
 
-<div id="gallery">
-  <!-- images -->
-</div>
+    <script type="text/javascript">
+        const uploadButton = document.querySelector('#upload');
 
-<script type="text/javascript">
-  const CLIENT_ID = '';
+        var myHeaders = new Headers();
+        //myHeaders.append("post", `funcao=salvarfoto&id=1&tipo=none`);
 
-  const gallery = document.getElementById('gallery');
+        uploadButton.addEventListener('click', () => {
+            const form = new FormData();
 
-  const doUpload = (url, options) => {
-    const promiseCallback = (resolve, reject) => {
+            const file = document.querySelector('#upfile-2').files[0];
+            form.append('foto', file);
+            form.append("funcao", "salvarfoto");
+            form.append("id", "1");
+            form.append("tipo", "none");
 
-      const getFetchJson = (response) => {
-        if(!response.ok) return reject(response);
-        return response.json().then(resolve);
-      }
+            const url = './usuario_controller.php'
+            const request = new Request(url, {
+                method: 'POST',
+                headers: myHeaders,
+                body: form
+            });
 
-      fetch(url, options)
-        .then(getFetchJson)
-        .catch(reject);
-    };
-    return new Promise(promiseCallback);
-  };
+            fetch(request)
+                .then(response => response.json())
+                .then(console.log)
+                .catch(error => console.log(error))
+        });
 
-  const addImage = (url) => {
-    gallery.innerHTML += `<img src="${url}" width="300" />`; 
-  }
 
-  const onSuccess = (result) => {
-    const { data: { link } } = result;
-    addImage(link);
-  };
-
-  const uploadImage = (e) => {
-    e.preventDefault();
-
-    const file = document.getElementById('file');
-
-    const data = new FormData();
-    data.append('file', file.files[0]);
-
-    doUpload('usuario_controller.php', {
-      method: 'POST',
-      body: data,
-      headers: {
-        'Authorization': `Client-ID ${CLIENT_ID}`,
-      }
-    })
-    .then(onSuccess)
-    .catch(console.error);
-  }
-
-  const form = document.getElementById('upload-form');
-  form.addEventListener('submit', uploadImage)
-</script>
+    </script>
 
 </body>
-</html>
 
+</html>

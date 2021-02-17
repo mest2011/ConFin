@@ -43,7 +43,7 @@ new Session_security();
 
 
     <div class="menu-perfil d-flex pl-5 pr-4">
-        <img class="menu-avatar rounded-circle my-auto mx-auto" src="./images/avatar.svg" alt="https://www.flaticon.com/authors/gregor-cresnar">
+        <img class="menu-avatar rounded-circle my-auto mx-auto" src="../../uploads/<?php echo $_SESSION['foto']?>" alt="perfil" onerror="this.src='../../uploads/avatar.svg'">
         <div class="menu-expand my-auto ml-2">
             <p class="font-white my-auto"><?php echo $_SESSION['nome']?></p>
             <a href="./perfil.php"><small class="font-green my-auto">Ver perfil ></small></a>
