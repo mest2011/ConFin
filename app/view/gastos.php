@@ -8,15 +8,15 @@
 
 </head>
 
-<body class="d-flex" onload="loadCards()">
-    <header class="col-md-1 col-sm-2">
+<body class="d-flex flex-wrap" onload="loadCards()">
+    <header class="col-md-1 col-sm-2 col-12">
         <?php include "imports/menu_lateral.php"; ?>
     </header>
-    <main class="col-md-11 col-sm-10 d-block">
+    <main class="col-md-11 col-sm-10 col-12 d-block mt--23em">
         <section>
             <div class="d-block">
                 <div id="emojis" style="position: fixed; z-index: 1; bottom: 0; display:none"></div>
-                <div class="d-flex mt-5 mb-3">
+                <div class="d-flex mt-0 mt-sm-5 mb-3">
                     <img class="card-icone my-auto" src="./images/gastos.png" alt="">
                     <h4 class="font-purple my-auto ml-2">Aqui ficam os seus gastos</h4>
                 </div>
@@ -38,11 +38,11 @@
                 </div>
             </div>
         </section>
-        <section id="lista" class="container-transactions bg-gray d-flex">
+        <section id="lista" class="container-transactions bg-gray d-flex flex-wrap">
             <div class="col-md-1 col-sm-2"></div>
 
 
-            <div class="col-md-11 col-sm-10 p-4">
+            <div class="col-md-11 col-sm-10 col-12 pl-4 p-sm-4">
                 <div class="side-modal p-5" id="side-modal"></div>
                 <div id="container-cards" class="col-12 d-block"></div>
             </div>
@@ -122,7 +122,7 @@
             document.getElementById('container-cards').innerHTML = "";
             for (var i = 0; i < resultJson.length; i++) {
                 document.getElementById('container-cards').innerHTML += `
-                    <div class=\"cartao pointer p-3 mr-4 d-block  my-4\" onclick=\"fechaSideModal(); setTimeout(()=>{loadSideModal(
+                    <div class=\"cartao pointer p-3 mr-0 mr-sm-4 d-block  my-4\" onclick=\"fechaSideModal(); setTimeout(()=>{loadSideModal(
                             ${resultJson[i]['id_despesa']},
                             '${resultJson[i]['tipo']}',
                             '${resultJson[i]['icone']}',
@@ -134,7 +134,7 @@
                                 '${resultJson[i]['valor']}')}, 500)\" title=\"trabalho\" >
                             <div class=\"d-flex w-100\">
                                 <h4 class=\"cartao  bg-gray my-auto p-2 mx-2\">${resultJson[i]['icone']}</h4>
-                                <div class=\"my-auto d-flex w-100 justify-content-between\">
+                                <div class=\"my-auto d-flex w-100 justify-content-between flex-wrap\">
                                     <div>
                                         <h4 class=\"my-auto font-purple\">${resultJson[i]['titulo']}</h4>
                                         <small class=\"my-auto font-gray\">Data da débito: ${resultJson[i]['data_do_debito_ptbr']}</small>

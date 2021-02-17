@@ -8,7 +8,7 @@ include_once "../controller/saldo_controller.php";
 include_once "../controller/gastos_controller.php";
 
 if (!isset($_SESSION['id_usuario'], $_SESSION['status']) or $_SESSION['status'] <> "logado") {
-    header("Location: ../../cofrin/login.html");
+    header("Location: ../../cofrin/view/login.html");
 }
 
 
@@ -27,16 +27,16 @@ $obj_saldo =  new Saldo($_SESSION['id_usuario']);
 <body>
     <section>
         <div class="row">
-            <header class="col-md-1 col-sm-2">
+            <header class="col-md-1 col-sm-2 h-auto">
                 <?php include "imports/menu_lateral.php"; ?>
             </header>
-            <main class="col-md-11 col-sm-10 d-flex">
-                <section class="col-md-9 d-block pr-5">
-                    <div class="d-block pt-4">
-                        <h3>Olá, <?php echo explode(" ", $_SESSION['nome'])[0];?></h3>
+            <main class="col-md-11 col-sm-10 d-flex flex-wrap">
+                <section class="col-lg-9 col-12 d-block pr-3 pr-sm-3 pr-md-4 pr-lg-5">
+                    <div class="d-block pt-4 pb-4 p-sm-0">
+                        <h3>Olá, <?php echo explode(" ", $_SESSION['nome'])[0];?>!</h3>
                     </div>
-                    <section class="d-flex">
-                        <div class="cards pointer p-4" onclick="trocaPagina('extrato.php')">
+                    <section class="d-flex flex-lg-nowrap flex-wrap">
+                        <div class="cards pointer p-4 mb-4 mb-sm-1" onclick="trocaPagina('extrato.php')">
                             <fieldset class="d-block">
                                 <div class="d-flex pb-2">
                                     <img src="./images/ganhos.png" class="my-auto card-icone" alt="ganhos">&nbsp;
@@ -52,7 +52,7 @@ $obj_saldo =  new Saldo($_SESSION['id_usuario']);
                             </fieldset>
 
                         </div>
-                        <div class="cards pointer p-4" onclick="trocaPagina('gastos.php')">
+                        <div class="cards pointer p-4 mb-4 mb-sm-1" onclick="trocaPagina('gastos.php')">
                             <fieldset class="d-block">
                                 <div class="d-flex pb-2">
                                     <img src="./images/gastos.png" class="my-auto card-icone" alt="gastos">&nbsp;
@@ -67,7 +67,7 @@ $obj_saldo =  new Saldo($_SESSION['id_usuario']);
                                 </div>
                             </fieldset>
                         </div>
-                        <div class="cards pointer p-4" onclick="funcaoIndisponivel()">
+                        <div class="cards pointer p-4 mb-4 mb-sm-1" onclick="funcaoIndisponivel()">
                             <fieldset class="d-block">
                                 <div class="d-flex pb-2">
                                     <img src="./images/favorito.png" class="my-auto card-icone" alt="favorito">&nbsp;
@@ -84,11 +84,11 @@ $obj_saldo =  new Saldo($_SESSION['id_usuario']);
 
                         </div>
                     </section>
-                    <section class="d-flex">
-                        <div class="hand-shake cards p-4 pb-5 bg-green col-4">
+                    <section class="d-flex flex-lg-nowrap flex-wrap">
+                        <div class="hand-shake cards p-4 pb-5 bg-green col-12 col-lg-4 mb-4 mb-sm-1">
                             <h4 class="font-purple font-weight-bold mt-2 mx-2 pb-5">Recomende <span class="font-white"> para amigos</span> e desbloqueie funções <span class="font-white">especiais</span></h4>
                         </div>
-                        <div class="cards p-4">
+                        <div class="cards p-4 mb-4 mb-sm-1">
                             <fieldset>
                                 <legend>Meus gastos:</legend>
                                 <div class="chart-area">
@@ -188,7 +188,7 @@ $obj_saldo =  new Saldo($_SESSION['id_usuario']);
 
                     </section>
                 </section>
-                <section class="col-md-3 d-md-block d-none dash-gastos">
+                <section class=" col-12 col-lg-3 d-lg-block d-block dash-gastos">
                     <div class="px-4 pt-5">
                         <h4 class="pt-3">Últimas despesas:</h4>
                     </div>

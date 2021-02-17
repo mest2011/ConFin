@@ -52,13 +52,13 @@ small{
 }
 
 legend {
-  font-size: 1.5vw !important;
+  font-size: 1.5em !important;
 }
 
 header {
   margin: 0 !important;
   padding: 0 !important;
-  height: 100vh;
+  height: auto;
 }
 
 .line-height-0{
@@ -67,15 +67,15 @@ header {
 
 
 .cartao {
-  margin: 0.5vw;
-  box-shadow: 0 0 0.4vw #a0a1a6;
+  margin: 0.5em;
+  box-shadow: 0 0 0.4em #a0a1a6;
   background: #fff;
   border: none !important;
-  border-radius: 1vw;
+  border-radius: 1em;
 }
 
 .cartao:hover {
-  box-shadow: 0 0 0.4vw #19d0a0;
+  box-shadow: 0 0 0.4em #19d0a0;
 }
 
 .hover-bg-gray:hover{
@@ -131,6 +131,10 @@ header {
   transition-duration: 0.3s;
 }
 
+.bg-black{
+  background-color: #111320 !important;
+}
+
 .bg-purple {
   background-color: #271c72 !important;
 }
@@ -182,7 +186,7 @@ a:hover {
 
 /* Imagens */
 .logo {
-  width: 2.3vw;
+  width: 2em;
   height: fit-content;
 }
 .card-poligono {
@@ -212,5 +216,45 @@ a:hover {
 
 .z-index-2{
   z-index: 2;
+}
+
+@media (max-width: 576px){
+  h1 {
+    font-size: 6em;
+    font-weight: bold;
+  }
+  h2 {
+    font-size: 5em;
+    font-weight: bold;
+  }
+  h3 {
+    font-size: 4em;
+    font-weight: bold;
+  }
+  h4 {
+    font-size: 2em;
+    font-weight: bold;
+  }
+  
+  h5 {
+    font-size: 1.5em;
+  }
+  
+  p {
+    font-size: 1em;
+    color: #111320;
+  }
+  small{
+    font-size: 0.8em;
+  }
+  
+  legend {
+    font-size: 1.5em !important;
+  }
+
+  .logo {
+    width: 1em;
+    height: fit-content;
+  }
 }
 

@@ -8,15 +8,15 @@
 }
 
 .hand-shake {
-    background-image: url(../images/hand-shake.png) !important;
-    background-repeat: no-repeat !important;
-    background-position-x: 49% !important;
-    background-position-y: 89% !important;
-    background-size: 79% !important;
+  background-image: url(../images/hand-shake.png) !important;
+  background-repeat: no-repeat !important;
+  background-position-x: 49% !important;
+  background-position-y: 89% !important;
+  background-size: 79% !important;
 }
 
-.chart-area{
-    width: 100%;
+.chart-area {
+  width: 100%;
 }
 
 /* css antigo */
@@ -36,17 +36,17 @@
 }
 
 .cards {
-  margin: 0.5vw;
+  margin: 0.5em;
   width: 100%;
-  box-shadow: 0 0 0.4vw #a0a1a6;
+  box-shadow: 0 0 0.4em #a0a1a6;
   background: #fff;
   border: none !important;
-  border-radius: 1vw;
+  border-radius: 1em;
   justify-content: center;
 }
 
 .cards:hover {
-    box-shadow: 0 0 0.4vw #19d0a0;
+  box-shadow: 0 0 0.4em #19d0a0;
 }
 
 #saldo_container fieldset {
@@ -152,7 +152,6 @@ body {
   overflow-x: hidden;
 }
 
-
 .gastos-tabela {
   width: 40%;
 }
@@ -239,4 +238,14 @@ tfoot td:hover {
   border-radius: 0 0 1vh 1vh;
 }
 
-
+@media (max-width: 576px) {
+  .dash-gastos {
+    background-image: url(../images/sharp.png);
+    background-repeat: no-repeat;
+    background-position-x: 76vw;
+    background-position-y: 60vh;
+    border-left: none;
+    background-size: 18vw;
+    
+  }
+}

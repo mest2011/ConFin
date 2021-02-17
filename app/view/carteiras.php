@@ -6,12 +6,12 @@
 
 </head>
 
-<body class="d-flex" onload="loadCards()">
+<body class="d-flex flex-wrap" onload="loadCards()">
     <header class="col-md-1 col-sm-2">
         <?php include "imports/menu_lateral.php"; ?>
     </header>
     <main class="col-md-11 col-sm-10 d-block">
-        <section>
+        <section class="pl-2 pl-sm-0">
             <div class="d-block">
                 <div id="emojis" style="position: fixed; z-index: 1; bottom: 0; display:none"></div>
                 <div class="d-flex mt-5 mb-3">
@@ -44,6 +44,7 @@
                 </div>
             </div>
         </section>
+        <hr class="d-sm-none">
         <section>
             <div class="side-modal p-5" id="side-modal"></div>
             <div id="container-cards" class="col-12 d-flex flex-wrap"></div>
@@ -94,7 +95,7 @@
             document.getElementById('container-cards').innerHTML = "";
             for (var i = 0; i < resultJson.length; i++) {
                 document.getElementById('container-cards').innerHTML += `
-                <div class="cartao card-wallet pointer p-0 mr-4 d-block  my-4"
+                <div class="cartao w-100 w-sm-auto card-wallet pointer p-0 mr-sm-4 d-block  my-4"
                 onclick=\"fechaSideModal(); setTimeout(()=>{loadSideModal(
                             ${resultJson[i]['id_carteira']},
                             '${resultJson[i]['cor']}',

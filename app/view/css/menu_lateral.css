@@ -2,7 +2,7 @@
   position: fixed;
   left: -20px;
   top: 0;
-  display: inline-block !important;
+  display: inline-block;
   background-color: #111320;
   display: block;
   height: 100%;

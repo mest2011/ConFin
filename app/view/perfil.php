@@ -6,11 +6,11 @@
 
 </head>
 
-<body class="d-flex" onload="loadInfPerfil()">
+<body class="d-flex flex-wrap" onload="loadInfPerfil()">
     <header class="col-md-1 col-sm-2">
         <?php include "imports/menu_lateral.php"; ?>
     </header>
-    <main class="col-md-11 col-sm-10 d-block">
+    <main class="col-md-11 col-sm-10 d-block mx-4 mx-sm-0">
         <section>
             <div class="d-block ml-2">
                 <div class="d-flex mt-5 mb-3">
@@ -38,7 +38,7 @@
 
                     <button class="btn btn-success col-2 mt-5" onclick="saveUsuario()">Salvar</button>
 
-                    <button class="btn btn-danger d-block col-1 mt-5" onclick="(confirm('Deseja sair do sistema?'))? window.location.href = './exit.php' : false">Sair</button>
+                    <button class="btn btn-danger d-block  mt-5" onclick="(confirm('Deseja sair do sistema?'))? window.location.href = './exit.php' : false">Sair</button>
                 </div>
             </div>
         </section>
