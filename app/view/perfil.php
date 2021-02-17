@@ -22,8 +22,8 @@
                         <img id="foto" class="foto-perfil rounded-circle my-auto mr-4" src="./images/avatar.svg" alt="Foto de perfil" onerror="this.src='../../uploads/avatar.svg'">
                         <div class=" my-auto">
                             <div class="d-flex">
-                                <p class="font-green font-weight-bold pointer hover-color-darkgreen" onclick="document.getElementById('form-file').click()">Enviar nova foto</p>
-                                <input id="form-file" class="form-control-file d-none" type="file" accept=".jpg, .jpeg">
+                                <p class="font-green font-weight-bold pointer hover-color-darkgreen" onclick="document.getElementById('form-foto').click()">Enviar nova foto</p>
+                                <input id="form-foto" class="form-control-file d-none" onchange="salvarFoto('none')" type="file" accept=".jpg, .jpeg">
                             </div>
 
                             <a class="pointer" onclick="(confirm('Deseja realmente excluir sua foto de perfil?'))? salvarFoto('default'): false;">
@@ -57,9 +57,6 @@
         toastr.options.closeEasing = 'swing';
         toastr.options.preventDuplicates = true;
 
-        document.querySelector('#form-file').addEventListener('change', event => {
-            salvarFoto(event)
-        })
 
         const id_usuario = <?php echo $_SESSION['id_usuario']; ?>
 
@@ -99,34 +96,34 @@
 
             console.log(nome);
 
-           // try {
+            // try {
 
-                var myHeaders = new Headers();
-                myHeaders.append("post", `funcao=salvar&id=${id_usuario}&nome=${nome}`);
-
-
-                var formdata = new FormData();
-                formdata.append("funcao", "salvar");
-                formdata.append("id", id_usuario);
-                formdata.append("nome", nome);
+            var myHeaders = new Headers();
+            myHeaders.append("post", `funcao=salvar&id=${id_usuario}&nome=${nome}`);
 
 
+            var formdata = new FormData();
+            formdata.append("funcao", "salvar");
+            formdata.append("id", id_usuario);
+            formdata.append("nome", nome);
 
-                const response = await fetch(`../controller/usuario_controller.php`, {
-                    method: "POST",
-                    body: formdata,
-                    headers: myHeaders,
-                });
 
-                const resultJson = await response.json();
-                if (resultJson.search("Erro") > -1 && response.status == 200) {
-                    toastr.error(resultJson, 'Atenção:');
-                } else {
-                    _msgEnviadaAnteriormente = true;
-                    toastr.success(resultJson, 'Parabéns:');
-                    loadInfPerfil()
-                    //setTimeout(() => { window.location.href = "./index.html" }, 5000);
-                }
+
+            const response = await fetch(`../controller/usuario_controller.php`, {
+                method: "POST",
+                body: formdata,
+                headers: myHeaders,
+            });
+
+            const resultJson = await response.json();
+            if (resultJson.search("Erro") > -1 && response.status == 200) {
+                toastr.error(resultJson, 'Atenção:');
+            } else {
+                _msgEnviadaAnteriormente = true;
+                toastr.success(resultJson, 'Parabéns:');
+                loadInfPerfil()
+                //setTimeout(() => { window.location.href = "./index.html" }, 5000);
+            }
             // } catch (error) {
             //     console.log(error)
             //     toastr.clear();
@@ -136,29 +133,27 @@
 
         const salvarFoto = async (tipo) => {
 
-            let foto = document.getElementById('form-file');
-
-
             try {
 
-                var myHeaders = new Headers();
-                myHeaders.append("post", `funcao=salvarfoto&id=${id_usuario}${(tipo == 'default')?'&tipo=default': ''}`);
+                const form = new FormData();
 
-
-                var formdata = new FormData();
-                formdata.append("funcao", "salvarfoto");
-                formdata.append("id", id_usuario);
-                if (tipo == 'default') {
-                    formdata.append("tipo", 'default');
+                const file = document.querySelector('#form-foto').files[0];
+                if(file){
+                    form.append('foto', file);
                 }
+                form.append("funcao", "salvarfoto");
+                form.append("id", id_usuario);
+                form.append("tipo", `${tipo}`);
 
-
-
-                const response = await fetch(`../controller/usuario_controller.php`, {
-                    method: "POST",
-                    body: formdata,
-                    headers: myHeaders,
+                const url = '../controller/usuario_controller.php'
+                const request = new Request(url, {
+                    method: 'POST',
+                    body: form
                 });
+
+
+
+                const response = await fetch(request);
 
                 const resultJson = await response.json();
                 if (resultJson.search("Erro") > -1 && response.status == 200) {
@@ -175,8 +170,6 @@
                 toastr.warning("Erro no envio dos dados.<br/>Problema ao comunicar-se com o sistema!<br/>Tente mais tarde, por favor!", 'Ops!');
             }
         }
-
-
     </script>
 </body>
 

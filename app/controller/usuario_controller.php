@@ -1,36 +1,20 @@
 <?php
 
+// if (isset($_SERVER['HTTP_ORIGIN'])) {
+//     header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+//     header('Access-Control-Allow-Credentials: true');
+//     header('Access-Control-Max-Age: 86400');    // cache for 1 day
+// }
 
+// // Access-Control headers are received during OPTIONS requests
+// if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
+//     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+//         header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 
-
-
-
-
-
-
-
-if (isset($_SERVER['HTTP_ORIGIN'])) {
-    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
-    header('Access-Control-Allow-Credentials: true');
-    header('Access-Control-Max-Age: 86400');    // cache for 1 day
-}
-
-// Access-Control headers are received during OPTIONS requests
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    
-    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-    
-    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
-    header("Access-Control-Allow-Headers:        {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
-    
-}
-
-
-
-
-
+//     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+//         header("Access-Control-Allow-Headers:        {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+// }
 
 include_once "../business/usuario_bus.php";
 include_once "../classes/Usuario.php";
@@ -42,43 +26,39 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-// if(isset($_FILES["foto"], $_POST['id'], $_POST['funcao'], $_POST['tipo'])){
-    
-//     print_r(json_encode($_FILES['foto']['size']));
-//     exit();
-    
-// }
-
 
 if (isset($_POST['funcao'])) {
-    
+
     //valida sessão
-    // $sessao = new Session_security("isValid");
+    $sessao = new Session_security("isValid");
 
-    // if (!$sessao->validaSessao("isValid")) {
-    //     print_r(json_encode("Erro : tempo de sessao excedido!"));
-    //     exit();
-    // }
+    if (!$sessao->validaSessao("isValid")) {
+        print_r(json_encode("Erro : tempo de sessao excedido!"));
+        exit();
+    }
 
-    // if (!isset($_SESSION['id_usuario'])) {
-    //     print_r(json_encode("Erro na sessao atual, entre novamente no sistema!"));
-    //     exit();
-    // }
+    if (!isset($_SESSION['id_usuario'])) {
+        print_r(json_encode("Erro na sessao atual, entre novamente no sistema!"));
+        exit();
+    }
 
-    //$user_controller = new Usuarios($_SESSION['id_usuario']);
+    $user_controller = new Usuarios($_SESSION['id_usuario']);
 
-    $user_controller = new Usuarios(1);
+    //$user_controller = new Usuarios(1);
 
     try {
         //Savar foto pefil
         if ($_POST['funcao'] == 'salvarfoto' and isset($_POST['id'])) {
 
             if (isset($_POST['tipo'])) {
+                //set default thumb
                 if ($_POST['tipo'] == "default") {
                     $_POST['funcao'] = 'salvar';
                     $_POST['foto'] = "default.svg";
                     $_SESSION['foto'] = "default.svg";
-                } else {
+                }
+                //set new foto
+                else {
                     $hash_name = hash('ripemd160', date("Y/m/d H:i:s"));
 
                     if (isset($_FILES["foto"]["name"], $_FILES["foto"]["type"], $_FILES["foto"]["size"])) {
@@ -95,15 +75,16 @@ if (isset($_POST['funcao'])) {
                         try {
                             $imgConvert = new Simpleimage();
                             $imgConvert->load($nomeTempArqFoto);
-                            $imgConvert->resizeToHeight(200);
+                            $imgConvert->resizeToWidth(200);
+                            $imgConvert->crop();
                             $imgConvert->save("../../uploads/{$_POST['id']}arq.{$hash_name}.jpg");
 
                             $_POST['funcao'] = 'salvar';
                             $_POST['foto'] = "{$_POST['id']}arq.{$hash_name}.jpg";
                             $_SESSION['foto'] = "{$_POST['id']}arq.{$hash_name}.jpg";
 
-                            print_r(json_encode("Foto salva com sucesso!"));
-                            exit();
+                            //print_r(json_encode("Foto salva com sucesso!"));
+
                         } catch (\Throwable $th) {
                             print_r(json_encode("Erro : Erro ao salvar o arquivo!"));
                             exit();
@@ -184,10 +165,11 @@ class SimpleImage
 
     var $image;
     var $image_type;
+    var $dir_file;
 
     function load($filename)
     {
-
+        $this->dir_file = $filename;
         $image_info = getimagesize($filename);
         $this->image_type = $image_info[2];
         if ($this->image_type == IMAGETYPE_JPEG) {
@@ -235,6 +217,47 @@ class SimpleImage
     {
 
         return imagesx($this->image);
+    }
+    function crop()
+    {
+        $image = imagecreatefromjpeg($this->dir_file);
+        $filename = $this->image;
+
+        $thumb_width = 200;
+        $thumb_height = 200;
+
+        $width = imagesx($image);
+        $height = imagesy($image);
+
+        $original_aspect = $width / $height;
+        $thumb_aspect = $thumb_width / $thumb_height;
+
+        if ($original_aspect >= $thumb_aspect) {
+            // If image is wider than thumbnail (in aspect ratio sense)
+            $new_height = $thumb_height;
+            $new_width = $width / ($height / $thumb_height);
+        } else {
+            // If the thumbnail is wider than the image
+            $new_width = $thumb_width;
+            $new_height = $height / ($width / $thumb_width);
+        }
+
+        $thumb = imagecreatetruecolor($thumb_width, $thumb_height);
+
+        // Resize and crop
+        imagecopyresampled(
+            $thumb,
+            $image,
+            0 - ($new_width - $thumb_width) / 2, // Center the image horizontally
+            0 - ($new_height - $thumb_height) / 2, // Center the image vertically
+            0,
+            0,
+            $new_width,
+            $new_height,
+            $width,
+            $height
+        );
+        $this->image = $thumb;
     }
     function getHeight()
     {
