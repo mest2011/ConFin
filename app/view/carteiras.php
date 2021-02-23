@@ -218,7 +218,7 @@
                         </div>
                         <div class="d-flex my-4">
                             <p class="col-sm-4">Nome:</p>
-                            <input class="form-control col-sm-4" id="form-nome" name="form-nome" type="text" value="${nome_carteira}" maxlength="30" required>
+                            <input class="form-control col-sm-4" id="form-nome" name="form-nome" type="text" value="${nome_carteira}" maxlength="30">
                         </div>
                         <div class="d-flex my-4">
                             <p class="col-sm-4">Descrição:</p>

@@ -135,16 +135,37 @@
   width: auto !important;
 }
 
-@media (max-width: 576px) {
+.mobile-off {
+  display: block !important;
+}
+
+.mobile-on {
+  display: none !important;
+}
+
+.min-vh-100{
+  min-height: 100vh !important;
+}
+
+@media (max-width: 768px ) {
+
   .side-modal {
     width: 100vw;
   }
 
   .mt--23em {
-    margin-top: -23em;
+    margin-top: -43vh;
   }
 
   .w-sm-auto {
     width: 100% !important;
+  }
+
+  .mobile-off {
+    display: none !important;
+  }
+
+  .mobile-on {
+    display: block !important;
   }
 }

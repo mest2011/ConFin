@@ -22,8 +22,13 @@ class FeedbackBus extends Crud{
                     );";
         }
         
-
-        return parent::create($sql);
+        if (parent::create($sql)) {
+            return "Seu comentario foi salvo com sucesso! Obrigado pelo feedback! ;)";
+        } else {
+            return "Erro : Tivemos um problema ao salvar seu comentario!";
+        }
+        
+        
     }
     
     

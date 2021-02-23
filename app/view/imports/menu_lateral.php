@@ -2,7 +2,7 @@
 include_once "../controller/session_controller.php";
 new Session_security();
 ?>
-<nav class="navbar navbar-expand-lg navbar-dark bg-black d-flex d-sm-none">
+<nav class="navbar navbar-expand-lg navbar-dark bg-black d-flex d-md-none">
     <a class="navbar-brand pl-4" href="./dashboard.php">
         <div class="d-flex selectable-none align-items-baseline">
             <p class="font-white font-weight-bold m-0 p-0">Cofrin</p>
@@ -14,8 +14,8 @@ new Session_security();
     </button>
 
 </nav>
-<div class=" collapse navbar-collapse d-sm-block" id="navbarNav">
-    <div class="menu-lateral d-sm-inline">
+<div class="collapse navbar-collapse d-md-block" id="navbarNav">
+    <div class="menu-lateral d-md-inline">
         <div class="menu-expand-invert font-gray d-flex py-4 px-5">
             <img class="menu-icon my-auto" src="./images/menu-gray.png" alt="https://www.freepik.com/">
         </div>

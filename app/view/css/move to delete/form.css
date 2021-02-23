@@ -1,0 +1,79 @@
+.body {
+    display: flex;
+}
+
+.main {
+    width: 100%;
+    padding: 3vh;
+}
+
+.main h1 {
+    font-size: 9vh;
+}
+
+.main h2 {
+    font-size: 4vh;
+}
+
+.main form {
+    padding: 2vh;
+    width: 100%;
+}
+
+.main label {
+    font-size: 3vh;
+    font-weight: 600;
+    margin: 2vh 2vh 0vh 5vh
+}
+
+.main p {
+    margin: 0vh 2vh 0vh 5vh
+}
+
+.main select {
+    font-size: 2vh;
+    margin: 1vh 30vw 1vh 5vh;
+    width: unset;
+}
+
+.main input {
+    display: block;
+    font-size: 2vh;
+    margin: 1vh 30vw 1vh 5vh;
+    width: unset;
+}
+
+.main span {
+    display: block;
+    font-size: 2vh;
+    margin: 1vh 30vw 1vh 5vh;
+    width: unset;
+}
+
+.main textarea {
+    font-size: 2vh;
+    margin: 1vh 30vw 1vh 5vh;
+    width: unset;
+}
+
+form button {
+    margin: 5vh auto 5vh 4vw;
+    padding: 1vh 2vw;
+    border-radius: 1vh;
+    font-size: 3vh;
+}
+
+input[type=checkbox] {
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(2);
+    /* IE */
+    -moz-transform: scale(2);
+    /* FF */
+    -webkit-transform: scale(2);
+    /* Safari and Chrome */
+    -o-transform: scale(2);
+    /* Opera */
+    transform: scale(1.5);
+    display: block;
+    margin: 1vh 30vw 1vh 5.5vh;
+}

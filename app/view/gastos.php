@@ -133,7 +133,7 @@
                                '${resultJson[i]['descricao']}',
                                 '${resultJson[i]['valor']}')}, 500)\" title=\"trabalho\" >
                             <div class=\"d-flex w-100\">
-                                <h4 class=\"cartao  bg-gray my-auto p-2 mx-2\">${resultJson[i]['icone']}</h4>
+                                <h4 class=\"cartao-icon  bg-gray my-auto p-2 mx-2\">${resultJson[i]['icone']}</h4>
                                 <div class=\"my-auto d-flex w-100 justify-content-between flex-wrap\">
                                     <div>
                                         <h4 class=\"my-auto font-purple\">${resultJson[i]['titulo']}</h4>
@@ -314,7 +314,7 @@
                 <div class="d-flex">
                         <input class="d-none" type="text" id="form-id" name="form-id" value="${id}">
                         <h3 class="p-3 bg-gray my-auto mr-3 cartao" id="form-icon" onclick="hiddenShowEmojiKeyboard()">${icone}</h3>
-                        <input class="form-control font-title-modal" type="text" id="form-title" name="form-title" value="${titulo}" maxlength="20" placeholder="Titulo da despesa" required>
+                        <input class="form-control font-title-modal" type="text" id="form-title" name="form-title" value="${titulo}" maxlength="30" placeholder="Titulo da despesa" required>
                     </div>
                     <hr/>
                     <div class="d-block mt-5">
@@ -326,7 +326,7 @@
                             <a type="button" data-toggle="modal" data-target="#ModalCadCategoria" class="pointer bg-green bg-darkgreen rounded-circle ml-2 my-auto p-1" style="line-height:1" onclick="listaCategoria(1);">✚</a>
                         </div>
                         <div class="d-flex my-4">
-                            <p class="col-sm-4">Data do recebimento:</p>
+                            <p class="col-sm-4">Data da despesa:</p>
                             <input class="form-control col-sm-4" id="form-data" name="form-data" type="date" value="${data}" min="2000-01-01" required>
                         </div>
                         <div class="d-flex my-4">
@@ -337,7 +337,7 @@
                         </div>
                         <div class="d-flex my-4">
                             <p class="col-sm-4">Descrição:</p>
-                            <textarea class="form-control col-sm-8" id="form-descricao" placeholder="Adicione mais detalhes sobre o gasto..." rows="4" maxlength="50" required>${descricao}</textarea>
+                            <textarea class="form-control col-sm-8" id="form-descricao" placeholder="Adicione mais detalhes sobre o gasto..." rows="4" maxlength="100">${descricao}</textarea>
                         </div>
                         <div class="d-flex my-4">
                             <p class="col-sm-4">Valor total:</p>

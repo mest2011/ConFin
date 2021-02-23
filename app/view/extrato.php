@@ -86,7 +86,7 @@
                 document.getElementById('container-cards').innerHTML += `
                     <div class=\"cartao p-3 mr-0 mr-sm-4 d-block  my-4\"  title=\"trabalho\" >
                             <div class=\"d-flex w-100\">
-                                <h4 class=\"cartao  bg-gray my-auto p-2 mx-2\">${resultJson[i]['icone']}</h4>
+                                <h4 class=\"cartao-icon  bg-gray my-auto p-2 mx-2\">${resultJson[i]['icone']}</h4>
                                 <div class=\"my-auto d-flex w-100 justify-content-between flex-wrap\">
                                     <div>
                                         <h4 class=\"my-auto font-purple\">${resultJson[i]['titulo']}</h4>

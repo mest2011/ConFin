@@ -36,9 +36,11 @@
                     <label class="pt-4 font-weight-bold" for="form-email">E-mail</label>
                     <input class="form-control col-sm-6" maxlength="50" id="form-email" value="" disabled>
 
-                    <button class="btn btn-success col-2 mt-5" onclick="saveUsuario()">Salvar</button>
+                    <button class="btn btn-success col-2 my-5" onclick="saveUsuario()">Salvar</button>
 
-                    <button class="btn btn-danger d-block  mt-5" onclick="(confirm('Deseja sair do sistema?'))? window.location.href = './exit.php' : false">Sair</button>
+                    <button class="btn btn-danger ml-5 my-5" onclick="(confirm('Deseja sair do sistema?'))? window.location.href = './exit.php' : false">Sair</button>
+
+                    <a class="mb-3 hover-green text-decoration-underline-hover d-block" href="./feedback.php"><small >Deixe seu feedback!</small></a>
                 </div>
             </div>
         </section>
