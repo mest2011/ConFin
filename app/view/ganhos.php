@@ -129,7 +129,8 @@
                              '${resultJson[i]['id_carteira']}',
                               '${resultJson[i]['nome_carteira']}',
                                '${resultJson[i]['descricao']}',
-                                '${resultJson[i]['valor']}')}, 500)\" title=\"trabalho\" >
+                                '${resultJson[i]['valor']}',
+                                '${resultJson[i]['comprovante']}')}, 500)\" title=\"trabalho\" >
                             <div class=\"d-flex w-100\">
                                 <h4 class=\"cartao-icon  bg-gray my-auto p-2 mx-2\">${resultJson[i]['icone']}</h4>
                                 <div class=\"my-auto d-flex w-100 justify-content-between flex-wrap\">
@@ -287,14 +288,15 @@
             id_carteira = '',
             carteira = 'Selecione',
             descricao = '',
-            valor = '') {
+            valor = '',
+            comprovante = '') {
             let sideModal = document.getElementById('side-modal');
 
             sideModal.innerHTML = `
                 <form id="form-ganho" onsubmit="event.preventDefault(); saveGanho();">
                 <div class="d-flex">
                         <input class="d-none" type="text" id="form-id" name="form-id" value="${id}">
-                        <h3 class="p-3 bg-gray my-auto mr-3 cartao" id="form-icon" onclick="hiddenShowEmojiKeyboard()">${icone}</h3>
+                        <h3 class="p-3 bg-gray my-auto mr-3 rounded" id="form-icon" onclick="hiddenShowEmojiKeyboard()">${icone}</h3>
                         <input class="form-control font-title-modal" type="text" id="form-title" name="form-title" value="${titulo}" maxlength="30" placeholder="Titulo da despesa" required>
                     </div>
                     <hr/>
@@ -307,12 +309,16 @@
                             <a type="button" data-toggle="modal" data-target="#ModalCadCategoria" class="pointer bg-green bg-darkgreen rounded-circle ml-2 my-auto p-1" style="line-height:1" onclick="listaCategoria(0);">✚</a>
                         </div>
                         <div class="d-flex my-4">
+                            <p class="col-sm-4">Valor total:</p>
+                            <input class="form-control number col-sm-4 font-green font-weight-bold" placeholder="R$" type="text" id="form-valor"  onfocus="ValidaCampos.MoedaUnitarioQuantidade('#form-valor', 2);" value="${valor}"  required>
+                        </div>
+                        <div class="d-flex my-4">
                             <p class="col-sm-4">Data do recebimento:</p>
-                            <input class="form-control col-sm-4" id="form-data" name="form-data" type="date" value="${data}" min="2000-01-01" required>
+                            <input class="form-control col-sm-6" id="form-data" name="form-data" type="date" value="${data}" min="2000-01-01" required>
                         </div>
                         <div class="d-flex my-4">
                             <p class="col-sm-4">Carteira:</p>
-                            <select id="form-carteira" name="form-carteira" class="form-control col-sm-4" required>
+                            <select id="form-carteira" name="form-carteira" class="form-control col-sm-8" required>
                                 <option value="${id_carteira}">${carteira}</option>
                             </select>
                         </div>
@@ -321,9 +327,20 @@
                             <textarea class="form-control col-sm-8" id="form-descricao" placeholder="Adicione mais detalhes sobre o gasto..." rows="4" maxlength="100" required>${descricao}</textarea>
                         </div>
                         <div class="d-flex my-4">
-                            <p class="col-sm-4">Valor total:</p>
-                            <input class="form-control number col-sm-6 font-green font-weight-bold" placeholder="R$" type="text" id="form-valor"  onfocus="ValidaCampos.MoedaUnitarioQuantidade('#form-valor', 2);" value="${valor}"  required>
+                            <p class="col-sm-4">Anexar comprovante:</p>
+                            <label type="button" for="form-comprovante" class="pointer bg-green bg-darkgreen rounded-circle mt-1 mb-auto p-2" style="line-height:1">✚</label>
+                            <input type="file" class="form-control-file d-none" onchange="document.getElementById('span-file').innerText = this.value" id="form-comprovante" accept=".jpg, .jpeg">
+                            <span class="font-purple mt-1 ml-1" id="span-file"></span>
                         </div>
+                        <div class="my-4  ${(comprovante==='')?'d-none':'d-flex '}">
+                            <div class="col-sm-4 m-auto">
+                                <a href="../../uploads/${comprovante}" download="Comprovante_titulo-${titulo}_data-${data}" class="btn btn-dark m-auto">Baixar ↷</a>
+                            </div>
+                            <div class="col-sm-8 m-auto">
+                                <img id="file" class="foto-perfil my-auto " src="../../uploads/${comprovante}" alt="Anexo" onerror="this.src=''">
+                            </div>
+                        </div>
+                        
                         
                         <div class="d-flex my-5 col-sm-12">
                             <a class="btn btn-white col-6 mx-2" onclick="fechaSideModal()">Cancelar</a>
@@ -356,6 +373,7 @@
             let carteira = document.getElementById('form-carteira').value;
             let descricao = document.getElementById('form-descricao').value;
             let valor = document.getElementById('form-valor').value;
+            let file = document.getElementById('form-comprovante').files[0];
 
             console.log(id);
             console.log(icon);
@@ -376,6 +394,9 @@
                 formdata.append("id_usuario", id_usuario);
                 if (id > 0) {
                     formdata.append("id", id);
+                }
+                if (file) {
+                    formdata.append('file', file);
                 }
                 formdata.append("icone", icon);
                 formdata.append("titulo", title);

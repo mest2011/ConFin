@@ -9,8 +9,8 @@ class GanhoBus extends Crud
     {
         $obj_ganho->valor = str_replace('.', '', $obj_ganho->valor);
         $obj_ganho->valor = str_replace(',', '.', $obj_ganho->valor);
-        $sql = "INSERT INTO tb_ganho (titulo, descricao, tipo, valor, data_do_credito, id_usuario, id_carteira, icone)
-                VALUES ('{$obj_ganho->titulo}', '{$obj_ganho->descricao}', '{$obj_ganho->categoria}', {$obj_ganho->valor}, '{$obj_ganho->data_do_credito}', $id_usuario, {$obj_ganho->id_carteira}, '&\#x{$obj_ganho->icone}');";
+        $sql = "INSERT INTO tb_ganho (titulo, descricao, tipo, valor, data_do_credito, id_usuario, id_carteira, icone, comprovante)
+                VALUES ('{$obj_ganho->titulo}', '{$obj_ganho->descricao}', '{$obj_ganho->categoria}', {$obj_ganho->valor}, '{$obj_ganho->data_do_credito}', $id_usuario, {$obj_ganho->id_carteira}, '&\#x{$obj_ganho->icone}', '{$obj_ganho->comprovante}');";
 
         self::atualizaSaldo($obj_ganho->valor, $obj_ganho->id_carteira);
 
@@ -25,11 +25,11 @@ class GanhoBus extends Crud
     {
 
         if ($id_ganho === null) {
-            $sql = "SELECT id_ganho, titulo, id_carteira, tipo, descricao, format(valor,2,'de_DE') as valor, DATE_FORMAT(data_do_credito, '%d/%m/%Y') as data_do_credito_ptbr, data_do_credito, icone, (select nome_carteira from tb_carteira where id_carteira = tb_ganho.id_carteira limit 1) AS nome_carteira FROM tb_ganho WHERE id_usuario = {$id_usuario} AND data_do_credito >= '" . date('Y') . "-" . date('m') . "-01'
+            $sql = "SELECT comprovante, id_ganho, titulo, id_carteira, tipo, descricao, format(valor,2,'de_DE') as valor, DATE_FORMAT(data_do_credito, '%d/%m/%Y') as data_do_credito_ptbr, data_do_credito, icone, (select nome_carteira from tb_carteira where id_carteira = tb_ganho.id_carteira limit 1) AS nome_carteira FROM tb_ganho WHERE id_usuario = {$id_usuario} AND data_do_credito >= '" . date('Y') . "-" . date('m') . "-01'
             AND data_do_credito <= '" . date('Y') . "-" . date('m') . "-31' and status = 1 order by data_do_credito DESC;";
             return parent::read($sql);
         } else {
-            $sql = "SELECT id_ganho, titulo, id_carteira, tipo, descricao, format(valor,2,'de_DE') as valor, DATE_FORMAT(data_do_credito, '%d/%m/%Y') as data_do_credito_ptbr, data_do_credito, icone,(select nome_carteira from tb_carteira where id_carteira = tb_ganho.id_carteira limit 1) AS nome_carteira FROM tb_ganho WHERE id_usuario = {$id_usuario}  and status = 1 and id_ganho = {$id_ganho} LIMIT 1";
+            $sql = "SELECT comprovante, id_ganho, titulo, id_carteira, tipo, descricao, format(valor,2,'de_DE') as valor, DATE_FORMAT(data_do_credito, '%d/%m/%Y') as data_do_credito_ptbr, data_do_credito, icone,(select nome_carteira from tb_carteira where id_carteira = tb_ganho.id_carteira limit 1) AS nome_carteira FROM tb_ganho WHERE id_usuario = {$id_usuario}  and status = 1 and id_ganho = {$id_ganho} LIMIT 1";
             $obj_ganho = self::converteGanho(parent::read($sql)[0]);
             return $obj_ganho;
         }
@@ -55,8 +55,12 @@ class GanhoBus extends Crud
                 tipo = '{$obj_ganho->categoria}',
                 valor = {$obj_ganho->valor},
                 data_do_credito = '{$obj_ganho->data_do_credito}',
-                icone = '&\#x{$obj_ganho->icone}' 
-                WHERE id_ganho = {$obj_ganho->id_ganho}";
+                icone = '&\#x{$obj_ganho->icone}'";
+                if($obj_ganho->comprovante <> null){
+                    $sql .= ",
+                    comprovante = '{$obj_ganho->comprovante}' ";
+                }
+                $sql .= " WHERE id_ganho = {$obj_ganho->id_ganho}";
 
             if (parent::update($sql)) {
                 return "Dados atualizados!";

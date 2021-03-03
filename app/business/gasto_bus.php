@@ -31,8 +31,8 @@ class GastoBus extends Crud
         //     self::atualizaSaldo(($obj_gasto->valor * $obj_gasto->qtd_recorrente), $obj_gasto->id_carteira);
 
         // } else {
-            $sql = "INSERT INTO tb_despesa (titulo, descricao, tipo, data_do_debito, valor, id_usuario, id_carteira, icone)
-                    VALUES ('{$obj_gasto->titulo}', '{$obj_gasto->descricao}', '{$obj_gasto->categoria}', '{$obj_gasto->data}', {$obj_gasto->valor}, $id_usuario, $obj_gasto->id_carteira, '&\#x{$obj_gasto->icone}');";
+            $sql = "INSERT INTO tb_despesa (titulo, descricao, tipo, data_do_debito, valor, id_usuario, id_carteira, icone, comprovante)
+                    VALUES ('{$obj_gasto->titulo}', '{$obj_gasto->descricao}', '{$obj_gasto->categoria}', '{$obj_gasto->data}', {$obj_gasto->valor}, $id_usuario, $obj_gasto->id_carteira, '&\#x{$obj_gasto->icone}', '{$obj_gasto->comprovante}');";
             
             self::atualizaSaldo(($obj_gasto->valor), $obj_gasto->id_carteira);
 
@@ -63,7 +63,12 @@ class GastoBus extends Crud
                  tipo = '{$obj_gasto->categoria}',
                  data_do_debito = '{$obj_gasto->data}',
                  valor = {$obj_gasto->valor}, 
-                 icone = '&\#x{$obj_gasto->icone}'  
+                 icone = '&\#x{$obj_gasto->icone}' ";
+                if($obj_gasto->comprovante <> null){
+                    $sql .= ",
+                    comprovante = '{$obj_gasto->comprovante}' ";
+                }
+                $sql .= "  
                  WHERE id_despesa = {$obj_gasto->id_despesa};";
 
         if(parent::update($sql)){
@@ -97,7 +102,7 @@ class GastoBus extends Crud
 
     static function buscaGasto($id, $id_usuario)
     {
-        $sql = "SELECT id_despesa, titulo, id_carteira, tipo, descricao, format(valor,2,'de_DE') as valor, DATE_FORMAT(data_do_debito, '%d/%m/%Y') as as data_do_debito_ptbr, data_do_debito, (select nome_carteira from tb_carteira where id_carteira = tb_despesa.id_carteira limit 1) AS nome_carteira, icone FROM tb_despesa WHERE id_usuario = " . $id_usuario . "
+        $sql = "SELECT comprovante, id_despesa, titulo, id_carteira, tipo, descricao, format(valor,2,'de_DE') as valor, DATE_FORMAT(data_do_debito, '%d/%m/%Y') as as data_do_debito_ptbr, data_do_debito, (select nome_carteira from tb_carteira where id_carteira = tb_despesa.id_carteira limit 1) AS nome_carteira, icone FROM tb_despesa WHERE id_usuario = " . $id_usuario . "
         AND id_despesa = {$id} AND status = 1 LIMIT 1;";
         
         
@@ -110,7 +115,7 @@ class GastoBus extends Crud
 
     static function buscarListaGastosMes($id_usuario)
     {
-        $sql = "SELECT id_despesa, id_carteira, titulo, tipo, descricao, format(valor,2,'de_DE') as valor, DATE_FORMAT(data_do_debito, '%d/%m/%Y') as data_do_debito_ptbr, data_do_debito, (select nome_carteira from tb_carteira where id_carteira = tb_despesa.id_carteira limit 1) AS nome_carteira, icone FROM tb_despesa WHERE id_usuario = {$id_usuario}
+        $sql = "SELECT comprovante, id_despesa, id_carteira, titulo, tipo, descricao, format(valor,2,'de_DE') as valor, DATE_FORMAT(data_do_debito, '%d/%m/%Y') as data_do_debito_ptbr, data_do_debito, (select nome_carteira from tb_carteira where id_carteira = tb_despesa.id_carteira limit 1) AS nome_carteira, icone FROM tb_despesa WHERE id_usuario = {$id_usuario}
         AND data_do_debito >= '" . date('Y') . "-" . date('m') . "-01'
         AND data_do_debito <= '" . date('Y') . "-" . date('m') . "-31' AND status = 1 ORDER BY data_do_debito desc;";
         

@@ -1,6 +1,10 @@
 <?php
 include_once "../controller/session_controller.php";
 new Session_security();
+include_once "../controller/log_controller.php";
+
+$log = new Log($_SESSION['id_usuario']);
+if(!$log->salvarLog($_SERVER["REQUEST_URI"])){header("Refresh:0");}
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-black d-flex d-md-none">
     <a class="navbar-brand pl-4" href="./dashboard.php">

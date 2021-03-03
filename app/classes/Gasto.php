@@ -14,6 +14,7 @@ class Gasto{
     public $recorrente;
     public $contador_recorrente;
     public $qtd_recorente;
+    public $comprovante = null;
 
 }
 

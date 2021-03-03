@@ -2,6 +2,7 @@
 include_once "../business/gasto_bus.php";
 include_once "../business/carteira_bus.php";
 include_once "../controller/session_controller.php";
+include_once "../controller/imagem_controller.php";
 
 if (!isset($_SESSION)) {
     session_start();
@@ -40,6 +41,11 @@ if (isset($_POST['titulo'], $_POST['data'], $_POST['carteira'], $_POST['descrica
             $obj_gasto->id_carteira = $_POST['carteira'];
             if(isset($_POST['icone'])){
                 $obj_gasto->icone = $_POST['icone'];
+            }
+            //Save image
+            if (isset($_FILES['file'])) {
+                $img = new ImageController();
+                $obj_gasto->comprovante = $img->salvar('file', "{$_SESSION['id_usuario']}");
             }
             if (isset($_POST['id'])) {
                 $obj_gasto->id_despesa = $_POST['id'];

@@ -15,7 +15,7 @@ class ContatoBus extends Crud{
 
 
 
-        $sql = "INSERT INTO `confin`.`tb_contato` (`nome`, `email`, `mensagem`) VALUES ('{$obj_contato->nome}', '{$obj_contato->email}', '{$obj_contato->mensagem}');";
+        $sql = "INSERT INTO `tb_contato` (`nome`, `email`, `mensagem`) VALUES ('{$obj_contato->nome}', '{$obj_contato->email}', '{$obj_contato->mensagem}');";
 
         if (parent::create($sql)) {
             return "Sua mensagem foi recebida! Entraremos em contato em breve!";

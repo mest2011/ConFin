@@ -9,5 +9,6 @@ class Ganho{
     PUBLIC $valor;
     PUBLIC $icone;
     PUBLIC $data_do_credito;  
+    PUBLIC $comprovante = false;  
 }
 ?>
