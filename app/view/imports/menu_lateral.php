@@ -4,7 +4,9 @@ new Session_security();
 include_once "../controller/log_controller.php";
 
 $log = new Log($_SESSION['id_usuario']);
-if(!$log->salvarLog($_SERVER["REQUEST_URI"])){header("Refresh:0");}
+if (!$log->salvarLog($_SERVER["REQUEST_URI"])) {
+    header("Refresh:0");
+}
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-black d-flex d-md-none">
     <a class="navbar-brand pl-4" href="./dashboard.php">
@@ -59,12 +61,14 @@ if(!$log->salvarLog($_SERVER["REQUEST_URI"])){header("Refresh:0");}
         </ul>
 
 
-        <div class="menu-perfil d-flex pl-5 pr-4">
-            <img class="menu-avatar rounded-circle my-auto mx-auto" src="../../uploads/<?php echo $_SESSION['foto'] ?>" alt="perfil" onerror="this.src='../../uploads/avatar.svg'">
-            <div class="menu-expand my-auto ml-2">
-                <p class="font-white my-auto"><?php echo $_SESSION['nome'] ?></p>
-                <a href="./perfil.php"><small class="font-green my-auto">Ver perfil ></small></a>
+        <a href="./perfil.php">
+            <div class="menu-perfil d-flex pl-5 pr-4 menu-opcoes py-1">
+                <img class="menu-avatar rounded-circle my-auto mx-auto " src="../../uploads/<?php echo $_SESSION['foto'] ?>" alt="perfil" onerror="this.src='../../uploads/avatar.svg'">
+                <div class="menu-expand my-auto ml-2">
+                    <p class="font-white my-auto"><?php echo $_SESSION['nome'] ?></p>
+                    <small class="font-green my-auto">Ver perfil ></small>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
 </div>
