@@ -61,8 +61,8 @@ if (!$log->salvarLog($_SERVER["REQUEST_URI"])) {
         </ul>
 
 
-        <a href="./perfil.php">
-            <div class="menu-perfil d-flex pl-5 pr-4 menu-opcoes py-1">
+        <a href="./perfil.php" class="w-100">
+            <div class="menu-perfil d-flex pl-5 pr-4 w-100 menu-opcoes py-1">
                 <img class="menu-avatar rounded-circle my-auto mx-auto " src="../../uploads/<?php echo $_SESSION['foto'] ?>" alt="perfil" onerror="this.src='../../uploads/avatar.svg'">
                 <div class="menu-expand my-auto ml-2">
                     <p class="font-white my-auto"><?php echo $_SESSION['nome'] ?></p>

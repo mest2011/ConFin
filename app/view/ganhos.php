@@ -314,7 +314,7 @@
                         </div>
                         <div class="d-flex my-4">
                             <p class="col-sm-4">Data do recebimento:</p>
-                            <input class="form-control col-sm-6" id="form-data" name="form-data" type="date" value="${data}" min="2000-01-01" required>
+                            <input class="form-control col-sm-6" id="form-data" name="form-data" type="date" value="${(data)===''?new Date().getFullYear()+'-'+String(new Date().getMonth() + 1).padStart(2, '0')+'-'+String(new Date().getDate()).padStart(2, '0'):data}"  min="2000-01-01" required>
                         </div>
                         <div class="d-flex my-4">
                             <p class="col-sm-4">Carteira:</p>
@@ -324,12 +324,21 @@
                         </div>
                         <div class="d-flex my-4">
                             <p class="col-sm-4">Descrição:</p>
-                            <textarea class="form-control col-sm-8" id="form-descricao" placeholder="Adicione mais detalhes sobre o gasto..." rows="4" maxlength="100" required>${descricao}</textarea>
+                            <textarea class="form-control col-sm-8" id="form-descricao" placeholder="Adicione mais detalhes sobre o gasto..." rows="4" maxlength="100">${descricao}</textarea>
                         </div>
                         <div class="d-flex my-4">
                             <p class="col-sm-4">Anexar comprovante:</p>
                             <label type="button" for="form-comprovante" class="pointer bg-green bg-darkgreen rounded-circle mt-1 mb-auto p-2" style="line-height:1">✚</label>
-                            <input type="file" class="form-control-file d-none" onchange="document.getElementById('span-file').innerText = this.value" id="form-comprovante" accept=".jpg, .jpeg">
+                            <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+                            <input type="file" class="form-control-file d-none" 
+                                onchange="
+                                    if(this.files[0].size > 3145728){
+                                        toastr.error('Tamanho do arquivo não pode exceder 3MB!', 'Atenção:');
+                                        this.value = null;
+                                        document.getElementById('span-file').innerText = this.value;
+                                    }else{
+                                        document.getElementById('span-file').innerText = this.value; 
+                                    }" id="form-comprovante" accept=".jpg, .jpeg">
                             <span class="font-purple mt-1 ml-1" id="span-file"></span>
                         </div>
                         <div class="my-4  ${(comprovante==='')?'d-none':'d-flex '}">
@@ -337,7 +346,7 @@
                                 <a href="../../uploads/${comprovante}" download="Comprovante_titulo-${titulo}_data-${data}" class="btn btn-dark m-auto">Baixar ↷</a>
                             </div>
                             <div class="col-sm-8 m-auto">
-                                <img id="file" class="foto-perfil my-auto " src="../../uploads/${comprovante}" alt="Anexo" onerror="this.src=''">
+                                <img id="file" class="foto-perfil my-auto " src="../../uploads/${comprovante}" alt="Anexo" onerror="this.src='../../uploads/avatar.svg'">
                             </div>
                         </div>
                         
@@ -387,7 +396,7 @@
             try {
 
                 var myHeaders = new Headers();
-                myHeaders.append("post", `id_usuario=${id_usuario}&id=${id}&titulo=${title}&categoria=${categoria}&data=${data}&carteira=${carteira}&descricao=${descricao}&valor=${valor}&icone=${icon}`);
+                myHeaders.append("post", `id_usuario=${id_usuario}&id=${id}&data=${data}&valor=${valor}`);
 
 
                 var formdata = new FormData();
