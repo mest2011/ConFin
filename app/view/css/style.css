@@ -47,6 +47,26 @@
   width: auto;
 }
 
+.div-view-img {
+  position: fixed;
+  top: 0;
+  right: 0px;
+  left: 0;
+  height: 1006px;
+  width: 100%;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #000000af;
+  z-index: 3;
+  transition-duration: 1s;
+}
+
+.img-fullscreen {
+  height: 80%;
+  margin: auto;
+}
+
 .side-modal {
   width: 50vw;
   min-height: 100%;
@@ -143,12 +163,11 @@
   display: none !important;
 }
 
-.min-vh-100{
+.min-vh-100 {
   min-height: 100vh !important;
 }
 
-@media (max-width: 768px ) {
-
+@media (max-width: 768px) {
   .side-modal {
     width: 100vw;
   }

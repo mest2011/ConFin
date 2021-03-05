@@ -95,6 +95,8 @@
 
         const id_usuario = <?php echo $_SESSION['id_usuario']; ?>
 
+        var zoomNaImagemAtivo = true;
+        
         //Requisições
         const loadCards = async (orderBy = false) => {
             var myHeaders = new Headers();
@@ -122,15 +124,15 @@
                 document.getElementById('container-cards').innerHTML += `
                     <div class=\"cartao pointer p-3 mr-0 mr-sm-4 d-block  my-4\" onclick=\"fechaSideModal(); setTimeout(()=>{loadSideModal(
                             ${resultJson[i]['id_ganho']},
-                            '${resultJson[i]['tipo']}',
-                            '${resultJson[i]['icone']}',
-                            '${resultJson[i]['titulo']}',
-                            '${resultJson[i]['data_do_credito']}',
-                             '${resultJson[i]['id_carteira']}',
-                              '${resultJson[i]['nome_carteira']}',
-                               '${resultJson[i]['descricao']}',
-                                '${resultJson[i]['valor']}',
-                                '${resultJson[i]['comprovante']}')}, 500)\" title=\"trabalho\" >
+                            \`${resultJson[i]['tipo']}\`,
+                            \`${resultJson[i]['icone']}\`,
+                            \`${resultJson[i]['titulo']}\`,
+                            \`${resultJson[i]['data_do_credito']}\`,
+                            \`${resultJson[i]['id_carteira']}\`,
+                            \`${resultJson[i]['nome_carteira']}\`,
+                            \`${resultJson[i]['descricao']}\`,
+                            \`${resultJson[i]['valor']}\`,
+                            \`${resultJson[i]['comprovante']}\`)}, 500)\" title=\"trabalho\" >
                             <div class=\"d-flex w-100\">
                                 <h4 class=\"cartao-icon  bg-gray my-auto p-2 mx-2\">${resultJson[i]['icone']}</h4>
                                 <div class=\"my-auto d-flex w-100 justify-content-between flex-wrap\">
@@ -291,6 +293,7 @@
             valor = '',
             comprovante = '') {
             let sideModal = document.getElementById('side-modal');
+            zoomNaImagemAtivo = true;
 
             sideModal.innerHTML = `
                 <form id="form-ganho" onsubmit="event.preventDefault(); saveGanho();">
@@ -328,25 +331,36 @@
                         </div>
                         <div class="d-flex my-4">
                             <p class="col-sm-4">Anexar comprovante:</p>
-                            <label type="button" for="form-comprovante" class="pointer bg-green bg-darkgreen rounded-circle mt-1 mb-auto p-2" style="line-height:1">✚</label>
-                            <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
-                            <input type="file" class="form-control-file d-none" 
-                                onchange="
-                                    if(this.files[0].size > 3145728){
-                                        toastr.error('Tamanho do arquivo não pode exceder 3MB!', 'Atenção:');
-                                        this.value = null;
-                                        document.getElementById('span-file').innerText = this.value;
-                                    }else{
-                                        document.getElementById('span-file').innerText = this.value; 
-                                    }" id="form-comprovante" accept=".jpg, .jpeg">
-                            <span class="font-purple mt-1 ml-1" id="span-file"></span>
+                            <div class="p-0 col-sm-8">
+                                <label type="button" for="form-comprovante" class="pointer bg-green bg-darkgreen rounded-circle mt-1 mb-auto p-2" style="line-height:1">✚</label>
+                                <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+                                <input type="file" class="form-control-file d-none" 
+                                    onchange="
+                                        if(this.files[0].size > 3145728){
+                                            toastr.error('Tamanho do arquivo não pode exceder 3MB!', 'Atenção:');
+                                            this.value = null;
+                                            document.getElementById('span-file').innerText = this.files[0].name;
+                                        }else{
+                                            document.getElementById('span-file').innerText = this.files[0].name; 
+                                        }" id="form-comprovante" accept=".jpg, .jpeg">
+                                <small class="font-purple mt-1 p-0 col-12" id="span-file"></small>
+                            </div>
                         </div>
                         <div class="my-4  ${(comprovante==='')?'d-none':'d-flex '}">
                             <div class="col-sm-4 m-auto">
                                 <a href="../../uploads/${comprovante}" download="Comprovante_titulo-${titulo}_data-${data}" class="btn btn-dark m-auto">Baixar ↷</a>
                             </div>
-                            <div class="col-sm-8 m-auto">
-                                <img id="file" class="foto-perfil my-auto " src="../../uploads/${comprovante}" alt="Anexo" onerror="this.src='../../uploads/avatar.svg'">
+                            <div class="col-sm-8 m-auto" 
+                                onclick="if(zoomNaImagemAtivo){
+                                            this.classList.add('div-view-img');
+                                            this.children[0].classList.add('img-fullscreen');
+                                            zoomNaImagemAtivo = false;
+                                        }else{
+                                            zoomNaImagemAtivo = true;
+                                            this.classList.remove('div-view-img');
+                                            this.children[0].classList.remove('img-fullscreen');
+                                        }">
+                                <img id="file" class="foto-perfil my-auto" src="../../uploads/${comprovante}" alt="Anexo" onerror="this.src='../../uploads/avatar.svg'">
                             </div>
                         </div>
                         
