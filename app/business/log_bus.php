@@ -3,12 +3,12 @@ include_once "../database/crud.php";
 
 class LogBus extends Crud
 {
-    static function createLog($id_usuario, $descricao)
+    static function createLog($id_usuario, $descricao, $ip)
     {
         if (strlen($descricao) < 4) return "Erro : Descrição de log muito curto!";
         if (strlen($descricao) > 200) return "Erro : Descrição de log muito longo!";
 
-        $sql = "INSERT INTO tb_log (id_usuario, descricao) VALUES ({$id_usuario}, '{$descricao}');";
+        $sql = "INSERT INTO tb_log (id_usuario, descricao, ip) VALUES ({$id_usuario}, '{$descricao}', '{$ip}');";
 
         if (parent::create($sql)) {
             return "Log salvo com sucesso!";
