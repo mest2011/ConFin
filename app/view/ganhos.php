@@ -39,9 +39,9 @@
             </div>
         </section>
         <section class="container-transactions bg-gray d-flex flex-wrap">
-            <div class="col-md-1 col-sm-2"></div>
+            <div class="col-md-1 col-sm-2 mobile-off"></div>
 
-            <div class="col-md-11 col-sm-10 col-12 pl-4 p-sm-4">
+            <div class="col-md-11 col-sm-10 col-12 pl-4 p-sm-4" id="container-main">
                 <div class="side-modal p-5" id="side-modal"></div>
                 <div id="container-cards" class="col-12 d-block "></div>
             </div>
@@ -96,7 +96,7 @@
         const id_usuario = <?php echo $_SESSION['id_usuario']; ?>
 
         var zoomNaImagemAtivo = true;
-        
+
         //Requisições
         const loadCards = async (orderBy = false) => {
             var myHeaders = new Headers();
@@ -309,7 +309,7 @@
                             <select id="form-categoria" name="form-categoria" class="form-control col-sm-4" required>
                                 <option value="${categoria}" selected>${categoria}</option>
                             </select>
-                            <a type="button" data-toggle="modal" data-target="#ModalCadCategoria" class="pointer bg-green bg-darkgreen rounded-circle ml-2 my-auto p-1" style="line-height:1" onclick="listaCategoria(0);">✚</a>
+                            <a type="button" data-toggle="modal" data-target="#ModalCadCategoria" class="pointer bg-green bg-darkgreen rounded-circle ml-2 my-auto p-1  btn-add-transfer" style="line-height:1" onclick="listaCategoria(0);">✚</a>
                         </div>
                         <div class="d-flex my-4">
                             <p class="col-sm-4">Valor total:</p>
@@ -332,7 +332,7 @@
                         <div class="d-flex my-4">
                             <p class="col-sm-4">Anexar comprovante:</p>
                             <div class="p-0 col-sm-8">
-                                <label type="button" for="form-comprovante" class="pointer bg-green bg-darkgreen rounded-circle mt-1 mb-auto p-2" style="line-height:1">✚</label>
+                                <label type="button" for="form-comprovante" class="pointer bg-green bg-darkgreen rounded-circle mt-1 mb-auto p-2  btn-add-transfer" style="line-height:1">✚</label>
                                 <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
                                 <input type="file" class="form-control-file d-none" 
                                     onchange="

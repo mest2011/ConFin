@@ -4,13 +4,14 @@
 
 <title>Lista de carteiras</title>
 
+
 </head>
 
 <body class="d-flex flex-wrap" onload="loadCards()">
     <header class="col-md-1 col-sm-2">
         <?php include "imports/menu_lateral.php"; ?>
     </header>
-    <main class="col-md-11 col-sm-10 d-block">
+    <main class="col-md-11 col-sm-10 d-block body-quebrado">
         <section class="pl-2 pl-sm-0">
             <div class="d-block">
                 <div id="emojis" style="position: fixed; z-index: 1; bottom: 0; display:none"></div>

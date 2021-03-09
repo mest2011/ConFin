@@ -22,6 +22,13 @@ $obj_saldo =  new Saldo($_SESSION['id_usuario']);
 <script src="https://www.chartjs.org/dist/2.9.4/Chart.min.js"></script>
 <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
 
+<style>
+    @media only screen and (max-device-width: 768px) {
+        * {
+            box-sizing: inherit !important;
+        }
+    }
+</style>
 </head>
 
 <body class="row">

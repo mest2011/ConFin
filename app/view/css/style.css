@@ -155,14 +155,6 @@
   width: auto !important;
 }
 
-.mobile-off {
-  display: block !important;
-}
-
-.mobile-on {
-  display: none !important;
-}
-
 .min-vh-100 {
   min-height: 100vh !important;
 }

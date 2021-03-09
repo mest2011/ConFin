@@ -3,12 +3,10 @@
 <?php include "imports/head_parameters.php"; ?>
 
 
-<link rel="stylesheet" href="../view/css/table.css">
-
 <title>Lista de extratos do mês</title>
 </head>
 
-<body class="d-flex flex-wrap" onload="loadCards()">
+<body class="d-flex flex-wrap body-quebrado" onload="loadCards()">
     <header class="col-md-1 col-sm-2 col-12">
         <?php include "imports/menu_lateral.php"; ?>
     </header>
@@ -41,8 +39,8 @@
                 <div class="col-md-1 col-sm-2"></div>
 
                 <div class="col-md-11 col-sm-10 col-12 pl-4 p-sm-4">
-                    <div class="side-modal p-5" id="side-modal"></div>
-                    <div id="container-cards" class="col-12 d-block"></div>
+                    <div class="side-modal p-5 mobile-off" id="side-modal"></div>
+                    <div id="container-cards" class="col-12 d-block"  id="container-main"></div>
                 </div>
             </section>
         </section>

@@ -20,20 +20,20 @@ if (!$log->salvarLog($_SERVER["REQUEST_URI"])) {
     </button>
 
 </nav>
-<div class="collapse navbar-collapse d-md-block" id="navbarNav">
+<div class="collapse navbar-collapse d-md-block no-display" id="navbarNav">
     <div class="menu-lateral d-md-inline">
-        <div class="menu-expand-invert font-gray d-flex py-4 px-5">
+        <div class="menu-expand-invert font-gray d-flex py-4 px-5 mobile-off">
             <img class="menu-icon my-auto" src="./images/menu-gray.png" alt="https://www.freepik.com/">
         </div>
-        <div class="menu-expand">
-            <div class="d-flex py-4 px-5 selectable-none align-items-baseline">
+        <div class="menu-expand mobile-off">
+            <div class="d-flex py-4 px-5 selectable-none align-items-baseline mobile-off">
                 <h3 class="font-white">Cofrin</h3>
                 <img class="logo" src="./images/logo_porquinho.png" alt="Logo do porquinho">
             </div>
         </div>
 
-        <ul class="d-block">
-            <a class="font-gray d-flex py-4 px-5 menu-opcoes" href="../view/dashboard.php" title="Ir para dashboard">
+        <ul class="d-block mobile-margin-menu">
+            <a class="font-gray d-flex py-4 px-5 menu-opcoes mobile-off" href="../view/dashboard.php" title="Ir para dashboard">
                 <img class="menu-icon my-auto menu-expand-img" src="./images/home.png" alt="home">
                 <img class="menu-icon my-auto menu-expand-invert-img" src="./images/home-gray.png" alt="home">
                 <li class="menu-expand ml-3 mr-5 my-auto">Home</li>
