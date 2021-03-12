@@ -1,3 +1,10 @@
+<?php 
+include_once "./controller/log_controller.php";
+
+$log = new Log(0);
+
+$log->salvarLog('Cancelar e-mail');
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -19,10 +26,10 @@
         </div>
     </header>
     <main class="container px-3 py-5 mt-2">
-        <h3 class="">Não quer mais recebera nossos e-mails? 😭</h3>
-            <small class="d-block mb-3">Tudo bem, preencha o formulário abaixo e não recebera mais nossos e-mails de publicidade, promoções e atualizações! </small>
+        <h3 class="">Não quer mais receber nossos e-mails? 😭</h3>
+            <small class="d-block mb-3">Tudo bem, preencha o formulário abaixo para não receber mais nossos e-mails de publicidade, promoções e atualizações! </small>
         <form action="" onsubmit="event.preventDefault(); descadastraEmail();">
-            <label for="email" class="mt-2 font-weight-bold">Seu Email de cadastro:</label>
+            <label for="email" class="mt-2 font-weight-bold">Seu e-mail de cadastro:</label>
             <input class="form-control col col-12 col-md-6" type="email" name="email" id="email" placeholder="Jorge@mail.com" <?php if (isset($_GET['email'])) {
                                                                                                                                     echo "value=\"{$_GET['email']}\"";
                                                                                                                                 } ?> required>

@@ -29,6 +29,11 @@ if (isset($_POST['funcao'])) {
     try {
         //Read
         if ($_POST['funcao'] == 'listar') {
+            if (isset($_POST['dt_ini'], $_POST['dt_fim'])) {
+                print_r(json_encode($extratos->buscar($_POST['dt_ini'], $_POST['dt_fim'])));
+                exit();
+            }
+
             print_r(json_encode($extratos->buscar()));
             exit();
         }
