@@ -223,7 +223,7 @@
                         </div>
                         <div class="d-flex my-4">
                             <p class="col-sm-4">Descrição:</p>
-                            <textarea class="form-control col-sm-8" id="form-descricao" placeholder="Adicione mais detalhes sobre o gasto..." rows="4" maxlength="50" required>${descricao}</textarea>
+                            <textarea class="form-control col-sm-8" id="form-descricao" placeholder="Adicione mais detalhes sobre o gasto..." rows="4" maxlength="50">${descricao}</textarea>
                         </div>
                         
                         <div class="d-flex my-5 col-sm-12">

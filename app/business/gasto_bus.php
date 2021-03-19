@@ -5,7 +5,7 @@ include_once "../classes/Gasto.php";
 
 class GastoBus extends Crud
 {
-    
+
     static function salvarNovoGasto($id_usuario, $obj_gasto)
     {
         $obj_gasto->valor = str_replace('.', '', $obj_gasto->valor);
@@ -31,16 +31,16 @@ class GastoBus extends Crud
         //     self::atualizaSaldo(($obj_gasto->valor * $obj_gasto->qtd_recorrente), $obj_gasto->id_carteira);
 
         // } else {
-            $sql = "INSERT INTO tb_despesa (titulo, descricao, tipo, data_do_debito, valor, id_usuario, id_carteira, icone, comprovante)
+        $sql = "INSERT INTO tb_despesa (titulo, descricao, tipo, data_do_debito, valor, id_usuario, id_carteira, icone, comprovante)
                     VALUES ('{$obj_gasto->titulo}', '{$obj_gasto->descricao}', '{$obj_gasto->categoria}', '{$obj_gasto->data}', {$obj_gasto->valor}, $id_usuario, $obj_gasto->id_carteira, '&\#x{$obj_gasto->icone}', '{$obj_gasto->comprovante}');";
-            
-            self::atualizaSaldo(($obj_gasto->valor), $obj_gasto->id_carteira);
 
-            if(parent::create($sql)){
-                return "Gasto salvo com sucesso!";
-            }else {
-                return "Erro : Erro ao salvar o gasto!";
-            }
+        self::atualizaSaldo(($obj_gasto->valor), $obj_gasto->id_carteira);
+
+        if (parent::create($sql)) {
+            return "Gasto salvo com sucesso!";
+        } else {
+            return "Erro : Erro ao salvar o gasto!";
+        }
         //}
     }
 
@@ -52,7 +52,7 @@ class GastoBus extends Crud
         //Retira o valor antigo do usuario
         $valor_antigo = parent::read("SELECT valor FROM tb_despesa WHERE id_despesa = {$obj_gasto->id_despesa} limit 1;")[0]['valor'];
         self::atualizaSaldo(($valor_antigo / -1), $obj_gasto->id_carteira);
-        
+
 
         //Atualiza saldo com o valor novo da despesa
         self::atualizaSaldo(($obj_gasto->valor), $obj_gasto->id_carteira);
@@ -64,19 +64,18 @@ class GastoBus extends Crud
                  data_do_debito = '{$obj_gasto->data}',
                  valor = {$obj_gasto->valor}, 
                  icone = '&\#x{$obj_gasto->icone}' ";
-                if($obj_gasto->comprovante <> null){
-                    $sql .= ",
+        if ($obj_gasto->comprovante <> null) {
+            $sql .= ",
                     comprovante = '{$obj_gasto->comprovante}' ";
-                }
-                $sql .= "  
+        }
+        $sql .= "  
                  WHERE id_despesa = {$obj_gasto->id_despesa};";
 
-        if(parent::update($sql)){
+        if (parent::update($sql)) {
             return "Dados atualizados!";
-        }else {
+        } else {
             return "Erro : Erro ao atualizar o gasto!";
         }
-        
     }
 
     static function excluirGasto($id)
@@ -85,9 +84,9 @@ class GastoBus extends Crud
         $obj_carteira = parent::read("SELECT valor, id_carteira from tb_despesa where id_despesa = {$id} limit 1;")[0];
         self::atualizaSaldo(($obj_carteira['valor'] / -1), $obj_carteira['id_carteira']);
 
-        if(parent::delete($sql)){
+        if (parent::delete($sql)) {
             return "Gasto deletado!";
-        }else {
+        } else {
             return "Erro : Erro ao deletadar o gasto!";
         }
     }
@@ -96,7 +95,7 @@ class GastoBus extends Crud
     {
         $sql = "SELECT * FROM tb_despesa WHERE id_usuario = " . $id_usuario . "
         AND data_do_debito > '" . date('Y') . "-" . date('m') . "-" . date('d') . "' AND status = 1 order by data_do_debito asc;";
-        
+
         return parent::read($sql);
     }
 
@@ -104,22 +103,35 @@ class GastoBus extends Crud
     {
         $sql = "SELECT comprovante, id_despesa, titulo, id_carteira, tipo, descricao, format(valor,2,'de_DE') as valor, DATE_FORMAT(data_do_debito, '%d/%m/%Y') as as data_do_debito_ptbr, data_do_debito, (select nome_carteira from tb_carteira where id_carteira = tb_despesa.id_carteira limit 1) AS nome_carteira, icone FROM tb_despesa WHERE id_usuario = " . $id_usuario . "
         AND id_despesa = {$id} AND status = 1 LIMIT 1;";
-        
-        
+
+
         $result = parent::read($sql)[0];
 
-        
+
         $obj_gasto  =  self::converteGasto($result);
         return $obj_gasto;
     }
 
-    static function buscarListaGastosMes($id_usuario)
+    static function buscarListaGastosMes($id_usuario, $dt_ini = null, $dt_fim = null)
     {
-        $sql = "SELECT comprovante, id_despesa, id_carteira, titulo, tipo, descricao, format(valor,2,'de_DE') as valor, DATE_FORMAT(data_do_debito, '%d/%m/%Y') as data_do_debito_ptbr, data_do_debito, (select nome_carteira from tb_carteira where id_carteira = tb_despesa.id_carteira limit 1) AS nome_carteira, icone FROM tb_despesa WHERE id_usuario = {$id_usuario}
-        AND data_do_debito >= '" . date('Y') . "-" . date('m') . "-01'
-        AND data_do_debito <= '" . date('Y') . "-" . date('m') . "-31' AND status = 1 ORDER BY data_do_debito desc;";
         
-        return parent::read($sql);
+        $sql = "SELECT comprovante, id_despesa, id_carteira, titulo, tipo, descricao, format(valor,2,'de_DE') as valor, DATE_FORMAT(data_do_debito, '%d/%m/%Y') as data_do_debito_ptbr, data_do_debito, (select nome_carteira from tb_carteira where id_carteira = tb_despesa.id_carteira limit 1) AS nome_carteira, icone FROM tb_despesa WHERE id_usuario = {$id_usuario} ";
+
+        if ($dt_ini <> null and $dt_fim <> null) {
+            $sql .= " AND data_do_debito >= '{$dt_ini}' AND data_do_debito <= '{$dt_fim}' ";
+        } else {
+            $sql .= " AND data_do_debito >= '" . date('Y') . "-" . date('m') . "-01'
+            AND data_do_debito <= '" . date('Y') . "-" . date('m') . "-31'";
+        }
+
+        $sql .= " AND status = 1 ORDER BY data_do_debito desc;";
+
+        $result = parent::read($sql);
+        if ($result == "0 dados encontrados") {
+            return false;
+        } else {
+            return $result;
+        }
     }
 
     static function buscarTotalGastos($id_usuario)

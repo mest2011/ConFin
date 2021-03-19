@@ -26,11 +26,11 @@ if (isset($_POST['titulo'], $_POST['data'], $_POST['carteira'], $_POST['descrica
     }
 
     $ganho = new Ganhos($_SESSION['id_usuario']);
-    
+
 
     try {
         //Create and Update
-        if (isset($_POST['titulo'])){
+        if (isset($_POST['titulo'])) {
 
             $obj_ganho = new Ganho();
             $obj_ganho->titulo = $_POST['titulo'];
@@ -39,7 +39,7 @@ if (isset($_POST['titulo'], $_POST['data'], $_POST['carteira'], $_POST['descrica
             $obj_ganho->data_do_credito = $_POST['data'];
             $obj_ganho->valor = $_POST['valor'];
             $obj_ganho->id_carteira = $_POST['carteira'];
-            if(isset($_POST['icone'])){
+            if (isset($_POST['icone'])) {
                 $obj_ganho->icone = $_POST['icone'];
             }
             //Save image
@@ -59,8 +59,13 @@ if (isset($_POST['titulo'], $_POST['data'], $_POST['carteira'], $_POST['descrica
         if (isset($_POST['funcao'])) {
             //Read
             if ($_POST['funcao'] == 'listar') {
-                print_r(json_encode($ganho->buscarTodosGanhos()));
-                exit();
+                if (isset($_POST['dt_ini'], $_POST['dt_fim'])) {
+                    print_r(json_encode($ganho->buscarTodosGanhos($_POST['dt_ini'], $_POST['dt_fim'])));
+                    exit();
+                } else {
+                    print_r(json_encode($ganho->buscarTodosGanhos()));
+                    exit();
+                }
             }
             //Delete
             if ($_POST['funcao'] == 'excluir' and isset($_POST['id'])) {
@@ -72,39 +77,45 @@ if (isset($_POST['titulo'], $_POST['data'], $_POST['carteira'], $_POST['descrica
         print_r(json_encode("Erro : Erro no processamento da solicitação!"));
         exit();
     }
-
-    
 }
 
-class Ganhos{
+class Ganhos
+{
     private $total_ganhos;
     private $_id_usuario;
     public $lista_ganhos;
 
-    function __construct($id_usuario){
+    function __construct($id_usuario)
+    {
         $this->_id_usuario = $id_usuario;
     }
 
-    function salvarGanho($obj_ganho){
+    function salvarGanho($obj_ganho)
+    {
         return GanhoBus::createGanho($this->_id_usuario, $obj_ganho);
     }
 
-    function buscarTodosGanhos(){
-        return GanhoBus::readGanho($this->_id_usuario);
+    function buscarTodosGanhos($dt_ini = null, $dt_fim = null)
+    {
+        return GanhoBus::readGanho($this->_id_usuario, null, $dt_ini, $dt_fim);
     }
 
-    function buscarGanho($id_ganho){
+    function buscarGanho($id_ganho)
+    {
         return GanhoBus::readGanho($this->_id_usuario, $id_ganho);
     }
 
-    function atualizarGanho($obj_ganho){
+    function atualizarGanho($obj_ganho)
+    {
         return GanhoBus::updateGanho($obj_ganho);
     }
 
-    function deletarGanho($id_ganho){
+    function deletarGanho($id_ganho)
+    {
         return GanhoBus::deleteGanho($id_ganho);
     }
-    function listarCarteiras(){
+    function listarCarteiras()
+    {
         return CarteiraBus::carteiras($this->_id_usuario);
     }
 }

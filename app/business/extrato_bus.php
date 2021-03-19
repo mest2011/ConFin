@@ -5,14 +5,14 @@ include_once "../classes/Extrato.php";
 class ExtratoBus extends Crud
 {
 
-    public static function buscar($id_usuario, $dt_inicio = "0", $dt_fim = "0")
+    public static function buscar($id_usuario, $dt_inicio, $dt_fim)
     {
         try {
             if ($dt_inicio <> "0" and $dt_fim <> "0") {
                 $dataFilter = [
-                    0 => " and tt.data_criacao >= '$dt_inicio' and tt.data_criacao <= '$dt_fim' ",
-                    1 => " and data_do_credito >= '$dt_inicio' and data_do_credito <= '$dt_fim' ",
-                    2 => " and data_do_debito >= '$dt_inicio' and data_do_debito <= '$dt_fim' "
+                    0 => " and tt.data_criacao >= '{$dt_inicio}' and tt.data_criacao <= '{$dt_fim}' ",
+                    1 => " and data_do_credito >= '{$dt_inicio}' and data_do_credito <= '{$dt_fim}' ",
+                    2 => " and data_do_debito >= '{$dt_inicio}' and data_do_debito <= '{$dt_fim}' "
                 ];
             } else {
                 $dataFilter = [0 => "", 1 => "", 2 => ""];
@@ -60,7 +60,15 @@ class ExtratoBus extends Crud
             {$dataFilter[2]}
             ORDER BY data DESC;";
 
-            return parent::read($sql);
+            $result = parent::read($sql);
+
+            if ($result == "0 dados encontrados") {
+                return false;
+            } else {
+                return $result;
+            }
+            
+            return ;
         } catch (\Throwable $th) {
             return "Erro ao buscar dados, tente mais tarde por favor!";
         }

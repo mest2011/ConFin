@@ -21,13 +21,29 @@ class GanhoBus extends Crud
         }
     }
 
-    public static function readGanho($id_usuario, $id_ganho = null)
+    public static function readGanho($id_usuario, $id_ganho = null, $dt_ini = null, $dt_fim = null)
     {
+        
+
 
         if ($id_ganho === null) {
-            $sql = "SELECT comprovante, id_ganho, titulo, id_carteira, tipo, descricao, format(valor,2,'de_DE') as valor, DATE_FORMAT(data_do_credito, '%d/%m/%Y') as data_do_credito_ptbr, data_do_credito, icone, (select nome_carteira from tb_carteira where id_carteira = tb_ganho.id_carteira limit 1) AS nome_carteira FROM tb_ganho WHERE id_usuario = {$id_usuario} AND data_do_credito >= '" . date('Y') . "-" . date('m') . "-01'
-            AND data_do_credito <= '" . date('Y') . "-" . date('m') . "-31' and status = 1 order by data_do_credito DESC;";
-            return parent::read($sql);
+            $sql = "SELECT comprovante, id_ganho, titulo, id_carteira, tipo, descricao, format(valor,2,'de_DE') as valor, DATE_FORMAT(data_do_credito, '%d/%m/%Y') as data_do_credito_ptbr, data_do_credito, icone, (select nome_carteira from tb_carteira where id_carteira = tb_ganho.id_carteira limit 1) AS nome_carteira FROM tb_ganho WHERE id_usuario = {$id_usuario} ";
+            
+            if ($dt_ini <> null and $dt_fim <> null) {
+                $sql .= " AND data_do_credito >= '{$dt_ini}' AND data_do_credito <= '{$dt_fim}' ";
+            } else {
+                $sql .= " AND data_do_credito >= '" . date('Y') . "-" . date('m') . "-01'
+                    AND data_do_credito <= '" . date('Y') . "-" . date('m') . "-31'";
+            }            
+            
+            $sql .= " and status = 1 order by data_do_credito DESC;";
+            
+            $result = parent::read($sql);
+            if ($result == "0 dados encontrados") {
+                return false;
+            } else {
+                return $result;
+            }
         } else {
             $sql = "SELECT comprovante, id_ganho, titulo, id_carteira, tipo, descricao, format(valor,2,'de_DE') as valor, DATE_FORMAT(data_do_credito, '%d/%m/%Y') as data_do_credito_ptbr, data_do_credito, icone,(select nome_carteira from tb_carteira where id_carteira = tb_ganho.id_carteira limit 1) AS nome_carteira FROM tb_ganho WHERE id_usuario = {$id_usuario}  and status = 1 and id_ganho = {$id_ganho} LIMIT 1";
             $obj_ganho = self::converteGanho(parent::read($sql)[0]);

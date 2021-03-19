@@ -30,7 +30,7 @@ if (isset($_POST['titulo'], $_POST['data'], $_POST['carteira'], $_POST['descrica
 
     try {
         //Create and Update
-        if (isset($_POST['titulo'])){
+        if (isset($_POST['titulo'])) {
 
             $obj_gasto = new Gasto();
             $obj_gasto->titulo = $_POST['titulo'];
@@ -39,7 +39,7 @@ if (isset($_POST['titulo'], $_POST['data'], $_POST['carteira'], $_POST['descrica
             $obj_gasto->data = $_POST['data'];
             $obj_gasto->valor = $_POST['valor'];
             $obj_gasto->id_carteira = $_POST['carteira'];
-            if(isset($_POST['icone'])){
+            if (isset($_POST['icone'])) {
                 $obj_gasto->icone = $_POST['icone'];
             }
             //Save image
@@ -59,8 +59,13 @@ if (isset($_POST['titulo'], $_POST['data'], $_POST['carteira'], $_POST['descrica
         if (isset($_POST['funcao'])) {
             //Read
             if ($_POST['funcao'] == 'listar') {
-                print_r(json_encode($gasto->lista_gastos()));
-                exit();
+                if (isset($_POST['dt_ini'], $_POST['dt_fim'])) {
+                    print_r(json_encode($gasto->lista_gastos($_POST['dt_ini'], $_POST['dt_fim'])));
+                    exit();
+                } else {
+                    print_r(json_encode($gasto->lista_gastos()));
+                    exit();
+                }
             }
             //Delete
             if ($_POST['funcao'] == 'excluir' and isset($_POST['id'])) {
@@ -72,8 +77,6 @@ if (isset($_POST['titulo'], $_POST['data'], $_POST['carteira'], $_POST['descrica
         print_r(json_encode("Erro : Erro no processamento da solicitação!"));
         exit();
     }
-
-    
 }
 
 
@@ -95,11 +98,9 @@ class Gastos
         return $this->total_gastos;
     }
 
-    function lista_gastos()
+    function lista_gastos($dt_ini = null, $dt_fim = null)
     {
-        if (strlen($this->lista_gastos) == 0 || $this->lista_gastos == null || $this->lista_gastos == "") {
-            $this->lista_gastos = GastoBus::buscarListaGastosMes($this->_id_usuario);
-        }
+        $this->lista_gastos = GastoBus::buscarListaGastosMes($this->_id_usuario, $dt_ini, $dt_fim);
         return $this->lista_gastos;
     }
 

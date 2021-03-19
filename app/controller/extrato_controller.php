@@ -57,6 +57,6 @@ class Extratos
 
     function buscar($dt_inicio = "0", $dt_fim = "0")
     {
-        return ExtratoBus::buscar($this->_id_usuario, $dt_inicio = "0", $dt_fim = "0");
+        return ExtratoBus::buscar($this->_id_usuario, $dt_inicio, $dt_fim);
     }
 }

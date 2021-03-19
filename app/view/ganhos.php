@@ -23,13 +23,30 @@
                 <div class="d-flex justify-content-between mb-3">
                     <h5 class="font-green my-auto">Recebidos</h5>
                     <div class="font-purple d-flex pr-5 align-items-center mb-3">
-                        <!-- <small class="mx-2">Filtrar por:</small>
-                        <select class="container-transactions-select p-1" name="filtro" id="filter">
-                            <option value="" selected></option>
-                            <option value="Data">Data</option>
-                            <option value="Valor">Valor</option>
-                            <option value="Carteira">Carteira</option>
-                        </select> -->
+                    <div class="font-purple pr-5 align-items-center my-4">
+                        <div class="d-flex">
+                            <small class="mx-2">Filtrar por:</small>
+                            <select class="container-transactions-select p-1" name="filtro" id="filter" onchange="refreshDataFilter(this.value); showBtnRefresh();">
+                                <option value="" selected></option>
+                                <option value="Data">Data</option>
+                                <option value="Tipo" disabled>Valor</option>
+                                <option value="Carteira" disabled>Carteira</option>
+                            </select>
+                            <button class="btn btn-success d-none p-2 ml-2" id="btn-refresh" onclick="buscarDadosPorData()">
+                                <img src="../../dependencies/img/sync-alt-solid.svg" alt="Refresh" style="height: 1em;">
+                            </button>
+                        </div>
+                        <div id="form-dt" class="ml-auto mr-4 d-none">
+                            <div class="d-block mb-1">
+                                <small>Data de inicio</small>
+                                <input class="form-control form-control-sm" type="date" name="dt_ini" id="dt_ini" min="2020-01-01" onchange="showBtnRefresh()">
+                            </div>
+                            <div class="d-block mb-1">
+                                <small>Data de fim</small>
+                                <input class="form-control form-control-sm" type="date" name="dt_fim" id="dt_fim" min="2020-01-01" onchange="showBtnRefresh()">
+                            </div>
+                        </div>
+                    </div>
                         <a class="hover-alter ml-3" onclick="fechaSideModal(); setTimeout(()=>{loadSideModal()}, 500)">
                             <img class="container-transactions-add hover-off my-auto" src="./images/plus.png" alt="">
                             <img class="container-transactions-add my-auto hover-on" src="./images/plus-green.png" alt="">
@@ -98,12 +115,58 @@
         var zoomNaImagemAtivo = true;
 
         //Requisições
-        const loadCards = async (orderBy = false) => {
+
+        const refreshDataFilter = (data) => {
+            var form_data = document.getElementById('form-dt');
+            if (data == "Data") {
+                form_data.classList.remove('d-none')
+                form_data.classList.add('d-block')
+            } else {
+                form_data.classList.remove('d-block')
+                form_data.classList.add('d-none')
+            }
+        }
+
+        const buscarDadosPorData = () => {
+            filter = {
+                'dt_ini': document.getElementById('dt_ini').value,
+                'dt_fim': document.getElementById('dt_fim').value,
+            }
+            loadCards(filter);
+        }
+
+        const showBtnRefresh = () => {
+            let btnRefresh = document.getElementById('btn-refresh')
+            let filtro = document.getElementById('filter').value
+
+            if (filtro == 'Data') {
+                let dt_ini = document.getElementById('dt_ini').value
+                let dt_fim = document.getElementById('dt_fim').value
+                if (dt_ini && dt_fim) {
+                    btnRefresh.classList.remove('d-none')
+                    btnRefresh.classList.add('d-block')
+                } else {
+                    btnRefresh.classList.remove('d-block')
+                    btnRefresh.classList.add('d-none')
+                }
+                return;
+            }
+
+            btnRefresh.classList.remove('d-block')
+            btnRefresh.classList.add('d-none');
+
+        }
+
+        const loadCards = async (filter = false) => {
             var myHeaders = new Headers();
             myHeaders.append("post", `funcao=listar`);
 
             var formdata = new FormData();
             formdata.append("funcao", "listar");
+            if (filter != false) {
+                formdata.append("dt_ini", filter['dt_ini']);
+                formdata.append("dt_fim", filter['dt_fim']);
+            }
 
             var requestOptions = {
                 method: 'POST',
