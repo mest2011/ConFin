@@ -20,13 +20,50 @@ $log->salvarLog('Cancelar e-mail');
 </head>
 
 <body>
-    <header class="container py-5">
-        <div class="align-items-center text-center">
-            <h2>Cofrin sua plataforma de controle financeiro</h2>
-        </div>
+<header class="">
+        <section class="container container-fluid">
+            <div class="mb-4">
+
+                <nav class="navbar navbar-expand-md navbar-dark">
+                    <a href="/" class="navbar-brand my-auto">
+                        <div class="div-logo my-auto">
+                            <h3 class="hover-green my-auto">Cofrin</h3><img class="my-auto" src="../dependencies/img/logo_porquinho.png"
+                                alt="logo_porquinho">
+                        </div>
+                    </a>
+
+                    <button class="navbar-toggler my-auto " type="button" data-toggle="collapse"
+                        data-target="#navbarText" aria-controls="navbarText"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse my-auto" id="navbarText">
+                        <ul class="navbar-nav mr-auto"></ul>
+                        <ul class="navbar-nav  my-2 my-lg-0">
+                            <li class="nav-item ml-4 my-md-auto my-1 m-m-2">
+                                <a href="/cofrin/view/index.html?target=sobre">Sobre</a>
+                            </li>
+                            <li class="nav-item ml-4 my-md-auto my-1 m-m-2">
+                                <a href="/cofrin/view/contato.html">Contato</a>
+                            </li>
+                            <a href="/cofrin/view/cadastro.html" class="ml-4 my-2 m-m-2">
+                                <li class="nav-item btn green-bgcolor">Cadastre-se</li>
+                            </a>
+                            <a href="/cofrin/view/login.html" class="nav-item ml-4 my-2 m-m-2">
+                                <li class="btn btn-green mr-auto">Entrar</li>
+                            </a>
+
+                        </ul>
+                        
+                    </div>
+                </nav>
+            </div>
+            <hr>
+        </section>
     </header>
     <main class="container px-3 py-5 mt-2">
-        <h3 class="">Não quer mais receber nossos e-mails? 😭</h3>
+        <h2 class="">Não quer mais receber <span class="green-color">nossos e-mails?</span> 😭</h2>
             <small class="d-block mb-3">Tudo bem, preencha o formulário abaixo para não receber mais nossos e-mails de publicidade, promoções e atualizações! </small>
         <form action="" onsubmit="event.preventDefault(); descadastraEmail();">
             <label for="email" class="mt-2 font-weight-bold">Seu e-mail de cadastro:</label>
@@ -34,12 +71,13 @@ $log->salvarLog('Cancelar e-mail');
                                                                                                                                     echo "value=\"{$_GET['email']}\"";
                                                                                                                                 } ?> required>
             <label for="motivo" class="mt-2 font-weight-bold">Por qual motivo:</label>
-            <textarea class="form-control col col-12 col-md-6" name="motivo" id="motivo" cols="30" rows="5" limit="400" placeholder="Eu prefiro..."></textarea>
+            <textarea class="form-control col col-12 col-md-6" name="motivo" id="motivo" cols="30" rows="5" limit="400" placeholder="Não gosto de..."></textarea>
             <small class="d-block">Campo não obrigatório!</small>
-                                                                                                                        <button class="mt-5 btn btn-info btn-sm">Deixar de receber e-mail's</button>
+                                                                                                                        <button class="mt-5 btn  green-bgcolor">Deixar de receber e-mail's</button>
         </form>
     </main>
     <script src="../dependencies/js/jquery-3.5.1.min.js"></script>
+    <script src="../dependencies/js/bootstrap.min.js"></script>
     <script src="../dependencies/js/toastr.js"></script>
     <script>
         
