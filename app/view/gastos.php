@@ -23,30 +23,63 @@
                 <div class="d-flex justify-content-between mb-3">
                     <h5 class="font-red my-auto">Saídas</h5>
                     <div class="font-purple d-flex pr-5 align-items-center mb-3">
-                    <div class="font-purple pr-5 align-items-center my-4">
-                        <div class="d-flex">
-                            <small class="mx-2">Filtrar por:</small>
-                            <select class="container-transactions-select p-1" name="filtro" id="filter" onchange="refreshDataFilter(this.value); showBtnRefresh();">
-                                <option value="" selected></option>
-                                <option value="Data">Data</option>
-                                <option value="Tipo" disabled>Valor</option>
-                                <option value="Carteira" disabled>Carteira</option>
-                            </select>
-                            <button class="btn btn-success d-none p-2 ml-2" id="btn-refresh" onclick="buscarDadosPorData()">
+                        <div class="font-purple d-flex align-items-center my-4 mr-3">
+                            <div class="d-flex">
+                                <div class="mr-1 mt-1">
+                                    <small class="d-block">Filtrar por:</small>
+                                    <select class="container-transactions-select form-control form-control-sm" name="filtro" id="filter" onchange="refreshDataFilter(this.value); showBtnRefresh();">
+                                        <option value="" selected></option>
+                                        <option value="Data">Data</option>
+                                        <option value="Categoria">Categoria</option>
+                                        <option value="Carteira">Carteira</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div id="form-dt" class="ml-auto d-none">
+                                <div class="d-block mt-1 mr-1">
+                                    <small>Data de inicio:</small>
+                                    <input class="container-transactions-select form-control form-control-sm" type="date" name="dt_ini" id="dt_ini" min="2020-01-01" onchange="showBtnRefresh()">
+                                </div>
+                                <div class="d-block mt-1 mr-1">
+                                    <small>Data de fim:</small>
+                                    <input class="container-transactions-select form-control form-control-sm" type="date" name="dt_fim" id="dt_fim" min="2020-01-01" onchange="showBtnRefresh()">
+                                </div>
+                            </div>
+                            <div id="form-cat" class="ml-auto d-none">
+                                <div class="d-block mt-1 mr-1">
+                                    <small>Categoria:</small>
+                                    <select class="container-transactions-select form-control form-control-sm" name="filtro-categoria" id="filter-categoria" onchange="buscarDadosPorCategoria()">
+                                        <option value="" selected></option>
+                                        <?php
+                                        include_once "../controller/categoria_controller.php";
+                                        $categorias = new Categorias($_SESSION['id_usuario']);
+                                        foreach ($categorias->listaCategoria(1) as $key => $value) {
+                                            echo "<option value='{$value['nome_categoria']}'>{$value['nome_categoria']}</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="form-cart" class="ml-auto d-none">
+                                <div class="d-block mt-1 mr-1">
+                                    <small>Carteira:</small>
+                                    <select class="container-transactions-select form-control form-control-sm" name="filtro-carteira" id="filter-carteira" onchange="buscarDadosPorCarteira()">
+                                        <option value="" selected></option>
+                                        <?php
+                                        include_once "../controller/carteira_controller.php";
+                                        $carteiras = new Carteiras($_SESSION['id_usuario']);
+                                        foreach ($carteiras->listarCarteiras() as $key => $value) {
+                                            echo "<option value='{$value['id_carteira']}'>{$value['nome_carteira']}</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn p-2 mt-auto d-none" id="btn-refresh" onclick="buscarDadosPorData()">
                                 <img src="../../dependencies/img/sync-alt-solid.svg" alt="Refresh" style="height: 1em;">
                             </button>
                         </div>
-                        <div id="form-dt" class="ml-auto mr-4 d-none">
-                            <div class="d-block mb-1">
-                                <small>Data de inicio</small>
-                                <input class="form-control form-control-sm" type="date" name="dt_ini" id="dt_ini" min="2020-01-01" onchange="showBtnRefresh()">
-                            </div>
-                            <div class="d-block mb-1">
-                                <small>Data de fim</small>
-                                <input class="form-control form-control-sm" type="date" name="dt_fim" id="dt_fim" min="2020-01-01" onchange="showBtnRefresh()">
-                            </div>
-                        </div>
-                    </div>
                         <a class="hover-alter ml-3" onclick="fechaSideModal(); setTimeout(()=>{loadSideModal()}, 500)">
                             <img class="container-transactions-add hover-off my-auto" src="./images/plus.png" alt="">
                             <img class="container-transactions-add my-auto hover-on" src="./images/plus-red.png" alt="">
@@ -118,13 +151,32 @@
 
         //Requisições
         const refreshDataFilter = (data) => {
-            var form_data = document.getElementById('form-dt');
-            if (data == "Data") {
-                form_data.classList.remove('d-none')
-                form_data.classList.add('d-block')
-            } else {
-                form_data.classList.remove('d-block')
-                form_data.classList.add('d-none')
+
+            document.getElementById('form-dt').classList.remove('d-flex')
+            document.getElementById('form-dt').classList.add('d-none')
+            document.getElementById('form-cat').classList.remove('d-flex')
+            document.getElementById('form-cat').classList.add('d-none')
+            document.getElementById('form-cart').classList.remove('d-flex')
+            document.getElementById('form-cart').classList.add('d-none')
+
+            switch (data) {
+                case "Data":
+                    document.getElementById('form-dt').classList.remove('d-none')
+                    document.getElementById('form-dt').classList.add('d-flex')
+                    break;
+
+                case "Categoria":
+                    document.getElementById('form-cat').classList.remove('d-none')
+                    document.getElementById('form-cat').classList.add('d-flex')
+                    break;
+
+                case "Carteira":
+                    document.getElementById('form-cart').classList.remove('d-none')
+                    document.getElementById('form-cart').classList.add('d-flex')
+                    break;
+
+                default:
+                    break;
             }
         }
 
@@ -132,6 +184,20 @@
             filter = {
                 'dt_ini': document.getElementById('dt_ini').value,
                 'dt_fim': document.getElementById('dt_fim').value,
+            }
+            loadCards(filter);
+        }
+
+        const buscarDadosPorCategoria = () => {
+            filter = {
+                'categoria': document.getElementById('filter-categoria').value,
+            }
+            loadCards(filter);
+        }
+
+        const buscarDadosPorCarteira = () => {
+            filter = {
+                'carteira': document.getElementById('filter-carteira').value,
             }
             loadCards(filter);
         }
@@ -165,8 +231,9 @@
             var formdata = new FormData();
             formdata.append("funcao", "listar");
             if (filter != false) {
-                formdata.append("dt_ini", filter['dt_ini']);
-                formdata.append("dt_fim", filter['dt_fim']);
+                for (item in filter) {
+                    formdata.append(item, filter[item]);
+                }
             }
 
             var requestOptions = {

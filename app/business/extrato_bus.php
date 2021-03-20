@@ -5,18 +5,53 @@ include_once "../classes/Extrato.php";
 class ExtratoBus extends Crud
 {
 
-    public static function buscar($id_usuario, $dt_inicio, $dt_fim)
+    public static function buscar($id_usuario, $parametros = [])
     {
         try {
-            if ($dt_inicio <> "0" and $dt_fim <> "0") {
-                $dataFilter = [
-                    0 => " and tt.data_criacao >= '{$dt_inicio}' and tt.data_criacao <= '{$dt_fim}' ",
-                    1 => " and data_do_credito >= '{$dt_inicio}' and data_do_credito <= '{$dt_fim}' ",
-                    2 => " and data_do_debito >= '{$dt_inicio}' and data_do_debito <= '{$dt_fim}' "
-                ];
-            } else {
-                $dataFilter = [0 => "", 1 => "", 2 => ""];
+            $filter = [ 0 => "", 1 => "", 2 => ""];
+
+            if ($parametros['categoria']) {
+                if ($parametros['categoria'] == "Entre carteiras") {
+                    $filter = [
+                        0 => "",
+                        1 => " AND 1=0",
+                        2 => " AND 1=0"
+                    ];
+                }else{
+                    $filter = [
+                        0 => " AND 1=0",
+                        1 => " AND tipo='{$parametros['categoria']}'",
+                        2 => " AND tipo='{$parametros['categoria']}'"
+                    ];
+                }
             }
+
+            if ($parametros['carteira']) {
+                if ($parametros['carteira'] == "Entre carteiras") {
+                    $filter = [
+                        0 => "",
+                        1 => " AND 1=0",
+                        2 => " AND 1=0"
+                    ];
+                }else{
+                    $filter = [
+                        0 => " AND 1=0",
+                        1 => " AND id_carteira={$parametros['carteira']}",
+                        2 => " AND id_carteira={$parametros['carteira']}"
+                    ];
+                }
+            }
+
+            if ($parametros['dt_ini'] == null and $parametros['dt_fim'] == null) {
+                $parametros['dt_ini'] = "" . date('Y') . "-" . date('m') . "-01";
+                $parametros['dt_fim'] = "" . date('Y') . "-" . date('m') . "-31";
+            }
+            $dateFilter = [
+                0 => " and tt.data_criacao >= '{$parametros['dt_ini']}' and tt.data_criacao <= '{$parametros['dt_fim']}' ",
+                1 => " and data_do_credito >= '{$parametros['dt_ini']}' and data_do_credito <= '{$parametros['dt_fim']}' ",
+                2 => " and data_do_debito >= '{$parametros['dt_ini']}' and data_do_debito <= '{$parametros['dt_fim']}' "
+            ];
+
             $sql = "SELECT 
             'Tranferência' as titulo, 
             'Entre carteiras' as tipo, 
@@ -30,7 +65,7 @@ class ExtratoBus extends Crud
             JOIN tb_carteira c ON c.id_carteira = tt.id_carteira_origem
             JOIN tb_carteira d ON d.id_carteira = tt.id_carteira_destino
             WHERE tt.id_usuario = {$id_usuario}
-            {$dataFilter[0]}
+            {$dateFilter[0]} {$filter[0]}
             UNION
             
             SELECT 
@@ -44,7 +79,7 @@ class ExtratoBus extends Crud
                 icone 
             FROM tb_ganho 
             WHERE id_usuario = {$id_usuario} AND status = 1
-            {$dataFilter[1]}
+            {$dateFilter[1]} {$filter[1]}
             UNION
             
             SELECT 
@@ -57,7 +92,7 @@ class ExtratoBus extends Crud
                 (select nome_carteira from tb_carteira where id_carteira = tb_despesa.id_carteira limit 1) AS   nome_carteira, icone 
             FROM tb_despesa 
             WHERE id_usuario = {$id_usuario} AND status = 1 
-            {$dataFilter[2]}
+            {$dateFilter[2]} {$filter[2]}
             ORDER BY data DESC;";
 
             $result = parent::read($sql);
@@ -67,8 +102,8 @@ class ExtratoBus extends Crud
             } else {
                 return $result;
             }
-            
-            return ;
+
+            return;
         } catch (\Throwable $th) {
             return "Erro ao buscar dados, tente mais tarde por favor!";
         }
