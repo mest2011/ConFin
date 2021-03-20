@@ -29,12 +29,14 @@ if (isset($_POST['funcao'])) {
     try {
         //Read
         if ($_POST['funcao'] == 'listar') {
-            if (isset($_POST['dt_ini'], $_POST['dt_fim'])) {
-                print_r(json_encode($extratos->buscar($_POST['dt_ini'], $_POST['dt_fim'])));
-                exit();
-            }
+            $parametros = ([ 
+                    'dt_ini' => (isset($_POST['dt_ini'])?$_POST['dt_ini']:null),
+                    'dt_fim' => (isset($_POST['dt_fim'])?$_POST['dt_fim']:null),
+                    'categoria' => (isset($_POST['categoria'])?$_POST['categoria']:null),
+                    'carteira' => (isset($_POST['carteira'])?$_POST['carteira']:null),
+            ]);
 
-            print_r(json_encode($extratos->buscar()));
+            print_r(json_encode($extratos->buscar($parametros)));
             exit();
         }
     } catch (\Throwable $th) {
@@ -55,8 +57,8 @@ class Extratos
         $this->_id_usuario = $id_usuario;
     }
 
-    function buscar($dt_inicio = "0", $dt_fim = "0")
+    function buscar($parametros = [])
     {
-        return ExtratoBus::buscar($this->_id_usuario, $dt_inicio, $dt_fim);
+        return ExtratoBus::buscar($this->_id_usuario, $parametros);
     }
 }

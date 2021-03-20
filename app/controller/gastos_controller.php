@@ -59,13 +59,14 @@ if (isset($_POST['titulo'], $_POST['data'], $_POST['carteira'], $_POST['descrica
         if (isset($_POST['funcao'])) {
             //Read
             if ($_POST['funcao'] == 'listar') {
-                if (isset($_POST['dt_ini'], $_POST['dt_fim'])) {
-                    print_r(json_encode($gasto->lista_gastos($_POST['dt_ini'], $_POST['dt_fim'])));
-                    exit();
-                } else {
-                    print_r(json_encode($gasto->lista_gastos()));
-                    exit();
-                }
+                $parametros = ([
+                    'dt_ini' => (isset($_POST['dt_ini']) ? $_POST['dt_ini'] : null),
+                    'dt_fim' => (isset($_POST['dt_fim']) ? $_POST['dt_fim'] : null),
+                    'categoria' => (isset($_POST['categoria']) ? $_POST['categoria'] : null),
+                    'carteira' => (isset($_POST['carteira']) ? $_POST['carteira'] : null),
+                ]);
+                print_r(json_encode($gasto->lista_gastos($parametros)));
+                exit();
             }
             //Delete
             if ($_POST['funcao'] == 'excluir' and isset($_POST['id'])) {
@@ -98,9 +99,9 @@ class Gastos
         return $this->total_gastos;
     }
 
-    function lista_gastos($dt_ini = null, $dt_fim = null)
+    function lista_gastos($parametros = [])
     {
-        $this->lista_gastos = GastoBus::buscarListaGastosMes($this->_id_usuario, $dt_ini, $dt_fim);
+        $this->lista_gastos = GastoBus::buscarListaGastosMes($this->_id_usuario, $parametros);
         return $this->lista_gastos;
     }
 
