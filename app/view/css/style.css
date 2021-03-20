@@ -1,0 +1,182 @@
+.container-transactions {
+  box-shadow: inset 8px 1px 6px black;
+  min-height: 100%;
+  width: 100vw;
+  position: absolute;
+  right: 0;
+  z-index: 0;
+}
+
+.container-transactions-select {
+  border-radius: 0.8vw;
+  font-size: 0.8em;
+  font-weight: bold;
+  border: solid 1px gray;
+}
+
+.container-transactions-add {
+  height: 25px;
+}
+
+.container-transactions-add2 {
+  height: 50px;
+}
+
+.card-wallet {
+  min-width: 300px !important;
+}
+
+.hover-on {
+  display: none;
+}
+
+.hover-off {
+  display: block;
+}
+
+.hover-alter:hover .hover-on {
+  display: block;
+}
+
+.hover-alter:hover .hover-off {
+  display: none;
+}
+
+.foto-perfil {
+  height: 120px;
+  width: auto;
+}
+
+.div-view-img {
+  position: fixed;
+  top: 0;
+  right: 0px;
+  left: 0;
+  height: 1006px;
+  width: 100%;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #000000af;
+  z-index: 3;
+  transition-duration: 1s;
+}
+
+.img-fullscreen {
+  height: 80%;
+  margin: auto;
+}
+
+.side-modal {
+  width: 50vw;
+  min-height: 100%;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: -55%;
+  display: none;
+  box-shadow: 0px 7px 6px black;
+  transition-duration: 0.5s;
+}
+
+.side-modal-hidden {
+  margin-right: -55%;
+}
+
+#lista .emoji {
+  height: 3vw !important;
+  padding: 4px !important;
+}
+
+.btn-white {
+  background-color: #fff !important;
+  border: #fff;
+}
+
+.btn-white:hover {
+  background-color: #ededed !important;
+  border: #a0a1a6;
+}
+
+.btn-p-fixed-bottom-right {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+}
+
+.btn-p-fixed-bottom-right-2 {
+  position: fixed;
+  bottom: 10%;
+  right: 5%;
+}
+
+.input-color {
+  width: 2em;
+  height: 2em;
+  padding: 0;
+  background: #fff;
+  border: 0;
+}
+
+.text-shadow {
+  text-shadow: 0 0 2px black;
+}
+
+.btn-success {
+  background-color: #19d0a0;
+  border: #24e6b3;
+}
+
+.btn-success:hover {
+  background-color: #1ab88f;
+  border: #189272;
+}
+
+.btn-danger {
+  background-color: #d01962;
+  border: #ea337c;
+}
+
+.btn-danger:hover {
+  background-color: #b41252;
+  border: #8e0d40;
+}
+
+.hover-color-darkgreen:hover {
+  color: #1ab88f;
+}
+
+.hover-color-darkred:hover {
+  color: #b41252;
+}
+
+.w-sm-auto {
+  width: auto !important;
+}
+
+.min-vh-100 {
+  min-height: 100vh !important;
+}
+
+@media (max-width: 768px) {
+  .side-modal {
+    width: 100vw;
+  }
+
+  .mt--23em {
+    margin-top: -43vh;
+  }
+
+  .w-sm-auto {
+    width: 100% !important;
+  }
+
+  .mobile-off {
+    display: none !important;
+  }
+
+  .mobile-on {
+    display: block !important;
+  }
+}

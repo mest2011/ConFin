@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/toastr.css">
+    <link rel="icon" type="imagem/png" href="imagens/logo_porquinho.png" />
+    <script type="text/javascript" src="../../confin/view/js/cadastro_ajax.js"></script>
+    <title>Cofrin - Cadastro</title>
+</head>
+
+<body>
+    
+    <main class="row">
+        
+        <div id="bg-cadastro" class="col-md-4 fixed fadeImg">
+            <a href="./index.html" class="mobile-off ">
+                <div class="div-logo div-logo-preta">
+                    <h3 class="hover-green">Cofrin</h3>
+                    <img src="./imagens/logo_porquinho.png" alt="logo_porquinho">
+                </div>
+            </a>
+            <hr>
+        </div>
+        <div class="col-lg-4 col-md-3 col-sm-12 zindex-mobile-menu">
+            <header class="mobile-on">
+                <section class="container container-fluid">
+                    <div class="mb-4">
+        
+                        <nav class="navbar navbar-expand-md navbar-dark">
+                            <a href="./index.html" class="navbar-brand my-auto">
+                                <div class="div-logo my-auto">
+                                    <h3 class="hover-green my-auto">Cofrin</h3><img class="my-auto" src="./imagens/logo_porquinho.png"
+                                        alt="logo_porquinho">
+                                </div>
+                            </a>
+        
+                            <button class="navbar-toggler my-auto " type="button" data-toggle="collapse"
+                                data-target="#navbarText" aria-controls="navbarText"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+        
+                            <div class="collapse navbar-collapse my-auto" id="navbarText">
+                                <ul class="navbar-nav mr-auto"></ul>
+                                <ul class="navbar-nav  my-2 my-lg-0">
+                                    <li class="nav-item ml-4 my-md-auto my-1">
+                                        <a href="./index.html?target=sobre">Sobre</a>
+                                    </li>
+                                    <li class="nav-item ml-4 my-md-auto my-1">
+                                        <a href="./contato.html">Contato</a>
+                                    </li>
+                                    <a href="./cadastro.html" class="ml-4 my-2">
+                                        <li class="nav-item btn green-bgcolor">Cadastre-se</li>
+                                    </a>
+                                    <a href="./login.html" class="nav-item ml-4 my-2">
+                                        <li class="btn btn-green mr-auto">Entrar</li>
+                                    </a>
+        
+                                </ul>
+                                
+                            </div>
+                        </nav>
+                    </div>
+                    <hr>
+                </section>
+            </header>
+        </div>
+        <div class="col-lg-6 col-md-9 col-sm-12 fadeIn">
+            <div id="container-cadastro">
+                <div class="">
+                    <h1>Crie sua conta <span class="green-color">no Cofrin</span></h1>
+                    <p>Cadastre-se com:</p>
+                    <div class="d-md-flex">
+                        <a href="#" onclick="funcaoIndisponivel();" class="btn btn-login-google"><img
+                                src="./imagens/logo_google.png" alt="logo facebook"><p>Google</p></a>
+                        <a href="#" onclick="funcaoIndisponivel();" class="btn btn-login-facebook"><img
+                                src="./imagens/logo_facebook.png" alt="logo facebook"><p>Facebook</p></a>
+                    </div>
+                    <div class="separator">ou</div>
+                    <form id="form" method="POST" class="row fadeImg" onsubmit="event.preventDefault(); saveUser();">
+                        <div class="col-md-6 col-sm-12">
+                            <label for="name">Nome</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Jorge"
+                                maxlength="20" required>
+                        </div>
+                        <div class="col-md-6  col-sm-12">
+                            <label for="lastName">Sobrenome</label>
+                            <input type="text" class="form-control" name="lastName" id="lastName"
+                                placeholder="Lima de Oliveira" maxlength="30" required>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="email">E-mail</label>
+                            <input type="email" class="form-control" name="email" onkeyup="findEquals('email')"
+                                id="email" placeholder="Jorge@mail.com.br" minlength="4" maxlength="50" required>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="password">Senha</label>
+                            <input type="password" class="form-control" name="password" id="password"
+                                placeholder="*********" minlength="4" maxlength="20" required>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="date_of_birth">Data de nascimento</label>
+                            <input type="date" class="form-control" name="date_of_birth" id="date_of_birth"
+                                placeholder="dd/mm/aaaa" min="1900-01-01" max="2021-01-01" required>
+                        </div>
+                        <div class="col-md-12 confirm">
+
+                            <input type="checkbox" onmouseover="this.style.cursor ='pointer'" required>
+                            <small>Ao se cadastrar na plataforma você esta de acordo com os <a
+                                    onmouseover="this.style.cursor ='pointer'" onclick="funcaoIndisponivel();"><span
+                                        class="green-color">termos de privacidade</span></a> e <a
+                                    onmouseover="this.style.cursor ='pointer'" onclick="funcaoIndisponivel();"><span
+                                        class="green-color">licenças de uso</span></a></small>
+                        </div>
+                        <div class="col-md-12">
+                            <button id="form_salvar" class="button green-bgcolor">Criar conta</button>
+                        </div>
+
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-12 col-sm-12 p-4 my-sm-5 fadeIn">
+            <h4>Já tem cadastro? <a href="./login.html"><span class="green-color">Entrar</span></a></h4>
+        </div>
+    </main>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/toastr.js"></script>
+    <script src="./js/jquery-3.2.1.slim.min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const error = urlParams.get('erro');
+
+        //Toastr
+        toastr.options.closeButton = true;
+        toastr.options.closeMethod = 'fadeOut';
+        toastr.options.closeDuration = 300;
+        toastr.options.closeEasing = 'swing';
+        toastr.options.preventDuplicates = true;
+
+        $(document).ready(function () {
+            if (error == "userorpasswordinvalide") {
+                toastr.error('Usuário ou senha incorretos!', 'Erro:')
+            } else if (error != null) {
+                toastr.warning(error, 'Atenção:')
+            }
+        });
+
+        function funcaoIndisponivel() {
+            toastr.warning('Função indisponivel! Estamos trabalhando para disponibiliza-la o quanto antes!', 'Atenção:', {
+                timeOut: 5000
+            });
+        }
+
+        const findEquals = async (campo) => {
+            const idcampo = document.getElementById(campo);
+            const valor = document.getElementById(campo).value;
+            const btnSalvar = document.getElementById("form_salvar");
+            try {
+
+                const response = await fetch(`../controller/cadastro_controller.php?checkExist=${valor}&campo=${campo}`);
+                const resultJson = await response.json();
+                if (resultJson.length > 0) {
+                    toastr.warning(resultJson, 'Atenção:', {
+                        timeOut: 0,
+                        extendedTimeOut: 0,
+                        closeButton: false
+                    });
+                    console.log(resultJson);
+                    btnSalvar.disabled = true;
+                    btnSalvar.style.filter = "grayscale(100)";
+                    btnSalvar.style.cursor = "default";
+                }
+            } catch (error) {
+                toastr.clear();
+                btnSalvar.disabled = false;
+                btnSalvar.style.filter = "grayscale(0)";
+                btnSalvar.style.cursor = "pointer";
+            }
+        }
+
+        const saveUser = async () => {
+            const name = document.getElementById('name').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const date_of_birth = document.getElementById('date_of_birth').value;
+            const password = document.getElementById('password').value;
+
+            try {
+
+                var myHeaders = new Headers();
+                myHeaders.append("post", `name=${name}&lastName=${lastName}&email=${email}&date_of_birth=${date_of_birth}&password=${password}`);
+
+                var formdata = new FormData();
+                formdata.append("name", name);
+                formdata.append("lastName", lastName);
+                formdata.append("email", email);
+                formdata.append("date_of_birth", date_of_birth);
+                formdata.append("password", password);
+
+                console.log(formdata)
+                const response = await fetch(`../controller/cadastro_controller.php`, {
+                    method: "POST",
+                    body: formdata,
+                    headers: myHeaders,
+                });
+
+                const resultJson = await response.json();
+                if (resultJson.search("Erro") > -1 && response.status == 200) {
+                    toastr.error(resultJson, 'Atenção:', {
+                        timeOut: 0,
+                        extendedTimeOut: 0
+                    });
+                } else {
+                    toastr.success(resultJson, 'Parabéns:', {
+                        timeOut: 0,
+                        extendedTimeOut: 0
+                    });
+                    setTimeout(() => { window.location.href = "./login.html" }, 3000);
+                }
+            } catch (error) {
+                console.log(error)
+                toastr.clear();
+                toastr.error("Erro ao cadastrar.<br/>Problema ao comunicar-se com o sistema!<br/>Tente mais tarde!", 'Erro:', {
+                    timeOut: 0,
+                    extendedTimeOut: 0
+                });
+            }
+
+
+        }
+
+
+    </script>
+</body>
+
+</html>

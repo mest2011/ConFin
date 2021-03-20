@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/toastr.css">
+    <link rel="icon" type="imagem/png" href="imagens/logo_porquinho.png" />
+    <title>Cofrin - Login</title>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+
+<body>
+    <header class="">
+        <section class="container container-fluid">
+            <div class="mb-4">
+
+                <nav class="navbar navbar-expand-md navbar-dark">
+                    <a href="./index.html" class="navbar-brand my-auto">
+                        <div class="div-logo my-auto">
+                            <h3 class="hover-green my-auto">Cofrin</h3><img class="my-auto" src="./imagens/logo_porquinho.png"
+                                alt="logo_porquinho">
+                        </div>
+                    </a>
+
+                    <button class="navbar-toggler my-auto " type="button" data-toggle="collapse"
+                        data-target="#navbarText" aria-controls="navbarText"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse my-auto" id="navbarText">
+                        <ul class="navbar-nav mr-auto"></ul>
+                        <ul class="navbar-nav  my-2 my-lg-0">
+                            <li class="nav-item ml-4 my-md-auto my-1">
+                                <a href="./index.html?target=sobre">Sobre</a>
+                            </li>
+                            <li class="nav-item ml-4 my-md-auto my-1">
+                                <a href="./contato.html">Contato</a>
+                            </li>
+                            <a href="./cadastro.html" class="ml-4 my-2">
+                                <li class="nav-item btn green-bgcolor">Cadastre-se</li>
+                            </a>
+                            <a href="./login.html" class="nav-item ml-4 my-2">
+                                <li class="btn btn-green mr-auto">Entrar</li>
+                            </a>
+
+                        </ul>
+                        
+                    </div>
+                </nav>
+            </div>
+            <hr>
+        </section>
+    </header>
+    <main class="container container-fluid">
+        <section>
+            <form class="row fadeIn" onsubmit="event.preventDefault(); sendEmail();" method="POST" autocomplete="on">
+                <div class="col-md-6">
+                    <h1>Recuperar <span class="green-color">senha</span></h1>
+
+                    <p id='recover-text'>Esqueceu sua senha? Sem problemas, nos diga seu e-mail de cadastro que lhe
+                        encaminharemos o link de reset!</p>
+                    <div id="div-email">
+                        <label for="email" class="mt-4">E-mail:</label>
+                        <input id="email" type="email" class="form-control" aria-label="Large"
+                            placeholder="Ex.: saolonguinho@santo.com" name="email" maxlength="50" required>
+                    </div>
+                    <div id="div-psw" style="display: none;">
+                        <label for="password" class="mt-4">Nova senha:</label>
+                        <input type="password" class="form-control" name="password" id="password"
+                                placeholder="*********" minlength="4" maxlength="20" required>
+                    </div>
+                    <div id="recaptcha" class="g-recaptcha my-5 " data-sitekey="6LfM9ygaAAAAAMLYKoppF72N_FrEkQVwf1p9MnRD"
+                        data-theme="dark"></div>
+                    <div class="btn-container my-5">
+                        <button class="button green-bgcolor" type="submit">Enviar</button>
+                    </div>
+                </div>
+                <div class="col-md-6 fadeImg mobile-off">
+                    <div class="img-login">
+                        <img src="./imagens/moca_celular.png" alt="Foto de Ketut Subiyanto no Pexels">
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/toastr.js"></script>
+    <script src="./js/jquery-3.2.1.slim.min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const token = urlParams.get('token');
+        //Toastr
+        toastr.options.closeButton = true;
+        toastr.options.closeMethod = 'fadeOut';
+        toastr.options.closeDuration = 300;
+        toastr.options.closeEasing = 'swing';
+        toastr.options.preventDuplicates = true;
+
+        var _msgEnviadaAnteriormente = false;
+        var _rstPswEnviadaAnteriormente = false;
+
+
+        if (token != null) {
+            document.getElementById('recover-text').innerText = "Insira abaixo sua nova senha!";
+            document.getElementById('recaptcha').style.display = "none";
+            document.getElementById('div-email').innerHTML = "";
+            document.getElementById('div-psw').style.display = "block";
+        }
+
+        const sendEmail = async () => {
+            if (token != null) {
+                setPsw();
+                return;
+            }
+            if (_msgEnviadaAnteriormente) {
+                toastr.warning("Sua mensagem de reset já foi enviada!<br/> Confira seu e-mail!", 'Obrigado!');
+                return false;
+            }
+
+            const email = document.getElementById('email').value;
+            const reCaptcha = document.getElementsByName('g-recaptcha-response')[0].value;
+            try {
+
+                var myHeaders = new Headers();
+                myHeaders.append("post", `email=${email}&g-recaptcha-response=${reCaptcha}`);
+
+                var formdata = new FormData();
+                formdata.append("email", email);
+                formdata.append("g-recaptcha-response", reCaptcha);
+
+                const response = await fetch(`../controller/recover_controller.php`, {
+                    method: "POST",
+                    body: formdata,
+                    headers: myHeaders,
+                });
+
+                const resultJson = await response.json();
+                if (resultJson.search("Erro") > -1 && response.status == 200) {
+                    toastr.error(resultJson, 'Atenção:');
+                } else {
+                    _msgEnviadaAnteriormente = true;
+                    toastr.success(resultJson, 'Parabéns:', {
+                        timeOut: 0,
+                        extendedTimeOut: 0
+                    });
+                    //setTimeout(() => { window.location.href = "./index.html" }, 5000);
+                }
+            } catch (error) {
+                toastr.clear();
+                toastr.error("Erro ao solicitar a recuperação da senha.<br/>Problema ao comunicar-se com o sistema!<br/>Tente mais tarde, por favor!", 'Ops!', {
+                    timeOut: 0,
+                    extendedTimeOut: 0
+                });
+            }
+        }
+
+        const setPsw = async () => {
+            if (_rstPswEnviadaAnteriormente) {
+                toastr.warning("Sua senha de reset já foi alterada! Tente entrar no sistema agora!", 'Obrigado!');
+                return false;
+            }
+
+            const senha = document.getElementById('password').value;
+            try {
+
+                var myHeaders = new Headers();
+                myHeaders.append("post", `token=${token}&senha=${senha}`);
+
+                var formdata = new FormData();
+                formdata.append("token", token);
+                formdata.append("senha", senha);
+
+                const response = await fetch(`../controller/recover_controller.php`, {
+                    method: "POST",
+                    body: formdata,
+                    headers: myHeaders,
+                });
+
+                const resultJson = await response.json();
+                if (resultJson.search("Erro") > -1 && response.status == 200) {
+                    toastr.error(resultJson, 'Atenção:');
+                } else {
+                    _rstPswEnviadaAnteriormente = true;
+                    toastr.success(resultJson, 'Parabéns:', {
+                        timeOut: 0,
+                        extendedTimeOut: 0
+                    });
+                    setTimeout(() => { window.location.href = "./login.html" }, 5000);
+                }
+            } catch (error) {
+                toastr.clear();
+                toastr.error("Erro ao solicitar a recuperação da senha.<br/>Problema ao comunicar-se com o sistema!<br/>Tente mais tarde, por favor!", 'Ops!', {
+                    timeOut: 0,
+                    extendedTimeOut: 0
+                });
+            }
+        }
+
+
+
+    </script>
+</body>
+
+</html>

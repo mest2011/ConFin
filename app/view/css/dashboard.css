@@ -1,0 +1,251 @@
+.dash-gastos {
+  background-image: url(../images/sharp.png);
+  background-repeat: no-repeat;
+  background-position-x: 18vw;
+  background-position-y: 83vh;
+  border-left: solid 1px #a0a1a6;
+  background-size: 6vw;
+}
+
+.hand-shake {
+  background-image: url(../images/hand-shake.png) !important;
+  background-repeat: no-repeat !important;
+  background-position-x: 49% !important;
+  background-position-y: 89% !important;
+  background-size: 79% !important;
+}
+
+.chart-area {
+  width: 100%;
+}
+
+/* css antigo */
+
+#saldo_container,
+#total_gastos_container,
+#dashboard_principal {
+  display: flex;
+}
+
+#dashboard_main main {
+  margin: 1.5vh;
+}
+
+#dashboard_main section {
+  display: flex;
+}
+
+.cards {
+  margin: 0.5em;
+  width: 100%;
+  box-shadow: 0 0 0.4em #a0a1a6;
+  background: #fff;
+  border: none !important;
+  border-radius: 1em;
+  justify-content: center;
+}
+
+.cards:hover {
+  box-shadow: 0 0 0.4em #19d0a0;
+}
+
+#saldo_container fieldset {
+  display: flex;
+}
+
+.valor-1x3 {
+  width: 100%;
+  margin: auto auto auto 1vw;
+  text-align: left;
+  padding: 2vh;
+}
+
+.detalhes-1x3 {
+  width: 30%;
+  margin: auto 1vw auto auto;
+  text-align: right;
+  padding: 2vh;
+}
+
+.detalhes-1x3 a {
+  padding: 4vh 3vh 3vh 3vh;
+  transition: 0.3s;
+}
+
+.detalhes-1x3 a:hover {
+  background: #8cf6a9;
+  border-radius: 1.3vh;
+  transition: 0.3s;
+}
+
+#saldo_detalhes a:hover {
+  background: #d3ffff;
+}
+
+#total_gastos_container fieldset {
+  display: flex;
+}
+
+#total_gastos_detalhes {
+  margin: auto;
+}
+
+#total_gastos_detalhes a {
+  padding: 1.6vh;
+  text-decoration: none;
+  color: black;
+  font-size: x-large;
+  font-weight: 900;
+}
+
+#total_gastos_detalhes a:hover {
+  background: #d3ffff;
+}
+
+#total_gastos_detalhes a:hover {
+  background: #d3ffff;
+}
+
+fieldset {
+  display: flex;
+  padding: 0.5vw;
+}
+
+#saldo_container,
+#total_gastos_container,
+#meta_container,
+#gastos-mes,
+#debitos-futuros {
+  margin: 1vh;
+  padding: 1vh;
+  border: solid 0.5vh black;
+}
+
+#dashboard_top_cards {
+  width: 84vw;
+}
+
+#dashboard-middle-cards {
+  width: 84vw;
+}
+
+.card-1x3 {
+  width: 33.33%;
+  min-height: 10vh;
+}
+
+.card-1x3:hover {
+  cursor: pointer;
+}
+
+.card-3x4 {
+  width: 75%;
+  min-height: 60vh;
+}
+
+.card-1x4 {
+  width: 25%;
+  min-height: 60vh;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.gastos-tabela {
+  width: 40%;
+}
+
+table {
+  border-radius: 1vh;
+  width: 100%;
+}
+
+tbody {
+  text-transform: capitalize;
+  font-size: 2vh;
+}
+
+th {
+  color: #9792e3;
+  font-size: 2.5vh;
+  font-weight: 600;
+  background: #cad6c9;
+  padding: 1vh 0.5vw;
+}
+
+td {
+  padding: 1vh 0.8vw;
+  color: #9792e3;
+  text-align: -webkit-center;
+}
+
+.th-ini {
+  border-radius: 1vh 0 0 0;
+}
+
+.th-fim {
+  border-radius: 0 1vh 0 0;
+}
+
+.td-ini {
+  border-radius: 0 0 0 1vh;
+}
+
+.td-fim {
+  border-radius: 0 0 1vh 0;
+}
+
+td:hover {
+  color: #9792e3;
+  background-color: #b3ffc8;
+  cursor: pointer;
+}
+
+.debitos-futuros {
+  align-items: center;
+}
+
+.debitos-futuros table {
+  width: 100%;
+}
+
+.btn-image {
+  padding: 0.2vh;
+  height: 2vh;
+  transition: 0.3s;
+}
+
+.btn-image:hover {
+  background: #94f5ae;
+  border-radius: 0.5vh;
+  transition: 0.3s;
+}
+
+tfoot td {
+  font-size: 2vh;
+}
+
+tfoot a {
+  color: #9792e3;
+}
+
+tfoot a:hover {
+  color: #9792e3;
+}
+
+tfoot td:hover {
+  border-radius: 0 0 1vh 1vh;
+}
+
+@media (max-width: 576px) {
+  .dash-gastos {
+    background-image: url(../images/sharp.png);
+    background-repeat: no-repeat;
+    background-position-x: 76vw;
+    background-position-y: 60vh;
+    border-left: none;
+    background-size: 18vw;
+    
+  }
+}
