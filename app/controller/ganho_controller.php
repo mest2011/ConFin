@@ -59,13 +59,14 @@ if (isset($_POST['titulo'], $_POST['data'], $_POST['carteira'], $_POST['descrica
         if (isset($_POST['funcao'])) {
             //Read
             if ($_POST['funcao'] == 'listar') {
-                if (isset($_POST['dt_ini'], $_POST['dt_fim'])) {
-                    print_r(json_encode($ganho->buscarTodosGanhos($_POST['dt_ini'], $_POST['dt_fim'])));
-                    exit();
-                } else {
-                    print_r(json_encode($ganho->buscarTodosGanhos()));
-                    exit();
-                }
+                $parametros = ([
+                    'dt_ini' => (isset($_POST['dt_ini']) ? $_POST['dt_ini'] : null),
+                    'dt_fim' => (isset($_POST['dt_fim']) ? $_POST['dt_fim'] : null),
+                    'categoria' => (isset($_POST['categoria']) ? $_POST['categoria'] : null),
+                    'carteira' => (isset($_POST['carteira']) ? $_POST['carteira'] : null),
+                ]);
+                print_r(json_encode($ganho->buscarTodosGanhos($parametros)));
+                exit();
             }
             //Delete
             if ($_POST['funcao'] == 'excluir' and isset($_POST['id'])) {
@@ -74,7 +75,7 @@ if (isset($_POST['titulo'], $_POST['data'], $_POST['carteira'], $_POST['descrica
             }
         }
     } catch (\Throwable $th) {
-        print_r(json_encode("Erro : Erro no processamento da solicitação!"));
+        print_r(json_encode("Erro : Erro no processamento da solicitação! {$th}"));
         exit();
     }
 }
@@ -95,9 +96,9 @@ class Ganhos
         return GanhoBus::createGanho($this->_id_usuario, $obj_ganho);
     }
 
-    function buscarTodosGanhos($dt_ini = null, $dt_fim = null)
+    function buscarTodosGanhos($parametros = [])
     {
-        return GanhoBus::readGanho($this->_id_usuario, null, $dt_ini, $dt_fim);
+        return GanhoBus::readGanho($this->_id_usuario, null, $parametros);
     }
 
     function buscarGanho($id_ganho)

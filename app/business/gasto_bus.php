@@ -112,16 +112,33 @@ class GastoBus extends Crud
         return $obj_gasto;
     }
 
-    static function buscarListaGastosMes($id_usuario, $dt_ini = null, $dt_fim = null)
+    static function buscarListaGastosMes($id_usuario, $parametros = [])
     {
-        
+
         $sql = "SELECT comprovante, id_despesa, id_carteira, titulo, tipo, descricao, format(valor,2,'de_DE') as valor, DATE_FORMAT(data_do_debito, '%d/%m/%Y') as data_do_debito_ptbr, data_do_debito, (select nome_carteira from tb_carteira where id_carteira = tb_despesa.id_carteira limit 1) AS nome_carteira, icone FROM tb_despesa WHERE id_usuario = {$id_usuario} ";
 
-        if ($dt_ini <> null and $dt_fim <> null) {
-            $sql .= " AND data_do_debito >= '{$dt_ini}' AND data_do_debito <= '{$dt_fim}' ";
+        if (isset($parametros['categoria'])) {
+            if ($parametros['categoria'] <> null) {
+                $sql .= " AND tipo = '{$parametros['categoria']}'";
+            }
+        }
+
+        if (isset($parametros['carteira'])) {
+            if ($parametros['carteira'] <> null) {
+                $sql .= " AND id_carteira = {$parametros['carteira']}";
+            }
+        }
+
+        if (isset($parametros['dt_ini'], $parametros['dt_fim'])) {
+            if ($parametros['dt_ini'] <> null and $parametros['dt_fim'] <> null) {
+                $sql .= " AND data_do_debito >= '{$parametros['dt_ini']}' AND data_do_debito <= '{$parametros['dt_fim']}' ";
+            } else {
+                $sql .= " AND data_do_debito >= '" . date('Y') . "-" . date('m') . "-01'
+            AND data_do_debito <= '" . date('Y') . "-" . date('m') . "-31'";
+            }
         } else {
             $sql .= " AND data_do_debito >= '" . date('Y') . "-" . date('m') . "-01'
-            AND data_do_debito <= '" . date('Y') . "-" . date('m') . "-31'";
+        AND data_do_debito <= '" . date('Y') . "-" . date('m') . "-31'";
         }
 
         $sql .= " AND status = 1 ORDER BY data_do_debito desc;";

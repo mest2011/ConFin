@@ -21,23 +21,42 @@ class GanhoBus extends Crud
         }
     }
 
-    public static function readGanho($id_usuario, $id_ganho = null, $dt_ini = null, $dt_fim = null)
+    public static function readGanho($id_usuario, $id_ganho = null, $parametros = [])
     {
-        
 
 
         if ($id_ganho === null) {
             $sql = "SELECT comprovante, id_ganho, titulo, id_carteira, tipo, descricao, format(valor,2,'de_DE') as valor, DATE_FORMAT(data_do_credito, '%d/%m/%Y') as data_do_credito_ptbr, data_do_credito, icone, (select nome_carteira from tb_carteira where id_carteira = tb_ganho.id_carteira limit 1) AS nome_carteira FROM tb_ganho WHERE id_usuario = {$id_usuario} ";
-            
-            if ($dt_ini <> null and $dt_fim <> null) {
-                $sql .= " AND data_do_credito >= '{$dt_ini}' AND data_do_credito <= '{$dt_fim}' ";
+
+            if (isset($parametros['categoria'])) {
+                if ($parametros['categoria'] <> null) {
+                    $sql .= " AND tipo = '{$parametros['categoria']}'";
+                }
+            }
+
+            if (isset($parametros['carteira'])) {
+                if ($parametros['carteira'] <> null) {
+                    $sql .= " AND id_carteira = {$parametros['carteira']}";
+                }
+            }
+
+            if (isset($parametros['dt_ini'], $parametros['dt_fim'])) {
+                if ($parametros['dt_ini'] <> null and $parametros['dt_fim'] <> null) {
+                    $sql .= " AND data_do_credito >= '{$parametros['dt_ini']}' AND data_do_credito <= '{$parametros['dt_fim']}' ";
+                } else {
+                    $sql .= " AND data_do_credito >= '" . date('Y') . "-" . date('m') . "-01'
+                    AND data_do_credito <= '" . date('Y') . "-" . date('m') . "-31'";
+                }
             } else {
                 $sql .= " AND data_do_credito >= '" . date('Y') . "-" . date('m') . "-01'
-                    AND data_do_credito <= '" . date('Y') . "-" . date('m') . "-31'";
-            }            
-            
+                AND data_do_credito <= '" . date('Y') . "-" . date('m') . "-31'";
+            }
+
+
             $sql .= " and status = 1 order by data_do_credito DESC;";
-            
+
+
+
             $result = parent::read($sql);
             if ($result == "0 dados encontrados") {
                 return false;
@@ -72,11 +91,11 @@ class GanhoBus extends Crud
                 valor = {$obj_ganho->valor},
                 data_do_credito = '{$obj_ganho->data_do_credito}',
                 icone = '&\#x{$obj_ganho->icone}'";
-                if($obj_ganho->comprovante <> null){
-                    $sql .= ",
+            if ($obj_ganho->comprovante <> null) {
+                $sql .= ",
                     comprovante = '{$obj_ganho->comprovante}' ";
-                }
-                $sql .= " WHERE id_ganho = {$obj_ganho->id_ganho}";
+            }
+            $sql .= " WHERE id_ganho = {$obj_ganho->id_ganho}";
 
             if (parent::update($sql)) {
                 return "Dados atualizados!";
