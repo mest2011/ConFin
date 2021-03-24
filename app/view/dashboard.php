@@ -120,16 +120,12 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                 <div class="hand-shake cards p-4 pb-5 bg-green col-lg-4 mb-4 mb-sm-1">
                     <h4 class="font-purple font-weight-bold mt-2 mx-2 pb-5">Recomende <span class="font-white"> para amigos</span> e desbloqueie funções <span class="font-white">especiais</span></h4>
                 </div>
-                <div class="cards p-4 mb-4 mb-sm-1">
+                <div class="cards p-4 mb-4 mb-sm-1 mr-0">
                     <fieldset>
                         <legend>Meus gastos:</legend>
                         <div class="chart-area">
                             <canvas id="chart-area" width="100"></canvas>
                             <script>
-                                var randomScalingFactor = function() {
-                                    return Math.round(Math.random() * 100);
-                                };
-
                                 var config = {
                                     type: 'doughnut',
                                     data: {
@@ -207,17 +203,169 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                         }
                                     }
                                 };
-
-                                window.onload = function() {
-                                    var ctx = document.getElementById('chart-area').getContext('2d');
-                                    window.myPie = new Chart(ctx, config);
-                                };
                             </script>
                         </div>
 
                     </fieldset>
                 </div>
+            </section>
+            <section class="mr-1 mb-5">
+                <div class="cards p-4 mb-4 mb-sm-1">
+                    <fieldset class="d-block">
+                        <div class="d-flex justify-content-between">
+                            <h5>Métricas:</h5>
+                            <div class="d-block">
+                                <button class="btn btn-green-inverted btn-sm" onclick="runChart(arrayMetricasLegendGastos,arrayMetricasValuesGastos, presets.red, 'Gastos')">Gastos</button>
+                                <button class="btn btn-green-inverted btn-sm" onclick="runChart(arrayMetricasLegendGanhos, arrayMetricasValuesGanhos, presets.blue, 'Ganhos')">Ganhos</button>
+                                <button class="btn btn-green-inverted btn-sm" onclick="runChart(arrayMetricasLegendLiquido, arrayMetricasValuesLiquido)">Líquido</button>
+                            </div>
+                        </div>
+                        <div class="chart-area d-block">
+                            <canvas id="chart-metrica" style="height: 22em;"></canvas>
+                            <script>
+                                var arrayMetricasLegendGastos = [];
+                                var arrayMetricasValuesGastos = [];
+                                var arrayMetricasLegendGanhos = [];
+                                var arrayMetricasValuesGanhos = [];
+                                var arrayMetricasLegendLiquido = [];
+                                var arrayMetricasValuesLiquido = [];
 
+                                <?php include_once '../database/crud.php';
+                                $result = Crud::read("SELECT
+                                concat(MONTH(tb_despesa.data_do_debito),'/',year(tb_despesa.data_do_debito)) AS `Mes/Ano`,
+                                SUM(valor) AS total
+                                FROM tb_despesa
+                                WHERE
+                                id_usuario = {$_SESSION['id_usuario']} AND status = 1#Id usuario
+                                GROUP BY MONTH(tb_despesa.data_do_debito) ORDER BY data_do_debito ASC;");
+
+                                if (gettype($result) == "array") {
+                                    $categoria = '';
+                                    foreach ($result as $key => $value) {
+                                        echo "arrayMetricasValuesGastos.push({$value['total']});";
+                                        echo "arrayMetricasLegendGastos.push('{$value['Mes/Ano']}');";
+                                    }
+                                }
+                                ?>
+                                <?php include_once '../database/crud.php';
+                                $result = Crud::read("SELECT
+                                concat(MONTH(tg.data_do_credito),'/',year(tg.data_do_credito)) AS `Mes/Ano`,
+                                SUM(valor) AS total
+                                FROM tb_ganho as tg
+                                INNER JOIN tb_carteira as tc
+                                ON tc.id_carteira = tg.id_carteira
+                                WHERE
+                                tc.poupanca = 0 
+                                AND tc.status = 1 AND
+                                tg.id_usuario = {$_SESSION['id_usuario']} #Id usuario
+                                GROUP BY MONTH(tg.data_do_credito) ORDER BY data_do_credito ASC;");
+
+                                if (gettype($result) == "array") {
+                                    $categoria = '';
+                                    foreach ($result as $key => $value) {
+                                        echo "arrayMetricasValuesGanhos.push({$value['total']});";
+                                        echo "arrayMetricasLegendGanhos.push('{$value['Mes/Ano']}');";
+                                    }
+                                }
+                                ?>
+                                <?php include_once '../database/crud.php';
+                                $result = Crud::read("SELECT(t2.total-t1.total) AS Liquido, t1.`Mes/Ano`
+                                                FROM
+                                                (SELECT
+                                                concat(MONTH(tb_despesa.data_do_debito),'/',year(tb_despesa.data_do_debito)) AS `Mes/Ano`,
+                                                SUM(valor) AS total
+                                                FROM tb_despesa
+                                                WHERE
+                                                id_usuario = {$_SESSION['id_usuario']} AND STATUS = 1
+                                                GROUP BY MONTH(tb_despesa.data_do_debito) ORDER BY data_do_debito ASC) AS t1
+                                                INNER JOIN
+                                                (SELECT 
+                                                concat(MONTH(tg.data_do_credito),'/',year(tg.data_do_credito)) AS `Mes/Ano`, 
+                                                SUM(valor) AS total
+                                                FROM tb_ganho as tg
+                                                INNER JOIN tb_carteira as tc
+                                                ON tc.id_carteira = tg.id_carteira
+                                                WHERE
+                                                tc.poupanca = 0 AND  
+                                                tg.id_usuario = {$_SESSION['id_usuario']} AND tg.status = 1
+                                                GROUP BY MONTH(tg.data_do_credito) ORDER BY data_do_credito ASC) AS t2 
+                                                ON t1.`Mes/Ano` = t2.`Mes/Ano`;");
+
+                                if (gettype($result) == "array") {
+                                    $categoria = '';
+                                    foreach ($result as $key => $value) {
+                                        echo "arrayMetricasValuesLiquido.push({$value['Liquido']});";
+                                        echo "arrayMetricasLegendLiquido.push('{$value['Mes/Ano']}');";
+                                    }
+                                }
+                                ?>
+
+                                var presets = window.chartColors;
+                                var utils = Samples.utils;
+
+                                var options = {
+                                    maintainAspectRatio: false,
+                                    spanGaps: false,
+                                    elements: {
+                                        line: {
+                                            tension: 0.000001
+                                        }
+                                    },
+                                    plugins: {
+                                        filler: {
+                                            propagate: false
+                                        }
+                                    },
+                                    scales: {
+                                        xAxes: [{
+                                            ticks: {
+                                                autoSkip: false,
+                                                maxRotation: 0
+                                            }
+                                        }]
+                                    }
+                                };
+
+                                function runChart(
+                                    arrayMetricasLegend = arrayMetricasLegendLiquido,
+                                    arrayMetricasValues = arrayMetricasValuesLiquido,
+                                    color = presets.green,
+                                    legenda = "Líquido") {
+
+                                    // reset the random seed to generate the same data for all charts
+                                    utils.srand(8);
+
+                                    new Chart('chart-metrica', {
+                                        type: 'line',
+                                        data: {
+                                            labels: arrayMetricasLegend,
+                                            datasets: [{
+                                                backgroundColor: utils.transparentize(color),
+                                                borderColor: color,
+                                                data: arrayMetricasValues,
+                                                label: legenda,
+                                                fill: 'origin'
+                                            }]
+                                        },
+                                        options: Chart.helpers.merge(options, {
+                                            title: {
+                                                text: 'fill: ' + 'origin',
+                                                display: false
+                                            }
+                                        })
+                                    });
+                                };
+
+                                window.onload = () => {
+                                    var ctx = document.getElementById('chart-area').getContext('2d');
+                                    window.myPie = new Chart(ctx, config);
+                                    runChart();
+                                }
+                            </script>
+                        </div>
+
+                    </fieldset>
+                </div>
             </section>
         </section>
         <section class=" col-12 col-lg-3 d-lg-block d-block dash-gastos">
@@ -349,7 +497,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
 
     <script>
         const id_usuario = <?php echo $_SESSION['id_usuario']; ?>;
-        var meta ="";
+        var meta = "";
 
         const dt_now = new Date().getFullYear() + '-' +
             String(new Date().getMonth() + 1).padStart(2, '0') + '-' +
@@ -367,7 +515,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
             }
         }
 
-        function editarMeta(){
+        function editarMeta() {
             $(modalResumeMeta).modal('hide');
             $(modalCreateMeta).modal();
 
@@ -407,7 +555,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
         const buscarMeta = async (event) => {
 
             var formdata = new FormData();
-                formdata.append("funcao", "listar");
+            formdata.append("funcao", "listar");
 
             var requestOptions = {
                 method: 'POST',
@@ -419,10 +567,14 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
             if (resultJson === "0 dados encontrados" || resultJson == false) {
                 $(modalResumeMeta).modal('hide');
                 $(modalCreateMeta).modal();
-            } else if(response.status == 200){
+            } else if (response.status == 200) {
                 meta = resultJson;
                 document.getElementById('modal-resumo-titulo').innerText = resultJson['titulo'];
                 document.getElementById('modal-resumo-descricao').innerText = resultJson['descricao_meta'];
+                document.getElementById('modal-resumo-saldo').classList.remove("font-green");
+                document.getElementById('modal-resumo-saldo').classList.remove("font-yellow");
+                document.getElementById('modal-resumo-saldo').classList.remove("font-red");
+                document.getElementById('modal-resumo-saldo').classList.add(resultJson['porcentagem_alcancada'] < 30 ? "font-red" : (resultJson['porcentagem_alcancada'] < 85 ? "font-yellow" : "font-green"));
                 document.getElementById('modal-resumo-saldo').innerText = "R$ " + resultJson['saldo'];
                 document.getElementById('modal-resumo-valor').innerText = "R$ " + resultJson['valor'];
                 document.getElementById('modal-resumo-porcentagem').innerText = resultJson['porcentagem_alcancada'] + "%";

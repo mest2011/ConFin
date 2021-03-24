@@ -24,28 +24,33 @@ textarea {
   color: #111320;
 }
 
-::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-  color:    #ffffff80;
+::-webkit-input-placeholder {
+  /* WebKit, Blink, Edge */
+  color: #ffffff80;
 }
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  color:    #ffffff;
-  opacity:  0.5;
+:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #ffffff;
+  opacity: 0.5;
 }
-::-moz-placeholder { /* Mozilla Firefox 19+ */
- color:    #ffffff;
- opacity:  0.5;
+::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #ffffff;
+  opacity: 0.5;
 }
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
- color:    #ffffff80;
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #ffffff80;
 }
-::-ms-input-placeholder { /* Microsoft Edge */
- color:    #ffffff80;
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #ffffff80;
 }
 
-::placeholder { /* Most modern browsers support this now. */
- color:    #ffffff80;
+::placeholder {
+  /* Most modern browsers support this now. */
+  color: #ffffff80;
 }
-
 
 h1 {
   font-size: 4em;
@@ -89,6 +94,17 @@ header {
 
 .line-height-0 {
   line-height: 0;
+}
+
+.btn-green-inverted {
+  border: solid 0.1em #19d0a0 !important;
+  background: none !important;
+  color: #19d0a0 !important;
+}
+
+.btn-green-inverted:hover {
+  background: #19d0a0 !important;
+  color: #ffffff !important;
 }
 
 .cartao {
@@ -336,7 +352,7 @@ a:hover {
   .mobile-off {
     display: none !important;
   }
-  
+
   .mobile-on {
     display: block !important;
   }
@@ -466,7 +482,7 @@ a:hover {
     margin-left: -3em !important;
   }
 
-  input[type="checkbox"]{
+  input[type="checkbox"] {
     transform: scale(3);
   }
 }
