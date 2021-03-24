@@ -17,9 +17,35 @@ h1,
 h2,
 h3,
 h4,
-legend {
+legend,
+input,
+select,
+textarea {
   color: #111320;
 }
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color:    #ffffff80;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color:    #ffffff;
+  opacity:  0.5;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+ color:    #ffffff;
+ opacity:  0.5;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+ color:    #ffffff80;
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+ color:    #ffffff80;
+}
+
+::placeholder { /* Most modern browsers support this now. */
+ color:    #ffffff80;
+}
+
 
 h1 {
   font-size: 4em;
@@ -112,7 +138,7 @@ header {
 }
 
 .font-green {
-  color: #19d0a0;
+  color: #19d0a0 !important;
 }
 
 .font-red {
@@ -121,6 +147,14 @@ header {
 
 .font-gray {
   color: #a0a1a6;
+}
+
+.font-yellow {
+  color: #d0b729;
+}
+
+.font-orange {
+  color: #d07929;
 }
 
 .font-title-modal {

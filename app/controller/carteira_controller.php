@@ -43,6 +43,9 @@ if (isset($_POST['funcao'])) {
                 if (isset($_POST['descricao'])) {
                     $obj_carteira->descricao = $_POST['descricao'];
                 }
+                if (isset($_POST['poupanca'])) {
+                    $obj_carteira->poupanca = ($_POST['poupanca']=="true"?1:0);
+                }
                 if (isset($_POST['id'])) {
                     $obj_carteira->id_carteira = $_POST['id'];
                     print_r(json_encode($carteira->atualizarcarteira($obj_carteira)));
@@ -94,6 +97,11 @@ if (isset($_GET['id_usuario'], $_GET['funcao'])) {
         print_r(json_encode($carteira->listarCarteiras()));
         exit();
     }
+    //Listar carteras poupanca
+    if ($_GET['funcao'] == 'listarpoupanca') {
+        print_r(json_encode($carteira->listarCarteirasPoupanca()));
+        exit();
+    }
 
     //buscar um
     if ($_GET['funcao'] == 'listarum' and isset($_GET['id_carteira'])) {
@@ -134,6 +142,11 @@ class Carteiras
     function listarCarteiras()
     {
         return CarteiraBus::readCarteira($this->_id_usuario);
+    }
+
+    function listarCarteirasPoupanca()
+    {
+        return CarteiraBus::readCarteiraPoupanca($this->_id_usuario);
     }
 
     function buscarCarteira($id_Carteira)

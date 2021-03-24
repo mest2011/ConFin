@@ -7,6 +7,7 @@ class Carteira{
     public $nome_carteira;
     public $cor;
     public $descricao;
+    public $poupanca;
 }
 
 ?>

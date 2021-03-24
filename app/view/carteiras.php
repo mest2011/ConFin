@@ -102,7 +102,8 @@
                             '${resultJson[i]['cor']}',
                             '${resultJson[i]['saldo']}',
                             '${resultJson[i]['descricao']}',
-                            '${resultJson[i]['nome_carteira']}')}, 500)\"
+                            '${resultJson[i]['nome_carteira']}',
+                            ${resultJson[i]['poupanca']})}, 500)\"
                                  title="trabalho">
                     <div class="d-flex w-100"  style="border-radius: 1vw 1vw 0 0; background-color: ${resultJson[i]['cor']} !important;">
                         <div class="my-auto d-flex w-100 justify-content-between px-4 pb-2 pt-4 ">
@@ -127,8 +128,8 @@
                             </div>
                         </div>
                         <div class="d-flex align-items-baseline my-2">
-                            <p class="font-weight-bold font-green">R$</p>
-                            <h2 class="number font-green">${resultJson[i]['saldo']}</h2>
+                            <p class="font-weight-bold ${(resultJson[i]['saldo'].replace('.', '').replace(',','.') < 0)? 'font-red' : 'font-green'}">R$</p>
+                            <h2 class="number ${(resultJson[i]['saldo'].replace('.', '').replace(',','.') < 0)? 'font-red' : 'font-green'}">${resultJson[i]['saldo']}</h2>
                         </div>
 
                         <small class="font-gray font-weight-bold d-block">Descrição</small>
@@ -177,7 +178,8 @@
             cor = '#6b77cc',
             saldo = 'XX,XX',
             descricao = '',
-            nome_carteira = 'Nome') {
+            nome_carteira = 'Nome',
+            poupanca = 0) {
             let sideModal = document.getElementById('side-modal');
 
             sideModal.innerHTML = `
@@ -202,8 +204,8 @@
                             </div>
                         </div>
                         <div class="d-flex align-items-baseline my-2">
-                            <p class="font-weight-bold font-green">R$</p>
-                            <h2 class="number font-green">${saldo}</h2>
+                            <p class="font-weight-bold ${(saldo.replace('.', '').replace(',','.') < 0)? 'font-red' : 'font-green'}">R$</p>
+                            <h2 class="number ${(saldo.replace('.', '').replace(',','.') < 0)? 'font-red' : 'font-green'}">${saldo}</h2>
                         </div>
 
                         <small class="font-gray font-weight-bold d-block">Descrição</small>
@@ -224,6 +226,11 @@
                         <div class="d-flex my-4">
                             <p class="col-sm-4">Descrição:</p>
                             <textarea class="form-control col-sm-8" id="form-descricao" placeholder="Adicione mais detalhes sobre o gasto..." rows="4" maxlength="50">${descricao}</textarea>
+                        </div>
+                        <div class="d-flex my-4 col col-12">
+                            <input type="checkbox" id="form-isitinvestmentwallet" class="my-auto mr-2" 
+                            ${poupanca?"checked":""}/> 
+                            <label for="form-isitinvestmentwallet" class="my-auto">Esta é uma carteria <b>poupança</b> ou de <b>investimento</b>?</label>
                         </div>
                         
                         <div class="d-flex my-5 col-sm-12">
@@ -315,6 +322,7 @@
             let nome = document.getElementById('form-nome').value;
             let cor = document.getElementById('form-cor').value;
             let descricao = document.getElementById('form-descricao').value;
+            let poupanca = document.getElementById('form-isitinvestmentwallet').checked;
 
             console.log(id);
             console.log(nome);
@@ -336,6 +344,7 @@
                 formdata.append("nome_cateira", nome);
                 formdata.append("cor", cor);
                 formdata.append("descricao", descricao);
+                formdata.append("poupanca", poupanca);
 
 
 
