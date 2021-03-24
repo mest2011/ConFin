@@ -92,6 +92,10 @@ header {
   height: auto;
 }
 
+.zoom:hover{
+  cursor: zoom-in;
+}
+
 .line-height-0 {
   line-height: 0;
 }
@@ -216,7 +220,7 @@ a:hover {
 }
 
 .pointer:hover {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 .disabled {

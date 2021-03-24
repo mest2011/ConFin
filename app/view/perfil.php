@@ -40,7 +40,8 @@
 
                     <button class="btn btn-danger ml-5 my-5" onclick="(confirm('Deseja sair do sistema?'))? window.location.href = './exit.php' : false">Sair</button>
 
-                    <a class="mb-3 hover-green text-decoration-underline-hover d-block" href="./feedback.php"><small >Deixe seu feedback!</small></a>
+                    <p class="mb-3 mt-4 hover-green text-decoration-underline-hover d-block pointer" onclick="$('#modalPIX').modal()">Quer apoiar o desenvolvimento?<span class="font-green font-weight-bold"> Faça uma doação!</span></p>
+                    <a class="mb-3 hover-green text-decoration-underline-hover d-block pointer" href="./feedback.php"><small >Deixe seu feedback!</small></a>
                 </div>
             </div>
         </section>
@@ -50,6 +51,41 @@
         </section>
 
     </main>
+
+    <div class="modal fade" id="modalPIX" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Nos ajude fazendo uma doação!</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" title="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <h5>Se gostou do app e quer apoiar o desenvolvimento!</h5>
+                    <p>Faça uma doação!</p>
+                    <div class="d-block justify-content-between mt-4">
+                        <h4>Fazer uma doação por <span class="font-green">PIX:</span></h4>
+                        <img class="w-50 mx-auto zoom" src="../../dependencies/img/receive-pix.jpeg"
+                            alt="Codigo QR de PIX" title="Clique sobre a imagem para aumentar o tamanho do código!" 
+                            onclick="if(this.classList.contains('w-50'))
+                            {this.classList.remove('w-50');
+                            this.classList.add('w-100');
+                            }else{
+                                this.classList.remove('w-100');
+                                this.classList.add('w-50')
+                            ;}">
+                    </div>
+                </div>
+                <div class="modal-footer d-block text-center">
+                    <p>Agradecemos qualquer ajuda, mesmo que não possa doar.</p>
+                    <p> Seu compartilhamento e indicação da plataforma, ja nos ajuda muito!</p>
+                    <h5>Obrigado por usar o <span class="font-green">Cofrin!</span></h5>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php include "imports/js.php"; ?>
 
     <script>
