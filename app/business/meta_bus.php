@@ -52,7 +52,14 @@ class MetaBus extends Crud
         FROM tb_meta AS tm
         INNER JOIN tb_carteira AS tc ON tc.id_carteira = tm.id_carteira
          WHERE tm.id_usuario = {$id_usuario} AND tm.status = 1;";
-        return parent::read($sql)[0];
+
+         $result = parent::read($sql)[0];
+         if ($result == "0 dados encontrados") {
+            return false;
+        } else {
+            return $result;
+        }
+        return ;
     }
 
     static public function deletar($id_meta)

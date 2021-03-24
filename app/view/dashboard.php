@@ -13,8 +13,9 @@ $obj_gastos = new Gastos($_SESSION['id_usuario']);
 $obj_saldo =  new Saldo($_SESSION['id_usuario']);
 $metas =  new Metas($_SESSION['id_usuario']);
 $obj_meta = $metas->buscarTodasMetas();
+//echo "<script>console.log('".json_encode($obj_meta)."')</script>";
 
-if ($metas !== false) {
+if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
     echo "<script>var modalmeta = true;</script>";
     $meta_saldo =  number_format($obj_meta['saldo'], 2, ',', '.');
     $porcentagem_alcancada =  $obj_meta['porcentagem_alcancada'];
@@ -415,7 +416,7 @@ if ($metas !== false) {
 
             const response = await fetch(`../controller/meta_controller.php`, requestOptions)
             const resultJson = await response.json();
-            if (resultJson === "0 dados encontrados") {
+            if (resultJson === "0 dados encontrados" || resultJson == false) {
                 $(modalResumeMeta).modal('hide');
                 $(modalCreateMeta).modal();
             } else if(response.status == 200){

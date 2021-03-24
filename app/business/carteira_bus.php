@@ -58,7 +58,7 @@ class CarteiraBus extends Crud
                 descricao = '{$obj_carteira->descricao}',
                 poupanca = {$obj_carteira->poupanca}
                 WHERE id_carteira = {$obj_carteira->id_carteira}";
-        return $sql;
+        //return $sql;
 
         if (parent::update($sql)) {
             return "Carteira atualizada com sucesso!";
