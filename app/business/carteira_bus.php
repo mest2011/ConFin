@@ -7,8 +7,8 @@ class CarteiraBus extends Crud
 
     public static function createCarteira($obj_carteira)
     {
-        $sql = "INSERT INTO tb_carteira ( id_usuario, nome_carteira, cor, descricao)
-                VALUES ( {$obj_carteira->id_usuario}, '{$obj_carteira->nome_carteira}', '{$obj_carteira->cor}', '{$obj_carteira->descricao}');";
+        $sql = "INSERT INTO tb_carteira ( id_usuario, nome_carteira, cor, descricao, poupanca)
+                VALUES ( {$obj_carteira->id_usuario}, '{$obj_carteira->nome_carteira}', '{$obj_carteira->cor}', '{$obj_carteira->descricao}', {$obj_carteira->poupanca});";
         //echo "<h1>alert('$sql')</h1>";
 
         if (parent::create($sql)) {
@@ -21,13 +21,26 @@ class CarteiraBus extends Crud
     public static function readCarteira($id_usuario, $id_carteira = null)
     {
         if ($id_carteira === null) {
-            $sql = "SELECT id_carteira, nome_carteira, format(saldo, 2, 'de_DE') as saldo, cor, descricao FROM tb_carteira WHERE id_usuario = {$id_usuario} AND status = 1 ORDER BY nome_carteira ASC;";
+            $sql = "SELECT id_carteira, nome_carteira, format(saldo, 2, 'de_DE') as saldo, cor, descricao, poupanca FROM tb_carteira WHERE id_usuario = {$id_usuario} AND status = 1 ORDER BY nome_carteira ASC;";
             $result = parent::read($sql);
         } else {
-            $sql = "SELECT  id_carteira, nome_carteira, format(saldo, 2, 'de_DE') as saldo, cor, descricao FROM tb_carteira WHERE id_usuario = {$id_usuario}  and status = 1 and id_carteira = {$id_carteira} LIMIT 1";
+            $sql = "SELECT  id_carteira, nome_carteira, format(saldo, 2, 'de_DE') as saldo, cor, descricao , poupanca FROM tb_carteira WHERE id_usuario = {$id_usuario}  and status = 1 and id_carteira = {$id_carteira} LIMIT 1";
             $obj_carteira = self::converteCarteira(parent::read($sql)[0]);
             $result = $obj_carteira;
         }
+
+        if (!$result) {
+            return "Erro ao buscar a(s) carteira(s)!";
+        } else {
+            return $result;
+        }
+    }
+
+    public static function readCarteiraPoupanca($id_usuario)
+    {
+        $sql = "SELECT id_carteira, nome_carteira, format(saldo, 2, 'de_DE') as saldo, cor, descricao, poupanca FROM tb_carteira WHERE id_usuario = {$id_usuario} AND status = 1 AND poupanca = 1 ORDER BY nome_carteira ASC;";
+        $result = parent::read($sql);
+
 
         if (!$result) {
             return "Erro ao buscar a(s) carteira(s)!";
@@ -42,9 +55,10 @@ class CarteiraBus extends Crud
         $sql = "UPDATE tb_carteira SET
                 nome_carteira = '{$obj_carteira->nome_carteira}',
                 cor = '{$obj_carteira->cor}',
-                descricao = '{$obj_carteira->descricao}'
+                descricao = '{$obj_carteira->descricao}',
+                poupanca = {$obj_carteira->poupanca}
                 WHERE id_carteira = {$obj_carteira->id_carteira}";
-
+        //return $sql;
 
         if (parent::update($sql)) {
             return "Carteira atualizada com sucesso!";
@@ -96,7 +110,7 @@ class CarteiraBus extends Crud
                 foreach ($array as $key => $value) {
                 }
             } else {
-                if(!isset($array['id_carteira'])){
+                if (!isset($array['id_carteira'])) {
                     return "Carteira nao existe!";
                 }
                 $obj_gasto = new Carteira();

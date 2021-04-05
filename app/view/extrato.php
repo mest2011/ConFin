@@ -188,6 +188,11 @@
 
 
         const loadCards = async (filter = false) => {
+            <?php if (isset($_GET['id_carteira_meta'])) {
+                echo "filter = {
+                    'carteira': {$_GET['id_carteira_meta']},
+                };";
+            }?>
             var myHeaders = new Headers();
             myHeaders.append("post", `funcao=listar`);
 
@@ -225,7 +230,7 @@
                                         <small class=\"my-auto font-gray\">Data da transação: ${resultJson[i]['data_ptbr']}</small>
                                     </div>
                                     <div class=\"my-auto d-flex\">
-                                        <h4 class=\"${(resultJson[i]['valor'] < 0)? 'font-red' : 'font-green'} number my-auto\">R$${resultJson[i]['valor']}</h4>
+                                        <h4 class=\"${((resultJson[i]['valor']).replace('.', '').replace(',','.') < 0)? 'font-red' : 'font-green'} number my-auto\">R$${resultJson[i]['valor']}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -234,7 +239,7 @@
                             <div class=\"d-flex w-100 justify-content-between my-auto\">
                                 <div class=\"d-block\">
                                     <!--<p class=\"d-block font-weight-bold my-auto\">Categoria:</p> -->
-                                    <p class=\"${(resultJson[i]['valor'] < 0)? 'font-red' : 'font-green'} font-weight-bold\">${resultJson[i]['tipo']}</p>
+                                    <p class=\"${((resultJson[i]['valor']).replace('.', '').replace(',','.') < 0)? 'font-red' : 'font-green'} font-weight-bold\">${resultJson[i]['tipo']}</p>
                                 </div>
                             <small class=\"font-white bg-purple p-2 rounded mb-auto\">${resultJson[i]['nome_carteira']}</small>
                             </div>
