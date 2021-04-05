@@ -29,9 +29,10 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
 ?>
 <title>Dashboard</title>
 <link rel="stylesheet" href="../view/css/dashboard.css">
-<script src="https://www.chartjs.org/dist/2.9.4/Chart.min.js"></script>
-<script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+<script src="./lib/js/Chart.min.js"></script>
 
+<!-- <script src="https://www.chartjs.org/samples/latest/utils.js"></script> -->
+<script src="./lib/js/utils.js"></script>
 <style>
     @media only screen and (max-device-width: 768px) {
         * {
@@ -135,8 +136,8 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                                 $result = Crud::read("SELECT SUM(valor) AS total, tipo FROM tb_despesa WHERE data_do_debito >= '" . date('Y') . "-" . date('m') . "-01'
                                                     AND data_do_debito <= '" . date('Y') . "-" . date('m') . "-31' AND id_usuario= {$_SESSION['id_usuario']} AND status = 1 GROUP BY tipo;");
 
+                                                $categoria = '';
                                                 if (gettype($result) == "array") {
-                                                    $categoria = '';
                                                     foreach ($result as $key => $value) {
                                                         echo $value['total'] . ",";
                                                         $categoria .= "'" . $value['tipo'] . "',";
@@ -175,7 +176,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                             label: 'Conjunto de dados'
                                         }],
                                         labels: [
-                                            <?php echo $categoria; ?>
+                                            <?php echo $categoria == '' ? '"Ainda não há gastos nesse mês!"' : $categoria; ?>
                                         ]
 
                                     },
@@ -193,7 +194,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
 
                                         },
                                         legend: {
-                                            display: true,
+                                            display: <?php echo $categoria == '' ? 'false' : 'true'; ?>,
                                             position: "left",
                                             labels: {
                                                 fontFamily: 'Arial',
@@ -203,6 +204,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                         }
                                     }
                                 };
+                                <?php echo $categoria == '' ? 'document.getElementById(\'chart-area\').parentNode.innerHTML += \'<span class="font-green">Ainda não há gastos nesse mês!😁👍</span>\'' : ''; ?>
                             </script>
                         </div>
 
@@ -396,7 +398,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                         }
                     }
                 } else {
-                    echo "<td colspan='4'>Não há gastos cadastrados ainda!</td>";
+                    echo "<td colspan='4'><span>Ainda não há gastos cadstrados esse mês!</span></td>";
                 }
 
                 echo "</table>";
