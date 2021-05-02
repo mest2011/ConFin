@@ -429,7 +429,7 @@
                 <div class="d-flex">
                         <input class="d-none" type="text" id="form-id" name="form-id" value="${id}">
                         <h3 class="p-3 bg-gray my-auto mr-3 rounded" id="form-icon" onclick="hiddenShowEmojiKeyboard()">${icone}</h3>
-                        <input class="form-control font-title-modal" type="text" id="form-title" name="form-title" value="${titulo}" maxlength="30" placeholder="Titulo da despesa" required>
+                        <input class="form-control font-title-modal" type="text" id="form-title" name="form-title" value="${titulo}" maxlength="30" placeholder="Titulo do ganho" required>
                     </div>
                     <hr/>
                     <div class="d-block mt-5">
