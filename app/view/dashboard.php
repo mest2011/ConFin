@@ -223,7 +223,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                 <button class="btn btn-green-inverted btn-sm" onclick="runChart(arrayMetricasLiquido)">Líquido</button>
                             </div>
                         </div>
-                        <div class="chart-area d-block">
+                        <div id="chart-metrica-pai" class="chart-area d-block">
                             <canvas id="chart-metrica" style="height: 22em;"></canvas>
                             <script>
                                 var arrayMetricasGastos = [];
@@ -434,6 +434,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                 }
                                 ?>
 
+                                var chartMetricas = null;
 
                                 function runChart(
                                     arrayDataSets = [{
@@ -442,6 +443,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                         arrayMetricasValues: arrayMetricasValuesLiquido,
                                         legenda: "Líquido"
                                     }]) {
+                                    resetCanvas();
                                     // reset the random seed to generate the same data for all charts
                                     utils.srand(8);
 
@@ -459,8 +461,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                     })
 
 
-
-                                    new Chart('chart-metrica', {
+                                    chartMetricas = new Chart('chart-metrica', {
                                         type: 'line',
                                         data: {
                                             labels: arrayDataSets[0].arrayMetricasLegend,
@@ -473,6 +474,14 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                             }
                                         })
                                     });
+
+
+                                };
+
+                                function resetCanvas() {
+                                    $('#chart-metrica').remove(); // this is my <canvas> element
+                                    $('#chart-metrica-pai').append('<canvas id="chart-metrica" style="height: 22em;"><canvas>');
+
                                 };
 
                                 window.onload = () => {
