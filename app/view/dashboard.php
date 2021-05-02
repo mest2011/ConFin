@@ -31,7 +31,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
 <link rel="stylesheet" href="../view/css/dashboard.css">
 <script src="./lib/js/Chart.min.js"></script>
 
-<!-- <script src="https://www.chartjs.org/samples/latest/utils.js"></script> -->
+
 <script src="./lib/js/utils.js"></script>
 <style>
     @media only screen and (max-device-width: 768px) {
@@ -217,90 +217,19 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                         <div class="d-flex justify-content-between">
                             <h5>Métricas:</h5>
                             <div class="d-block">
-                                <button class="btn btn-green-inverted btn-sm" onclick="runChart(arrayMetricasLegendGastos,arrayMetricasValuesGastos, presets.red, 'Gastos')">Gastos</button>
-                                <button class="btn btn-green-inverted btn-sm" onclick="runChart(arrayMetricasLegendGanhos, arrayMetricasValuesGanhos, presets.blue, 'Ganhos')">Ganhos</button>
-                                <button class="btn btn-green-inverted btn-sm" onclick="runChart(arrayMetricasLegendLiquido, arrayMetricasValuesLiquido)">Líquido</button>
+                                <button class="btn btn-green-inverted btn-sm" onclick="runChart(arrayMetricasGastos)">Gastos</button>
+                                <button class="btn btn-green-inverted btn-sm" onclick="runChart(arrayMetricasGastosDetalhes)">Gastos detalhes</button>
+                                <button class="btn btn-green-inverted btn-sm" onclick="runChart(arrayMetricasGanhos)">Ganhos</button>
+                                <button class="btn btn-green-inverted btn-sm" onclick="runChart(arrayMetricasLiquido)">Líquido</button>
                             </div>
                         </div>
                         <div class="chart-area d-block">
                             <canvas id="chart-metrica" style="height: 22em;"></canvas>
                             <script>
-                                var arrayMetricasLegendGastos = [];
-                                var arrayMetricasValuesGastos = [];
-                                var arrayMetricasLegendGanhos = [];
-                                var arrayMetricasValuesGanhos = [];
-                                var arrayMetricasLegendLiquido = [];
-                                var arrayMetricasValuesLiquido = [];
-
-                                <?php include_once '../database/crud.php';
-                                $result = Crud::read("SELECT
-                                concat(MONTH(tb_despesa.data_do_debito),'/',year(tb_despesa.data_do_debito)) AS `Mes/Ano`,
-                                SUM(valor) AS total
-                                FROM tb_despesa
-                                WHERE
-                                id_usuario = {$_SESSION['id_usuario']} AND status = 1#Id usuario
-                                GROUP BY MONTH(tb_despesa.data_do_debito) ORDER BY data_do_debito ASC;");
-
-                                if (gettype($result) == "array") {
-                                    $categoria = '';
-                                    foreach ($result as $key => $value) {
-                                        echo "arrayMetricasValuesGastos.push({$value['total']});";
-                                        echo "arrayMetricasLegendGastos.push('{$value['Mes/Ano']}');";
-                                    }
-                                }
-                                ?>
-                                <?php include_once '../database/crud.php';
-                                $result = Crud::read("SELECT
-                                concat(MONTH(tg.data_do_credito),'/',year(tg.data_do_credito)) AS `Mes/Ano`,
-                                SUM(valor) AS total
-                                FROM tb_ganho as tg
-                                INNER JOIN tb_carteira as tc
-                                ON tc.id_carteira = tg.id_carteira
-                                WHERE
-                                tc.poupanca = 0 
-                                AND tc.status = 1 AND
-                                tg.id_usuario = {$_SESSION['id_usuario']} #Id usuario
-                                GROUP BY MONTH(tg.data_do_credito) ORDER BY data_do_credito ASC;");
-
-                                if (gettype($result) == "array") {
-                                    $categoria = '';
-                                    foreach ($result as $key => $value) {
-                                        echo "arrayMetricasValuesGanhos.push({$value['total']});";
-                                        echo "arrayMetricasLegendGanhos.push('{$value['Mes/Ano']}');";
-                                    }
-                                }
-                                ?>
-                                <?php include_once '../database/crud.php';
-                                $result = Crud::read("SELECT(t2.total-t1.total) AS Liquido, t1.`Mes/Ano`
-                                                FROM
-                                                (SELECT
-                                                concat(MONTH(tb_despesa.data_do_debito),'/',year(tb_despesa.data_do_debito)) AS `Mes/Ano`,
-                                                SUM(valor) AS total
-                                                FROM tb_despesa
-                                                WHERE
-                                                id_usuario = {$_SESSION['id_usuario']} AND STATUS = 1
-                                                GROUP BY MONTH(tb_despesa.data_do_debito) ORDER BY data_do_debito ASC) AS t1
-                                                INNER JOIN
-                                                (SELECT 
-                                                concat(MONTH(tg.data_do_credito),'/',year(tg.data_do_credito)) AS `Mes/Ano`, 
-                                                SUM(valor) AS total
-                                                FROM tb_ganho as tg
-                                                INNER JOIN tb_carteira as tc
-                                                ON tc.id_carteira = tg.id_carteira
-                                                WHERE
-                                                tc.poupanca = 0 AND  
-                                                tg.id_usuario = {$_SESSION['id_usuario']} AND tg.status = 1
-                                                GROUP BY MONTH(tg.data_do_credito) ORDER BY data_do_credito ASC) AS t2 
-                                                ON t1.`Mes/Ano` = t2.`Mes/Ano`;");
-
-                                if (gettype($result) == "array") {
-                                    $categoria = '';
-                                    foreach ($result as $key => $value) {
-                                        echo "arrayMetricasValuesLiquido.push({$value['Liquido']});";
-                                        echo "arrayMetricasLegendLiquido.push('{$value['Mes/Ano']}');";
-                                    }
-                                }
-                                ?>
+                                var arrayMetricasGastos = [];
+                                var arrayMetricasGastosDetalhes = [];
+                                var arrayMetricasGanhos = [];
+                                var arrayMetricasLiquido = [];
 
                                 var presets = window.chartColors;
                                 var utils = Samples.utils;
@@ -328,26 +257,214 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                     }
                                 };
 
-                                function runChart(
-                                    arrayMetricasLegend = arrayMetricasLegendLiquido,
-                                    arrayMetricasValues = arrayMetricasValuesLiquido,
-                                    color = presets.green,
-                                    legenda = "Líquido") {
 
+                                <?php include_once '../database/crud.php';
+                                $result = Crud::read("SELECT
+                                concat(MONTH(tb_despesa.data_do_debito),'/',year(tb_despesa.data_do_debito)) AS `Mes/Ano`,
+                                SUM(valor) AS total
+                                FROM tb_despesa
+                                WHERE
+                                id_usuario = {$_SESSION['id_usuario']} AND status = 1#Id usuario
+                                GROUP BY MONTH(tb_despesa.data_do_debito) ORDER BY data_do_debito ASC;");
+
+                                if (gettype($result) == "array") {
+                                    $categoria = '';
+                                    $valor = "";
+                                    $legenda = "";
+                                    foreach ($result as $key => $value) {
+                                        $valor .= "{$value['total']},";
+                                        $legenda .= "\"{$value['Mes/Ano']}\",";
+                                    }
+                                    echo "arrayMetricasGastos.push ({
+                                        color: presets.red,
+                                        legenda: \"Gastos\",
+                                        arrayMetricasLegend:[{$legenda}],
+                                        arrayMetricasValues:[{$valor}],
+                                    });";
+                                }
+                                ?>
+                                <?php include_once '../database/crud.php';
+                                $result = Crud::read("SELECT *,
+                                if(t1.tipo = t2.tipo_temp, TRUE, '') AS vdd,
+                                (
+                                    SELECT SUM(valor)
+                                    FROM tb_despesa
+                                    WHERE id_usuario = {$_SESSION['id_usuario']}
+                                        AND STATUS = 1
+                                        and MONTH(tb_despesa.data_do_debito) = mes
+                                        AND tb_despesa.tipo = t1.tipo
+                                ) as valor
+                            FROM (
+                                    SELECT tipo as tipo
+                                    FROM tb_despesa
+                                    WHERE id_usuario = {$_SESSION['id_usuario']}
+                                        AND status = 1 #Id usuario
+                                    GROUP BY tipo
+                                ) AS t1
+                                join (
+                                    SELECT tipo as tipo_temp,
+                                    tb_despesa.data_do_debito AS dt,
+                                        concat(
+                                            MONTH(tb_despesa.data_do_debito),
+                                            '/',
+                                            year(tb_despesa.data_do_debito)
+                                        ) AS `Mes/Ano`,
+                                        MONTH(tb_despesa.data_do_debito) AS mes,
+                                        SUM(valor) AS total
+                                    FROM tb_despesa
+                                    WHERE id_usuario = {$_SESSION['id_usuario']}
+                                        AND status = 1 #Id usuario
+                                    GROUP BY MONTH(tb_despesa.data_do_debito),
+                                        tipo
+                                    ORDER BY data_do_debito ASC
+                                ) AS t2 #ON t1.tipo = t2.tipo_temp OR ()
+                                WHERE t1.tipo <> ''
+                            GROUP BY t1.tipo,
+                                `Mes/Ano`
+                                ORDER BY t2.dt asc ");
+
+                                if (gettype($result) == "array") {
+                                    $istrueVarieble = false;
+                                    $valor = "";
+                                    $legenda = "";
+                                    $arrayDeVerificacaoTipos = [["ahsdjkahs" => []],];
+                                    $arrayDeTipos = [["ahsdjkahs" => []],];
+                                    $presetColors = ["red", "blue", "orange", "yellow", "purple", "green", "cyan", "black", "grey", "pink"];
+                                    echo "var teste2= '';";
+                                    foreach ($result as $key => $value) {
+                                        for ($i = 0; $i < count($arrayDeVerificacaoTipos); $i++) {
+                                            if ($arrayDeVerificacaoTipos[$i] == "{$value['tipo']}") {
+                                                $istrueVarieble = true;
+                                            }
+                                            if ($i == count($arrayDeVerificacaoTipos) - 1) {
+                                                if ($istrueVarieble == false) {
+                                                    array_push($arrayDeVerificacaoTipos, (string)$value['tipo']);
+                                                    array_push($arrayDeTipos, [(string)$value['tipo'] => []]);
+                                                }
+                                                $istrueVarieble = false;
+                                            }
+                                        }
+                                        array_push(
+                                            $arrayDeTipos[array_search((string)$value['tipo'], $arrayDeVerificacaoTipos)][(string)$value['tipo']],
+                                            (is_null($value['valor']) ? 0 : $value['valor'])
+                                        );
+                                    }
+                                    unset($arrayDeTipos[0]);
+                                    echo "var tested = " . json_encode($arrayDeTipos) . ";";
+                                    $counter = 0;
+                                    foreach ($arrayDeTipos as $key => $Tipo) {
+                                        //echo "console.log('".json_encode($Tipo[key($Tipo)])."');";
+                                        echo "arrayMetricasGastosDetalhes.push ({
+                                        color: presets.{$presetColors[$counter]},
+                                        legenda: \"" . key($Tipo) . "\",
+                                        arrayMetricasLegend: arrayMetricasGastos[0].arrayMetricasLegend,
+                                        arrayMetricasValues: " . json_encode($Tipo[key($Tipo)]) . "
+                                        });";
+                                        $counter++;
+                                    }
+                                }
+                                ?>
+                                <?php include_once '../database/crud.php';
+                                $result = Crud::read("SELECT
+                                concat(MONTH(tg.data_do_credito),'/',year(tg.data_do_credito)) AS `Mes/Ano`,
+                                SUM(valor) AS total
+                                FROM tb_ganho as tg
+                                INNER JOIN tb_carteira as tc
+                                ON tc.id_carteira = tg.id_carteira
+                                WHERE
+                                tc.poupanca = 0 
+                                AND tc.status = 1 AND
+                                tg.id_usuario = {$_SESSION['id_usuario']} #Id usuario
+                                GROUP BY MONTH(tg.data_do_credito) ORDER BY data_do_credito ASC;");
+
+                                if (gettype($result) == "array") {
+                                    $categoria = '';
+                                    $valor = "";
+                                    $legenda = "";
+                                    foreach ($result as $key => $value) {
+                                        $valor .= "{$value['total']},";
+                                        $legenda .= "\"{$value['Mes/Ano']}\",";
+                                    }
+                                    echo "arrayMetricasGanhos.push ({
+                                        color: presets.green,
+                                        legenda: \"Ganhos\",
+                                        arrayMetricasLegend:[{$legenda}],
+                                        arrayMetricasValues:[{$valor}],
+                                    });";
+                                }
+                                ?>
+                                <?php include_once '../database/crud.php';
+                                $result = Crud::read("SELECT(t2.total-t1.total) AS Liquido, t1.`Mes/Ano`
+                                                FROM
+                                                (SELECT
+                                                concat(MONTH(tb_despesa.data_do_debito),'/',year(tb_despesa.data_do_debito)) AS `Mes/Ano`,
+                                                SUM(valor) AS total
+                                                FROM tb_despesa
+                                                WHERE
+                                                id_usuario = {$_SESSION['id_usuario']} AND STATUS = 1
+                                                GROUP BY MONTH(tb_despesa.data_do_debito) ORDER BY data_do_debito ASC) AS t1
+                                                INNER JOIN
+                                                (SELECT 
+                                                concat(MONTH(tg.data_do_credito),'/',year(tg.data_do_credito)) AS `Mes/Ano`, 
+                                                SUM(valor) AS total
+                                                FROM tb_ganho as tg
+                                                INNER JOIN tb_carteira as tc
+                                                ON tc.id_carteira = tg.id_carteira
+                                                WHERE
+                                                tc.poupanca = 0 AND  
+                                                tg.id_usuario = {$_SESSION['id_usuario']} AND tg.status = 1
+                                                GROUP BY MONTH(tg.data_do_credito) ORDER BY data_do_credito ASC) AS t2 
+                                                ON t1.`Mes/Ano` = t2.`Mes/Ano`;");
+
+                                if (gettype($result) == "array") {
+                                    $categoria = '';
+                                    $valor = "";
+                                    $legenda = "";
+                                    foreach ($result as $key => $value) {
+                                        $valor .= "{$value['Liquido']},";
+                                        $legenda .= "\"{$value['Mes/Ano']}\",";
+                                    }
+                                    echo "arrayMetricasLiquido.push ({
+                                        color: presets.yellow,
+                                        legenda: \"Líquido\",
+                                        arrayMetricasLegend:[{$legenda}],
+                                        arrayMetricasValues:[{$valor}],
+                                    });
+                                    ";
+                                }
+                                ?>
+
+
+                                function runChart(
+                                    arrayDataSets = [{
+                                        color: presets.green,
+                                        arrayMetricasLegend: arrayMetricasLegendLiquido,
+                                        arrayMetricasValues: arrayMetricasValuesLiquido,
+                                        legenda: "Líquido"
+                                    }]) {
                                     // reset the random seed to generate the same data for all charts
                                     utils.srand(8);
+
+                                    datasetValues = [];
+
+                                    arrayDataSets.forEach((item) => {
+                                        datasetValues.push({
+                                            backgroundColor: utils.transparentize(item.color),
+                                            borderColor: item.color,
+                                            data: item.arrayMetricasValues,
+                                            label: item.legenda,
+                                            fill: 'origin',
+                                            tension: 0.3
+                                        });
+                                    })
+
+
 
                                     new Chart('chart-metrica', {
                                         type: 'line',
                                         data: {
-                                            labels: arrayMetricasLegend,
-                                            datasets: [{
-                                                backgroundColor: utils.transparentize(color),
-                                                borderColor: color,
-                                                data: arrayMetricasValues,
-                                                label: legenda,
-                                                fill: 'origin'
-                                            }]
+                                            labels: arrayDataSets[0].arrayMetricasLegend,
+                                            datasets: datasetValues
                                         },
                                         options: Chart.helpers.merge(options, {
                                             title: {
@@ -361,7 +478,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                 window.onload = () => {
                                     var ctx = document.getElementById('chart-area').getContext('2d');
                                     window.myPie = new Chart(ctx, config);
-                                    runChart();
+                                    runChart(arrayMetricasLiquido);
                                 }
                             </script>
                         </div>
