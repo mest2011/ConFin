@@ -122,91 +122,222 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                     <h4 class="font-purple font-weight-bold mt-2 mx-2 pb-5">Recomende <span class="font-white"> para amigos</span> e desbloqueie funções <span class="font-white">especiais</span></h4>
                 </div>
                 <div class="cards p-4 mb-4 mb-sm-1 mr-0">
-                    <fieldset>
-                        <legend>Meus gastos:</legend>
-                        <div class="chart-area">
-                            <canvas id="chart-area" width="100"></canvas>
-                            <script>
-                                var config = {
-                                    type: 'doughnut',
-                                    data: {
-                                        datasets: [{
-                                            data: [
-                                                <?php include_once '../database/crud.php';
-                                                $result = Crud::read("SELECT SUM(valor) AS total, tipo FROM tb_despesa WHERE data_do_debito >= '" . date('Y') . "-" . date('m') . "-01'
-                                                    AND data_do_debito <= '" . date('Y') . "-" . date('m') . "-31' AND id_usuario= {$_SESSION['id_usuario']} AND status = 1 GROUP BY tipo;");
+                    <fieldset class="d-block ">
+                        <div class="d-flex justify-content-between">
+                            <legend>Meus gastos:</legend>
+                            <div class="d-block mb-3">
+                                <div class="d-flex">
+                                    <button id="btn-previous" class="btn btn-green-inverted btn-sm mb-2 mx-1 px-3" onclick="controlaMesGastoAtual('previous')" title="Mês anterior">
+                                        < </button>
+                                            <button id="btn-next" class="btn btn-green-inverted btn-sm mb-2 mx-1 px-3" onclick="controlaMesGastoAtual('next')" title="Mês seguinte">></button>
+                                </div>
+                                <p id='mes-gasto' class="font-green text-center"></p>
+                            </div>
+                        </div>
+                        <div>
+                            <div id="chart-container" class="chart-area">
+                                <canvas id="chart-area" width="100"></canvas>
 
-                                                $categoria = '';
-                                                if (gettype($result) == "array") {
-                                                    foreach ($result as $key => $value) {
-                                                        echo $value['total'] . ",";
-                                                        $categoria .= "'" . $value['tipo'] . "',";
+                                <?php include_once '../database/crud.php';
+                                $result = Crud::read("SELECT
+                                concat(MONTH(tb_despesa.data_do_debito),'/',year(tb_despesa.data_do_debito)) AS `data`,
+                                SUM(valor) AS total,
+                                 tipo
+                                FROM tb_despesa
+                                WHERE
+                                id_usuario = {$_SESSION['id_usuario']} AND status = 1#Id usuario
+                                GROUP BY MONTH(tb_despesa.data_do_debito), tipo ORDER BY data_do_debito ASC;");
+
+                                $categoria = '';
+                                $rows = array();
+                                if (gettype($result) == "array") {
+
+                                    foreach ($result as $key => $value) {
+                                        // if($subArray == 0 or is_null($rows[$subArray])){
+                                        //     $rows = [$subArray => []];
+                                        // }
+                                        /*TODO => converter array para o seguinte formato
+                                            
+                                            {
+                                                0: { 
+                                                    0: {mes 1, ...},
+                                                    1: {mes 1, ...},
                                                     }
-                                                }
-                                                ?>
-                                            ],
-                                            borderColor: "rgba(160, 161, 166,0.2)",
-                                            hoverBorderColor: "rgb(25, 208, 160)",
-                                            backgroundColor: [
-                                                "rgba(255, 60, 60,0.5)",
-                                                "rgba(255, 128,60,0.5)",
-                                                "rgba(255, 236,60,0.5)",
-                                                "rgba(184, 255,60,0.5)",
-                                                "rgba(60, 255,143,0.5)",
-                                                "rgba(60, 255,224,0.5)",
-                                                "rgba(60, 169,255,0.5)",
-                                                "rgba(60, 88, 255,0.5)",
-                                                "rgba(140, 60,255,0.5)",
-                                                "rgba(212, 60,255,0.5)",
-                                                "rgba(255, 60,226,0.5)",
-                                            ],
-                                            hoverBackgroundColor: [
-                                                "rgb(255, 60, 60)",
-                                                "rgb(255, 128, 60)",
-                                                "rgb(255, 236, 60)",
-                                                "rgb(184, 255, 60)",
-                                                "rgb(60, 255, 143)",
-                                                "rgb(60, 255, 224)",
-                                                "rgb(60, 169, 255)",
-                                                "rgb(60, 88, 255)",
-                                                "rgb(140, 60, 255)",
-                                                "rgb(212, 60, 255)",
-                                                "rgb(255, 60, 226)",
-                                            ],
-                                            label: 'Conjunto de dados'
-                                        }],
-                                        labels: [
-                                            <?php echo $categoria == '' ? '"Ainda não há gastos nesse mês!"' : $categoria; ?>
-                                        ]
-
-                                    },
-                                    options: {
-                                        tooltips: {
-                                            backgroundColor: '#9792E3ab',
-                                            titleFontSize: 20,
-                                            titleFontColor: '#fff',
-                                            bodyFontColor: '#fff',
-                                            bodyFontSize: 20,
-                                            displayColors: false,
-                                            xPadding: 10,
-                                            yPadding: 10,
-                                            rtl: true
-
-                                        },
-                                        legend: {
-                                            display: <?php echo $categoria == '' ? 'false' : 'true'; ?>,
-                                            position: "left",
-                                            labels: {
-                                                fontFamily: 'Arial',
-                                                fontColor: "#9792e3",
-                                                borderColor: "#9792e3"
+                                                1: { 
+                                                    0: {mes 1, ...},
+                                                    1: {mes 1, ...},
+                                                    }
                                             }
+                                            */
+                                        // if($value['Mes/Ano'] != $rows[$subArray => ['']]){}
+                                        // array_push($rows, $value);
+                                    }
+                                    $categoria = json_encode($result);
+                                }
+                                echo "<script>const gastos = {$categoria}</script>";
+                                ?>
+                                <script>
+                                    items = (obj) => {
+                                        var i,
+                                            arr = []
+                                        for (i in obj) {
+                                            arr.push(obj[i])
+                                        }
+                                        return arr
+                                    }
+
+                                    let verificador = null
+                                    let contador = -1
+                                    let arrayGastos = '{ '
+                                    items(gastos).forEach((row) => {
+                                        if (verificador == null || verificador != row['data']) {
+                                            arrayGastos = arrayGastos.substr(0, (arrayGastos.length - 1))
+                                            if (verificador != null) {
+                                                arrayGastos += '},'
+                                                contador = -1
+                                            }
+                                            contador++
+                                            verificador = row['data']
+                                            arrayGastos += `"${verificador}": { "${contador}": ${JSON.stringify(row)},`
+                                        } else {
+                                            contador++
+                                            arrayGastos += ` "${contador}":  ${JSON.stringify(row)},`
+                                        }
+                                    })
+                                    arrayGastos = arrayGastos.substr(0, (arrayGastos.length - 1)) + "}}"
+                                    //console.log(arrayGastos)
+                                    arrayGastos = JSON.parse(arrayGastos)
+                                    //console.log(arrayGastos)
+
+
+
+                                    const mesPrimeiroGastos = items(arrayGastos)[0][0].data
+                                    const qtdMeses = items(arrayGastos).length
+                                    const mesUltimoGastos = items(arrayGastos)[qtdMeses - 1][0].data
+
+
+                                    var mesExibindo = (qtdMeses - 1);
+
+                                    const controlaMesGastoAtual = (sentido = null) => {
+                                        if (sentido == 'next' && mesExibindo < qtdMeses - 1) {
+                                            resetCanvasGastos();
+                                            ctx = document.getElementById('chart-area').getContext('2d');
+                                            mesExibindo++;
+                                            window.myPie = new Chart(ctx, config(mesExibindo));
+                                            document.getElementById('mes-gasto').innerText = items(arrayGastos)[mesExibindo][0].data;
+                                        }
+                                        if (sentido == 'previous' && mesExibindo > 0) {
+                                            resetCanvasGastos();
+                                            ctx = document.getElementById('chart-area').getContext('2d');
+                                            mesExibindo--;
+                                            window.myPie = new Chart(ctx, config(mesExibindo));
+                                            document.getElementById('mes-gasto').innerText = items(arrayGastos)[mesExibindo][0].data;
+                                        }
+                                        if (!sentido) {
+                                            resetCanvasGastos();
+                                            ctx = document.getElementById('chart-area').getContext('2d');
+                                            mesExibindo = qtdMeses - 1;
+                                            document.getElementById('mes-gasto').innerText = items(arrayGastos)[mesExibindo][0].data;
                                         }
                                     }
-                                };
-                                <?php echo $categoria == '' ? 'document.getElementById(\'chart-area\').parentNode.innerHTML += \'<span class="font-green">Ainda não há gastos nesse mês!😁👍</span>\'' : ''; ?>
-                            </script>
+
+
+
+                                    const getValueGastos = (exibirMes = mesExibindo) => {
+                                        let valorGastos = []
+                                        let data = []
+                                        let tituloGastos = []
+                                        let position = exibirMes
+                                        let contador = 0
+                                        items(arrayGastos).forEach((row) => {
+                                            if (position == contador) {
+                                                items(row).forEach((r) => {
+                                                    valorGastos.push(r.total)
+                                                    tituloGastos.push(r.tipo)
+                                                    data.push(r.data)
+                                                })
+                                            }
+                                            contador++
+                                        })
+                                        return [data, valorGastos, tituloGastos]
+                                    }
+
+                                    function resetCanvasGastos() {
+                                        $('#chart-area').remove(); // this is my <canvas> element
+                                        $('#chart-container').append('<canvas id="chart-area" width="100"></canvas>');
+
+                                    };
+
+                                    const config = (month = undefined) => {
+                                        return {
+                                            type: 'doughnut',
+                                            data: {
+                                                datasets: [{
+                                                    data: getValueGastos(month)[1],
+                                                    borderColor: "rgba(160, 161, 166,0.2)",
+                                                    hoverBorderColor: "rgb(25, 208, 160)",
+                                                    backgroundColor: [
+                                                        "rgba(255, 60, 60,0.5)",
+                                                        "rgba(255, 128,60,0.5)",
+                                                        "rgba(255, 236,60,0.5)",
+                                                        "rgba(184, 255,60,0.5)",
+                                                        "rgba(60, 255,143,0.5)",
+                                                        "rgba(60, 255,224,0.5)",
+                                                        "rgba(60, 169,255,0.5)",
+                                                        "rgba(60, 88, 255,0.5)",
+                                                        "rgba(140, 60,255,0.5)",
+                                                        "rgba(212, 60,255,0.5)",
+                                                        "rgba(255, 60,226,0.5)",
+                                                    ],
+                                                    hoverBackgroundColor: [
+                                                        "rgb(255, 60, 60)",
+                                                        "rgb(255, 128, 60)",
+                                                        "rgb(255, 236, 60)",
+                                                        "rgb(184, 255, 60)",
+                                                        "rgb(60, 255, 143)",
+                                                        "rgb(60, 255, 224)",
+                                                        "rgb(60, 169, 255)",
+                                                        "rgb(60, 88, 255)",
+                                                        "rgb(140, 60, 255)",
+                                                        "rgb(212, 60, 255)",
+                                                        "rgb(255, 60, 226)",
+                                                    ],
+                                                    label: 'Conjunto de dados'
+                                                }],
+                                                labels: getValueGastos(month)[2]
+
+
+                                            },
+                                            options: {
+                                                tooltips: {
+                                                    backgroundColor: '#9792E3ab',
+                                                    titleFontSize: 20,
+                                                    titleFontColor: '#fff',
+                                                    bodyFontColor: '#fff',
+                                                    bodyFontSize: 20,
+                                                    displayColors: false,
+                                                    xPadding: 10,
+                                                    yPadding: 10,
+                                                    rtl: true
+
+                                                },
+                                                legend: {
+                                                    display: <?php echo $categoria == '' ? 'false' : 'true'; ?>,
+                                                    position: "left",
+                                                    labels: {
+                                                        fontFamily: 'Arial',
+                                                        fontColor: "#9792e3",
+                                                        borderColor: "#9792e3"
+                                                    }
+                                                }
+                                            }
+                                        };
+                                    }
+                                    <?php echo $categoria == '' ? 'document.getElementById(\'chart-area\').parentNode.innerHTML += \'<span class="font-green">Ainda não há gastos nesse mês!😁👍</span>\'' : ''; ?>
+                                </script>
+                            </div>
                         </div>
+
 
                     </fieldset>
                 </div>
@@ -484,9 +615,10 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
 
                                 };
 
+
                                 window.onload = () => {
                                     var ctx = document.getElementById('chart-area').getContext('2d');
-                                    window.myPie = new Chart(ctx, config);
+                                    window.myPie = new Chart(ctx, config());
                                     runChart(arrayMetricasLiquido);
                                 }
                             </script>
@@ -655,6 +787,9 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
             document.getElementById('form-meta-data').value = meta['dt_limite'];
             document.getElementById('form-meta-descricao').value = meta['descricao_meta'];
         }
+
+
+
 
         const buscarCarteiras = async (event) => {
             var myHeaders = new Headers();
