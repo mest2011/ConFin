@@ -42,8 +42,9 @@ class UsuarioBus extends Crud
 
     public static function readUsuario($id_usuario)
     {
-
-        $sql = "SELECT * FROM tb_pessoa WHERE id_pessoa = {$id_usuario} LIMIT 1";
+        $sql = "SELECT * FROM tb_pessoa AS p INNER JOIN tb_usuario AS u 
+        ON p.id_pessoa = u.id_pessoa 
+        WHERE u.id_usuario = {$id_usuario} LIMIT 1";
         return parent::read($sql);
     }
 
