@@ -3,7 +3,6 @@
 <?php include "imports/head_parameters.php"; ?>
 
 <title>Lista de carteiras</title>
-
 </head>
 
 <body class="d-flex flex-wrap" onload="loadInfPerfil()">
@@ -94,7 +93,6 @@
         toastr.options.closeDuration = 300;
         toastr.options.closeEasing = 'swing';
         toastr.options.preventDuplicates = true;
-
 
         const id_usuario = <?php echo $_SESSION['id_usuario']; ?>
 
