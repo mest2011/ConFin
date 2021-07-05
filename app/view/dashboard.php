@@ -151,27 +151,6 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                 $categoria = '';
                                 $rows = array();
                                 if (gettype($result) == "array") {
-
-                                    foreach ($result as $key => $value) {
-                                        // if($subArray == 0 or is_null($rows[$subArray])){
-                                        //     $rows = [$subArray => []];
-                                        // }
-                                        /*TODO => converter array para o seguinte formato
-                                            
-                                            {
-                                                0: { 
-                                                    0: {mes 1, ...},
-                                                    1: {mes 1, ...},
-                                                    }
-                                                1: { 
-                                                    0: {mes 1, ...},
-                                                    1: {mes 1, ...},
-                                                    }
-                                            }
-                                            */
-                                        // if($value['Mes/Ano'] != $rows[$subArray => ['']]){}
-                                        // array_push($rows, $value);
-                                    }
                                     $categoria = json_encode($result);
                                 }
                                 echo "<script>const gastos = {$categoria}</script>";
@@ -484,6 +463,9 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                     echo "var tested = " . json_encode($arrayDeTipos) . ";";
                                     $counter = 0;
                                     foreach ($arrayDeTipos as $key => $Tipo) {
+                                        if ($counter > 9){
+                                            $counter = 0;
+                                        }
                                         //echo "console.log('".json_encode($Tipo[key($Tipo)])."');";
                                         echo "arrayMetricasGastosDetalhes.push ({
                                         color: presets.{$presetColors[$counter]},
