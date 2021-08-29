@@ -428,6 +428,45 @@
         }
 
 
+        function loadSuggestion() {
+            const suggestion = document.getElementById('suggestion');
+            const formTitle = document.getElementById('form-title');
+
+            <?php include_once '../database/crud.php';
+            $result = Crud::read("SELECT titulo, COUNT(titulo) AS recorrencia FROM tb_despesa 
+                                WHERE id_usuario = {$_SESSION['id_usuario']} AND status = 1
+                                GROUP BY titulo 
+                                ORDER BY recorrencia DESC
+                                LIMIT 5;");
+
+            $title_suggestion = '';
+            $rows = array();
+
+            if (gettype($result) == "array") {
+                $title_suggestion = json_encode($result);
+            }
+            echo "const suggestionList = {$title_suggestion}";
+            ?>
+
+            var suggestionItems = "";
+
+            suggestionList.map((item)=>{
+                suggestionItems+=`<li class="list-group-item list-group-item-action list-group-item-light" onclick="changeTitleFromSuggestion('${item.titulo}')">${item.titulo}</li>`;
+            });
+
+            suggestion.innerHTML = suggestionItems;
+            suggestion.classList.replace('d-none', 'd-block');
+        }
+
+        const changeTitleFromSuggestion = (title) => {
+            document.getElementById('form-title').value = title;
+            closeSuggestion();
+        }
+
+        function closeSuggestion() {
+            const suggestion = document.getElementById('suggestion');
+            suggestion.classList.replace('d-block', 'd-none');
+        }
 
 
         function loadSideModal(id = '',
@@ -448,7 +487,10 @@
                 <div class="d-flex">
                         <input class="d-none" type="text" id="form-id" name="form-id" value="${id}">
                         <h3 class="p-3 bg-gray my-auto mr-3 border-rounded" id="form-icon" onclick="hiddenShowEmojiKeyboard()">${icone}</h3>
-                        <input class="form-control font-title-modal" type="text" id="form-title" name="form-title" value="${titulo}" maxlength="30" placeholder="Titulo da despesa" required>
+                        <div class="w-100">
+                            <input class="form-control font-title-modal h-100" type="text" id="form-title" name="form-title" value="${titulo}" maxlength="30" placeholder="Titulo da despesa" onclick="loadSuggestion()" onkeydown="closeSuggestion()" autocomplete="off" required>
+                            <div class="d-none w-75 list-group" id="suggestion" style="z-index:1; position: absolute;"></div>
+                        </div>
                     </div>
                     <hr/>
                     <div class="d-block mt-4">
