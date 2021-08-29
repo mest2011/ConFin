@@ -16,7 +16,7 @@
             <div class="d-block">
                 <div id="emojis" style="position: fixed; z-index: 1; bottom: 0; display:none"></div>
                 <div class="d-flex mt-5 mb-3">
-                    <img class="card-icone my-auto bg-gray p-2 rounded" src="./images/carteira.png" alt="">
+                    <img class="card-icone my-auto bg-gray p-2 border-rounded" src="./images/carteira.png" alt="">
                     <h4 class="font-purple my-auto ml-2">Carteiras</h4>
                 </div>
                 <div class="d-flex justify-content-between mb-3">

@@ -70,8 +70,8 @@
 .side-modal {
   width: 50vw;
   min-height: 100%;
-  background-color: #fff;
-  position: absolute;
+  background-color: #edededed;
+  position: fixed;
   top: 0;
   right: 0;
   margin-right: -55%;
@@ -90,7 +90,7 @@
 }
 
 .btn-white {
-  background-color: #fff !important;
+  background-color: #f5f5f5 !important;
   border: #fff;
 }
 
@@ -179,4 +179,12 @@
   .mobile-on {
     display: block !important;
   }
+}
+
+.border-rounded {
+  border-radius: 0.75rem !important;
+}
+
+.bg-white{
+  background-color: #fff;
 }

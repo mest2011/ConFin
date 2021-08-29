@@ -238,6 +238,14 @@ tfoot td:hover {
   border-radius: 0 0 1vh 1vh;
 }
 
+.chart-area{
+  max-width: 35vw;
+}
+
+.chart-metricas{
+  max-width: 88vw;
+}
+
 @media (max-width: 576px) {
   .dash-gastos {
     background-image: url(../images/sharp.png);
@@ -246,6 +254,14 @@ tfoot td:hover {
     background-position-y: 60vh;
     border-left: none;
     background-size: 18vw;
-    
+  }
+}
+
+@media only screen and (max-device-width: 768px) {
+  .chart-area{
+    max-width: 100% !important;
+  }
+  .cards-graphic {
+    width: auto !important;
   }
 }

@@ -83,7 +83,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                         </div>
                     </fieldset>
                 </div>
-                <div class="cards pointer p-4 mb-4 mb-sm-1" onclick="openMeta()">
+                <div class="cards pointer p-4 mr-0 mb-4 mb-sm-1" onclick="openMeta()">
                     <fieldset class="d-block">
                         <div class="d-flex pb-2">
                             <img src="./images/favorito.png" class="my-auto card-icone" alt="favorito">&nbsp;
@@ -136,7 +136,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                         </div>
                         <div>
                             <div id="chart-container" class="chart-area">
-                                <canvas id="chart-area" width="100"></canvas>
+                                <canvas id="chart-area"></canvas>
 
                                 <?php include_once '../database/crud.php';
                                 $result = Crud::read("SELECT
@@ -322,7 +322,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                 </div>
             </section>
             <section class="mr-1 mb-5">
-                <div class="cards p-4 mb-4 mb-sm-1">
+                <div class="cards p-4 mb-4 mb-sm-1 cards-graphic" >
                     <fieldset class="d-block">
                         <div class="d-flex justify-content-between">
                             <h5>Métricas:</h5>
@@ -333,8 +333,8 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                 <button class="btn btn-green-inverted btn-sm" onclick="runChart(arrayMetricasLiquido)">Líquido</button>
                             </div>
                         </div>
-                        <div id="chart-metrica-pai" class="chart-area d-block">
-                            <canvas id="chart-metrica" style="height: 22em;"></canvas>
+                        <div id="chart-metrica-pai" class="chart-area d-block chart-metricas">
+                            <canvas id="chart-metrica" style="height: 22em; max-width: 88vw;"></canvas>
                             <script>
                                 var arrayMetricasGastos = [];
                                 var arrayMetricasGastosDetalhes = [];
@@ -463,7 +463,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                     echo "var tested = " . json_encode($arrayDeTipos) . ";";
                                     $counter = 0;
                                     foreach ($arrayDeTipos as $key => $Tipo) {
-                                        if ($counter > 9){
+                                        if ($counter > 9) {
                                             $counter = 0;
                                         }
                                         //echo "console.log('".json_encode($Tipo[key($Tipo)])."');";
@@ -593,7 +593,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
 
                                 function resetCanvas() {
                                     $('#chart-metrica').remove(); // this is my <canvas> element
-                                    $('#chart-metrica-pai').append('<canvas id="chart-metrica" style="height: 22em;"><canvas>');
+                                    $('#chart-metrica-pai').append('<canvas id="chart-metrica" style="height: 22em; max-width: 88vw;"><canvas>');
 
                                 };
 

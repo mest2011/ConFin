@@ -14,7 +14,7 @@
             <div class="d-block pb-2">
                 <div id="emojis" style="position: fixed; z-index: 1; bottom: 0; display:none"></div>
                 <div class="d-flex mt-0 mt-sm-5 mb-3">
-                    <img class="card-icone my-auto p-2 bg-gray rounded" src="./images/calendario.png" alt="">
+                    <img class="card-icone my-auto p-2 bg-gray border-rounded" src="./images/calendario.png" alt="">
                     <h4 class="font-purple my-auto ml-2">Extrato</h4>
                 </div>
                 <div class="d-flex justify-content-between">
@@ -241,7 +241,7 @@
                                     <!--<p class=\"d-block font-weight-bold my-auto\">Categoria:</p> -->
                                     <p class=\"${((resultJson[i]['valor']).replace('.', '').replace(',','.') < 0)? 'font-red' : 'font-green'} font-weight-bold\">${resultJson[i]['tipo']}</p>
                                 </div>
-                            <small class=\"font-white bg-purple p-2 rounded mb-auto\">${resultJson[i]['nome_carteira']}</small>
+                            <small class=\"font-white bg-purple p-2 border-rounded mb-auto\">${resultJson[i]['nome_carteira']}</small>
                             </div>
                             <small class=\"d-block font-weight-bold my-auto\">Descrição:</small>
                             <small class=\"font-gray\">${resultJson[i]['descricao']}</small>

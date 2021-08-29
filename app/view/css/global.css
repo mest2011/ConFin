@@ -473,10 +473,6 @@ a:hover {
     font-size: 4em;
   }
 
-  .rounded {
-    border-radius: 0.5em !important;
-  }
-
   #container-cards {
     flex-wrap: initial !important;
     display: block !important;

@@ -93,7 +93,7 @@
 
 
             <div class="col-md-11 col-sm-10 col-12 pl-4 p-sm-4" id="container-main">
-                <div class="side-modal p-5" id="side-modal"></div>
+                <div class="side-modal pt-5 px-3" id="side-modal"></div>
                 <div id="container-cards" class="col-12 d-block"></div>
             </div>
 
@@ -289,7 +289,7 @@
                                     <!--<p class=\"d-block font-weight-bold my-auto\">Categoria:</p> -->
                                     <p class=\"font-red font-weight-bold\">${resultJson[i]['tipo']}</p>
                                 </div>
-                            <small class=\"font-white bg-purple p-2 rounded mb-auto\">${resultJson[i]['nome_carteira']}</small>
+                            <small class=\"font-white bg-purple p-2 border-rounded mb-auto\">${resultJson[i]['nome_carteira']}</small>
                             </div>
                             <small class=\"d-block font-weight-bold my-auto\">Descrição:</small>
                             <small class=\"font-gray\">${resultJson[i]['descricao']}</small>
@@ -443,40 +443,41 @@
             let sideModal = document.getElementById('side-modal');
 
             sideModal.innerHTML = `
+                <div class="border-rounded p-3 bg-white">
                 <form id="form-gasto" onsubmit="event.preventDefault(); saveGasto();">
                 <div class="d-flex">
                         <input class="d-none" type="text" id="form-id" name="form-id" value="${id}">
-                        <h3 class="p-3 bg-gray my-auto mr-3 rounded" id="form-icon" onclick="hiddenShowEmojiKeyboard()">${icone}</h3>
+                        <h3 class="p-3 bg-gray my-auto mr-3 border-rounded" id="form-icon" onclick="hiddenShowEmojiKeyboard()">${icone}</h3>
                         <input class="form-control font-title-modal" type="text" id="form-title" name="form-title" value="${titulo}" maxlength="30" placeholder="Titulo da despesa" required>
                     </div>
                     <hr/>
-                    <div class="d-block mt-5">
-                        <div class="d-flex my-4">
+                    <div class="d-block mt-4">
+                        <div class="d-flex my-3">
                             <p class="col-sm-4">Categoria:</p>
                             <select id="form-categoria" name="form-categoria" class="form-control col-sm-4" required>
                                 <option value="${categoria}" selected>${categoria}</option>
                             </select>
                             <a type="button" data-toggle="modal" data-target="#ModalCadCategoria" class="pointer bg-green bg-darkgreen rounded-circle ml-2 my-auto p-1 btn-add-transfer" style="line-height:1" onclick="listaCategoria(1);">✚</a>
                         </div>
-                        <div class="d-flex my-4">
+                        <div class="d-flex my-3">
                             <p class="col-sm-4">Valor total:</p>
                             <input class="form-control number col-sm-6 font-red font-weight-bold" placeholder="R$" type="text" id="form-valor"  onfocus="ValidaCampos.MoedaUnitarioQuantidade('#form-valor', 2);" value="${valor}"  required>
                         </div>
-                        <div class="d-flex my-4">
+                        <div class="d-flex my-3">
                             <p class="col-sm-4">Data da despesa:</p>
                             <input class="form-control col-sm-6" id="form-data" name="form-data" type="date" value="${(data)===''?new Date().getFullYear()+'-'+String(new Date().getMonth() + 1).padStart(2, '0')+'-'+String(new Date().getDate()).padStart(2, '0'):data}" min="2000-01-01" required>
                         </div>
-                        <div class="d-flex my-4">
+                        <div class="d-flex my-3">
                             <p class="col-sm-4">Carteira:</p>
                             <select id="form-carteira" name="form-carteira" class="form-control col-sm-8" required>
                                 <option value="${id_carteira}">${carteira}</option>
                             </select>
                         </div>
-                        <div class="d-flex my-4">
+                        <div class="d-flex my-3">
                             <p class="col-sm-4">Descrição:</p>
                             <textarea class="form-control col-sm-8" id="form-descricao" placeholder="Adicione mais detalhes sobre o gasto..." rows="4" maxlength="100">${descricao}</textarea>
                         </div>
-                        <div class="d-flex my-4">
+                        <div class="d-flex my-3">
                             <p class="col-sm-4">Anexar comprovante:</p>
                             <div class="p-0 col-sm-8">
                                 <label type="button" for="form-comprovante" class="pointer bg-green bg-darkgreen rounded-circle mt-1 mb-auto p-2 btn-add-transfer" style="line-height:1">✚</label>
@@ -493,7 +494,7 @@
                                 <small class="font-purple mt-1 p-0 col-12" id="span-file"></small>
                             </div>
                         </div>
-                        <div class="my-4  ${(comprovante==='')?'d-none':'d-flex '}">
+                        <div class="my-3  ${(comprovante==='')?'d-none':'d-flex '}">
                             <div class="col-sm-4 m-auto">
                                 <a href="../../uploads/${comprovante}" download="Comprovante_titulo-${titulo}_data-${data}" class="btn btn-dark m-auto">Baixar ↷</a>
                             </div>
@@ -512,9 +513,9 @@
                         </div>
 
                         
-                        <div class="d-flex my-5 col-sm-12">
-                            <a class="btn btn-white col-6 mx-2" onclick="fechaSideModal()">Cancelar</a>
-                            <button submit="form-gasto" class="btn btn-success col-6 mx-2">Salvar</button>
+                        <div class="d-flex my-4 col-sm-12">
+                            <a class="btn btn-white col-5 mx-2" onclick="fechaSideModal()">Cancelar</a>
+                            <button submit="form-gasto" class="btn btn-success col-5 mx-2">Salvar</button>
                         </div>
                     </div>
                     </form>
