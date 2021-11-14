@@ -91,12 +91,11 @@
           <div class="">
             <h1>Crie sua conta <span class="green-color">no Cofrin</span></h1>
             <p>Cadastre-se com:</p>
-            <div class="d-md-flex">
+            <div class="row">
               <div
-                class="col-md-6 col-12 pl-0 mt-auto pt-1"
-                style="cursor: pointer;"
-                onclick="console.log('tese');
-                document.getElementById('btn-login-google').children[0].click();"
+                class="col-md-6 col-12 mt-auto pt-1"
+                style="cursor: pointer"
+                onclick="document.getElementById('btn-login-google').children[0].click();"
               >
                 <div
                   id="btn-login-google"
@@ -104,7 +103,7 @@
                   data-onsuccess="onSignIn"
                 ></div>
               </div>
-              <div class="col-md-6 col-12 pl-0 mt-auto pt-1">
+              <div class="col-md-6 col-12 mt-auto pt-1">
                 <a
                   href="#"
                   onclick="funcaoIndisponivel();"
@@ -260,7 +259,6 @@
           }, 1000);
         }
       });
-
 
       function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();
