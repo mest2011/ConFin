@@ -92,17 +92,27 @@
             <h1>Crie sua conta <span class="green-color">no Cofrin</span></h1>
             <p>Cadastre-se com:</p>
             <div class="d-md-flex">
-              <div class="my-auto mr-2">
-                <div class="g-signin2" data-onsuccess="onSignIn"></div>
-              </div>
-
-              <a
-                href="#"
-                onclick="funcaoIndisponivel();"
-                class="btn btn-login-facebook my-auto"
-                ><img src="./imagens/logo_facebook.png" alt="logo facebook" />
-                <p>Facebook</p></a
+              <div
+                class="col-md-6 col-12 pl-0 mt-auto pt-1"
+                style="cursor: pointer;"
+                onclick="console.log('tese');
+                document.getElementById('btn-login-google').children[0].click();"
               >
+                <div
+                  id="btn-login-google"
+                  class="g-signin2 btn-login-google"
+                  data-onsuccess="onSignIn"
+                ></div>
+              </div>
+              <div class="col-md-6 col-12 pl-0 mt-auto pt-1">
+                <a
+                  href="#"
+                  onclick="funcaoIndisponivel();"
+                  class="btn btn-login-facebook my-auto mx-auto"
+                  ><img src="./imagens/logo_facebook.png" alt="logo facebook" />
+                  <p>Facebook</p></a
+                >
+              </div>
             </div>
             <div class="separator">ou</div>
             <form
@@ -196,8 +206,11 @@
                   ></small
                 >
               </div>
-              <div class="col-md-12">
-                <button id="form_salvar" class="button green-bgcolor">
+              <div class="col-md-12 col-12 pt-3">
+                <button
+                  id="form_salvar"
+                  class="button green-bgcolor w-100 py-3"
+                >
                   Criar conta
                 </button>
               </div>
@@ -248,6 +261,7 @@
         }
       });
 
+
       function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();
         var userID = profile.getId();
@@ -275,7 +289,7 @@
                   }
                 );
               } else {
-                window.location.href = './login.html';
+                window.location.href = "./login.html";
               }
             }
           );
