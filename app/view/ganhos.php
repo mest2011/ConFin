@@ -420,15 +420,17 @@
                                 WHERE id_usuario = {$_SESSION['id_usuario']} AND status = 1
                                 GROUP BY titulo 
                                 ORDER BY recorrencia DESC
-                                LIMIT 5;");
+                                LIMIT 10;");
 
             $title_suggestion = '';
             $rows = array();
 
             if (gettype($result) == "array") {
                 $title_suggestion = json_encode($result);
+            }else{
+                $title_suggestion = "null";
             }
-            echo "const suggestionList = {$title_suggestion}";
+            echo "const suggestionList = {$title_suggestion};";
             ?>
 
             var suggestionItems = "";
@@ -471,7 +473,7 @@
                         <input class="d-none" type="text" id="form-id" name="form-id" value="${id}">
                         <h3 class="p-3 bg-gray my-auto mr-3 border-rounded" id="form-icon" onclick="hiddenShowEmojiKeyboard()">${icone}</h3>
                         <div class="w-100">
-                            <input class="form-control font-title-modal h-100" type="text" id="form-title" name="form-title" value="${titulo}" maxlength="30" placeholder="Titulo do ganho" onclick="loadSuggestion()" onkeydown="closeSuggestion()" autocomplete="off"  required>
+                            <input class="form-control font-title-modal h-100" type="text" id="form-title" name="form-title" value="${titulo}" maxlength="30" placeholder="Titulo do ganho" onclick="loadSuggestion()" onfocusout="setTimeout(()=>closeSuggestion(), 250)" onkeydown="closeSuggestion()" autocomplete="off"  required>
                             <div class="d-none w-75 list-group" id="suggestion" style="z-index:1; position: absolute;"></div>
                         </div>
                     </div>
