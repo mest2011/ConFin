@@ -444,7 +444,7 @@
 
             if (gettype($result) == "array") {
                 $title_suggestion = json_encode($result);
-            }else{
+            } else {
                 $title_suggestion = "null";
             }
             echo "const suggestionList = {$title_suggestion};";
@@ -452,8 +452,8 @@
 
             var suggestionItems = "";
 
-            suggestionList.map((item)=>{
-                suggestionItems+=`<li class="list-group-item list-group-item-action list-group-item-light" onclick="changeTitleFromSuggestion('${item.titulo}')">${item.titulo}</li>`;
+            suggestionList.map((item) => {
+                suggestionItems += `<li class="list-group-item list-group-item-action list-group-item-light" onclick="changeTitleFromSuggestion('${item.titulo}')">${item.titulo}</li>`;
             });
 
             suggestion.innerHTML = suggestionItems;
@@ -688,6 +688,20 @@
 
         function carregarCategorias() {
             const localcategoria = buscarCategorias('form-categoria', id_usuario);
+            reloadButtonsOnRefreshCategories();
+        }
+
+        function reloadButtonsOnRefreshCategories() {
+            //Delay de espera para dar tempo do modal ser fechado, evita anomalia de renderização
+            setTimeout(function() {
+                document.getElementById('nome').value = '';
+                document.getElementById('span-status').innerText = '';
+                document.getElementById('span-status').classList.remove('alert-success');
+                document.getElementById('span-status').classList.remove('alert-danger');
+                document.getElementById('modal-btn-fechar').style.display = 'flex';
+                document.getElementById('modal-btn-salvar').style.display = 'flex';
+                document.getElementById('lista-categoria').style.display = 'flex';
+            }, 800);
         }
 
 
