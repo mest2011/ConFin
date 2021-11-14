@@ -186,9 +186,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                     arrayGastos = arrayGastos.substr(0, (arrayGastos.length - 1)) + "}}"
                                     //console.log(arrayGastos)
                                     arrayGastos = JSON.parse(arrayGastos)
-                                    //console.log(arrayGastos)
-
-
+                                    console.log(arrayGastos)
 
                                     const mesPrimeiroGastos = items(arrayGastos)[0][0].data
                                     const qtdMeses = items(arrayGastos).length
@@ -322,7 +320,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                 </div>
             </section>
             <section class="mr-1 mb-5">
-                <div class="cards p-4 mb-4 mb-sm-1 cards-graphic" >
+                <div class="cards p-4 mb-4 mb-sm-1 cards-graphic">
                     <fieldset class="d-block">
                         <div class="d-flex justify-content-between">
                             <h5>Métricas:</h5>
@@ -375,7 +373,9 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                 FROM tb_despesa
                                 WHERE
                                 id_usuario = {$_SESSION['id_usuario']} AND status = 1#Id usuario
-                                GROUP BY MONTH(tb_despesa.data_do_debito) ORDER BY data_do_debito ASC;");
+                                GROUP BY MONTH(tb_despesa.data_do_debito),YEAR(tb_despesa.data_do_debito) ORDER BY data_do_debito ASC;");
+
+                                //AND tb_despesa.data_do_debito > ADDDATE((SUBDATE(NOW(),INTERVAL 1 YEAR)),INTERVAL 1 MONTH) #ToDo remover essa linha e ajustar para mostrar todo historico
 
                                 if (gettype($result) == "array") {
                                     $categoria = '';
@@ -424,7 +424,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                     FROM tb_despesa
                                     WHERE id_usuario = {$_SESSION['id_usuario']}
                                         AND status = 1 #Id usuario
-                                    GROUP BY MONTH(tb_despesa.data_do_debito),
+                                    GROUP BY MONTH(tb_despesa.data_do_debito),YEAR(tb_despesa.data_do_debito),
                                         tipo
                                     ORDER BY data_do_debito ASC
                                 ) AS t2 #ON t1.tipo = t2.tipo_temp OR ()
@@ -488,7 +488,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                 tc.poupanca = 0 
                                 AND tc.status = 1 AND
                                 tg.id_usuario = {$_SESSION['id_usuario']} #Id usuario
-                                GROUP BY MONTH(tg.data_do_credito) ORDER BY data_do_credito ASC;");
+                                GROUP BY MONTH(tg.data_do_credito),YEAR(tg.data_do_credito) ORDER BY data_do_credito ASC;");
 
                                 if (gettype($result) == "array") {
                                     $categoria = '';
@@ -508,26 +508,26 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                 ?>
                                 <?php include_once '../database/crud.php';
                                 $result = Crud::read("SELECT(t2.total-t1.total) AS Liquido, t1.`Mes/Ano`
-                                                FROM
-                                                (SELECT
-                                                concat(MONTH(tb_despesa.data_do_debito),'/',year(tb_despesa.data_do_debito)) AS `Mes/Ano`,
-                                                SUM(valor) AS total
-                                                FROM tb_despesa
-                                                WHERE
-                                                id_usuario = {$_SESSION['id_usuario']} AND STATUS = 1
-                                                GROUP BY MONTH(tb_despesa.data_do_debito) ORDER BY data_do_debito ASC) AS t1
-                                                INNER JOIN
-                                                (SELECT 
-                                                concat(MONTH(tg.data_do_credito),'/',year(tg.data_do_credito)) AS `Mes/Ano`, 
-                                                SUM(valor) AS total
-                                                FROM tb_ganho as tg
-                                                INNER JOIN tb_carteira as tc
-                                                ON tc.id_carteira = tg.id_carteira
-                                                WHERE
-                                                tc.poupanca = 0 AND  
-                                                tg.id_usuario = {$_SESSION['id_usuario']} AND tg.status = 1
-                                                GROUP BY MONTH(tg.data_do_credito) ORDER BY data_do_credito ASC) AS t2 
-                                                ON t1.`Mes/Ano` = t2.`Mes/Ano`;");
+                                FROM
+                                (SELECT
+                                concat(MONTH(tb_despesa.data_do_debito),'/',YEAR(tb_despesa.data_do_debito)) AS `Mes/Ano`,
+                                SUM(valor) AS total
+                                FROM tb_despesa
+                                WHERE
+                                id_usuario = {$_SESSION['id_usuario']} AND STATUS = 1
+                                GROUP BY MONTH(tb_despesa.data_do_debito),YEAR(tb_despesa.data_do_debito) ORDER BY data_do_debito ASC) AS t1
+                                INNER JOIN
+                                (SELECT 
+                                concat(MONTH(tg.data_do_credito),'/',YEAR(tg.data_do_credito)) AS `Mes/Ano`, 
+                                SUM(valor) AS total
+                                FROM tb_ganho as tg
+                                INNER JOIN tb_carteira as tc
+                                ON tc.id_carteira = tg.id_carteira
+                                WHERE
+                                tc.poupanca = 0 AND  
+                                tg.id_usuario = {$_SESSION['id_usuario']} AND tg.status = 1
+                                GROUP BY MONTH(tg.data_do_credito),YEAR(tg.data_do_credito) ORDER BY data_do_credito ASC) AS t2 
+                                ON t1.`Mes/Ano` = t2.`Mes/Ano`;");
 
                                 if (gettype($result) == "array") {
                                     $categoria = '';
