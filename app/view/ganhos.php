@@ -287,7 +287,10 @@
                                     <!--<p class=\"d-block font-weight-bold my-auto\">Categoria:</p> -->
                                     <p class=\"font-green font-weight-bold\">${resultJson[i]['tipo']}</p>
                                 </div>
-                            <small class=\"font-white bg-purple p-2 border-rounded mb-auto\">${resultJson[i]['nome_carteira']}</small>
+                                <div style=\"text-align: -webkit-right;\">
+                                    <small class=\"font-white bg-purple p-2 border-rounded mb-auto d-block\">${resultJson[i]['nome_carteira']}</small>
+                                    ${resultJson[i]['comprovante']?'<image src=\"images/attachment_black_24dp.svg\" width=\"30\">':''}
+                                </div>
                             </div>
                             <small class=\"d-block font-weight-bold my-auto\">Descrição:</small>
                             <small class=\"font-gray\">${resultJson[i]['descricao']}</small>
