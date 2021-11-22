@@ -131,7 +131,8 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                         < </button>
                                             <button id="btn-next" class="btn btn-green-inverted btn-sm mb-2 mx-1 px-3" onclick="controlaMesGastoAtual('next')" title="Mês seguinte">></button>
                                 </div>
-                                <p id='mes-gasto' class="font-green text-center"></p>
+                                <p id='mes-gasto' class="font-green text-center m-0"></p>
+                                <p id='gasto-mes' class="font-green text-center m-0 number"></p>
                             </div>
                         </div>
                         <div>
@@ -142,11 +143,21 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                 $result = Crud::read("SELECT
                                 concat(MONTH(tb_despesa.data_do_debito),'/',year(tb_despesa.data_do_debito)) AS `data`,
                                 SUM(valor) AS total,
-                                 tipo
-                                FROM tb_despesa
-                                WHERE
+                                tipo,
+                                gasto_mes
+                                FROM tb_despesa INNER JOIN  (
+								    SELECT 
+								        SUM(valor) AS gasto_mes,
+								        CONCAT(MONTH(t.data_do_debito),'/',YEAR(t.data_do_debito)) AS mesano
+								        FROM tb_despesa AS t
+								        WHERE t.id_usuario = {$_SESSION['id_usuario']} 
+								        AND t.status = 1
+								        GROUP BY MONTH(t.data_do_debito),YEAR(t.data_do_debito)
+								        ORDER BY data_do_debito ASC
+								    ) AS t ON  concat(MONTH(tb_despesa.data_do_debito),'/',year(tb_despesa.data_do_debito)) = t.mesano
+								    WHERE
                                 id_usuario = {$_SESSION['id_usuario']} AND status = 1#Id usuario
-                                GROUP BY MONTH(tb_despesa.data_do_debito), tipo ORDER BY data_do_debito ASC;");
+                                GROUP BY MONTH(tb_despesa.data_do_debito),YEAR(tb_despesa.data_do_debito),tipo ORDER BY data_do_debito ASC;");
 
                                 $categoria = '';
                                 $rows = array();
@@ -186,9 +197,10 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                     arrayGastos = arrayGastos.substr(0, (arrayGastos.length - 1)) + "}}"
                                     //console.log(arrayGastos)
                                     arrayGastos = JSON.parse(arrayGastos)
-                                    console.log(arrayGastos)
+                                    //console.log(arrayGastos)
 
                                     const mesPrimeiroGastos = items(arrayGastos)[0][0].data
+                                    const gastoMesArray = items(arrayGastos).map((value) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' } ).format(value[0]['gasto_mes']))
                                     const qtdMeses = items(arrayGastos).length
                                     const mesUltimoGastos = items(arrayGastos)[qtdMeses - 1][0].data
 
@@ -196,12 +208,14 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                     var mesExibindo = (qtdMeses - 1);
 
                                     const controlaMesGastoAtual = (sentido = null) => {
+                                        let gastoMesLabel = document.getElementById('gasto-mes')
                                         if (sentido == 'next' && mesExibindo < qtdMeses - 1) {
                                             resetCanvasGastos();
                                             ctx = document.getElementById('chart-area').getContext('2d');
                                             mesExibindo++;
                                             window.myPie = new Chart(ctx, config(mesExibindo));
                                             document.getElementById('mes-gasto').innerText = items(arrayGastos)[mesExibindo][0].data;
+                                            gastoMesLabel.innerText = gastoMesArray[mesExibindo];
                                         }
                                         if (sentido == 'previous' && mesExibindo > 0) {
                                             resetCanvasGastos();
@@ -209,12 +223,14 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                             mesExibindo--;
                                             window.myPie = new Chart(ctx, config(mesExibindo));
                                             document.getElementById('mes-gasto').innerText = items(arrayGastos)[mesExibindo][0].data;
+                                            gastoMesLabel.innerText = gastoMesArray[mesExibindo];
                                         }
                                         if (!sentido) {
                                             resetCanvasGastos();
                                             ctx = document.getElementById('chart-area').getContext('2d');
                                             mesExibindo = qtdMeses - 1;
                                             document.getElementById('mes-gasto').innerText = items(arrayGastos)[mesExibindo][0].data;
+                                            gastoMesLabel.innerText = gastoMesArray[mesExibindo];
                                         }
                                     }
 
@@ -401,7 +417,8 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                     FROM tb_despesa
                                     WHERE id_usuario = {$_SESSION['id_usuario']}
                                         AND STATUS = 1
-                                        and MONTH(tb_despesa.data_do_debito) = mes
+                                        AND MONTH(tb_despesa.data_do_debito) = mes
+                                        AND YEAR(tb_despesa.data_do_debito) = ano
                                         AND tb_despesa.tipo = t1.tipo
                                 ) as valor
                             FROM (
@@ -420,6 +437,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                             year(tb_despesa.data_do_debito)
                                         ) AS `Mes/Ano`,
                                         MONTH(tb_despesa.data_do_debito) AS mes,
+                                        YEAR(tb_despesa.data_do_debito) AS ano,
                                         SUM(valor) AS total
                                     FROM tb_despesa
                                     WHERE id_usuario = {$_SESSION['id_usuario']}
