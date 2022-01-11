@@ -72,3 +72,9 @@ if (!$log->salvarLog($_SERVER["REQUEST_URI"])) {
         </a>
     </div>
 </div>
+<script>
+    if (window.location.protocol != "https:") {
+        window.location.href =
+            "https://mesttech.com.br/confin/cofrin/view/login.html";
+    }
+</script>

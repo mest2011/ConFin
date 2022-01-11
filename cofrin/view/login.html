@@ -17,6 +17,8 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <meta
       name="google-signin-client_id"
+      content="470266959327-m8sol19s4f35pba47fg3be4ejdf3eovj.apps.googleusercontent.com"
+    />
   </head>
 
   <body>
@@ -146,6 +148,10 @@
     <script src="./js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>
+      if (window.location.protocol != "https:") {
+        window.location.href =
+          "https://mesttech.com.br/confin/cofrin/view/login.html";
+      }
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
       const error = urlParams.get("erro");
@@ -175,7 +181,7 @@
         var userToken = googleUser.getAuthResponse().id_token;
 
         //document.getElementById('msg').innerHTML = userEmail;
-        if (userEmail !== "") {
+        if (userEmail !== "" && window.location.protocol === "https:") {
           var dados = {
             userID: userID,
             userName: userName,
@@ -202,7 +208,7 @@
                   });
                 } else {
                   //if (!logout) {
-                    window.location.href = "../../app/view/dashboard.php";
+                  window.location.href = "../../app/view/dashboard.php";
                   //}
                 }
               }
