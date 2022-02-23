@@ -50,7 +50,7 @@ class ResetPsw
                 $sql = "INSERT INTO tb_alterar_senha (token, id_usuario) VALUES ('{$_token}', {$result['id_usuario']});";
 
                 if ($this->create($sql)) {
-                    new Email($email, $result['nome'], "Troca de senha", "
+                    $email = new Email($email, $result['nome'], "Troca de senha", "
                 <h1>Cofrin – Seu sistema de controle financeiro</h1>
 
                 <p>Olá {$result['nome']},</p>
@@ -61,7 +61,7 @@ class ResetPsw
 
                 <p>Caso não tenha sido você, nos responda esse e-mail, para analisarmos por que recebeu essa solicitação de alteração de senha.</p>
                 ");
-                    return true;
+                    return $email->send_email();
                 } else {
                     return false;
                 }
