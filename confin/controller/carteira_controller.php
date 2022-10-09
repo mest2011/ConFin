@@ -32,6 +32,10 @@ class Carteiras{
     function listarCarteiras(){
         return CarteiraBus::carteiras($this->_id_usuario);
     }
+
+    function transferir($id_carteira_origem, $id_carteira_destino, $valor){
+        return CarteiraBus::transferirValorEntreCarteiras($this->_id_usuario, $id_carteira_origem, $id_carteira_destino, $valor);
+    }
 }
 
 

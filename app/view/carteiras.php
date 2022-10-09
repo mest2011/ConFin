@@ -254,7 +254,7 @@
                 <form id="form-ganho" onsubmit="event.preventDefault(); transferirSaldo();">
                     <div class="d-block">
                         <h4 class="font-purple">Transferencia entre carteiras</h4>
-                        <img class="w-100 mx-4 my-3" src="./images/img-tranferencia-carteiras.png" alt="Transferencia entre carteiras"/>
+                        <img class="w-100 mx-4 my-3 " style="max-width: 500px;" src="./images/img-tranferencia-carteiras.png" alt="Transferencia entre carteiras"/>
                     </div>
                     <hr/>
                     <div class="d-block mt-5">

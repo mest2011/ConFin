@@ -40,7 +40,7 @@
                     <button class="btn btn-danger ml-5 my-5" onclick="(confirm('Deseja sair do sistema?'))? window.location.href = './exit.php' : false">Sair</button>
 
                     <p class="mb-3 mt-4 hover-green text-decoration-underline-hover d-block pointer" onclick="$('#modalPIX').modal()">Quer apoiar o desenvolvimento?<span class="font-green font-weight-bold"> Faça uma doação!</span></p>
-                    <a class="mb-3 hover-green text-decoration-underline-hover d-block pointer" href="./feedback.php"><small >Deixe seu feedback!</small></a>
+                    <a class="mb-3 hover-green text-decoration-underline-hover d-block pointer" href="./feedback.php"><small>Deixe seu feedback!</small></a>
                 </div>
             </div>
         </section>
@@ -51,10 +51,9 @@
 
     </main>
 
-    <div class="modal fade" id="modalPIX" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="modalPIX" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
+            <div class="modal-content" style="background: #3e3e3e;">
                 <div class="modal-header">
                     <h4 class="modal-title" id="exampleModalLabel">Nos ajude fazendo uma doação!</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" title="Fechar">
@@ -66,9 +65,7 @@
                     <p>Faça uma doação!</p>
                     <div class="d-block justify-content-between mt-4">
                         <h4>Fazer uma doação por <span class="font-green">PIX:</span></h4>
-                        <img class="w-50 mx-auto zoom" src="../../dependencies/img/receive-pix.jpeg"
-                            alt="Codigo QR de PIX" title="Clique sobre a imagem para aumentar o tamanho do código!" 
-                            onclick="if(this.classList.contains('w-50'))
+                        <img class="w-50 mx-auto zoom" src="../../dependencies/img/receive-pix.jpeg" alt="Codigo QR de PIX" title="Clique sobre a imagem para aumentar o tamanho do código!" onclick="if(this.classList.contains('w-50'))
                             {this.classList.remove('w-50');
                             this.classList.add('w-100');
                             }else{
@@ -174,7 +171,7 @@
                 const form = new FormData();
 
                 const file = document.querySelector('#form-foto').files[0];
-                if(file){
+                if (file) {
                     form.append('foto', file);
                 }
                 form.append("funcao", "salvarfoto");

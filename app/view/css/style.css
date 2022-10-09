@@ -16,6 +16,8 @@
 
 .container-transactions-add {
   height: 25px;
+  border-radius: 50%;
+  background: #fff;
 }
 
 .container-transactions-add2 {
@@ -70,7 +72,7 @@
 .side-modal {
   width: 50vw;
   min-height: 100%;
-  background-color: #edededed;
+  background-color: #5a5a5aed;
   position: fixed;
   top: 0;
   right: 0;
@@ -186,5 +188,5 @@
 }
 
 .bg-white{
-  background-color: #fff;
+  background-color: #3e3e3e !important;
 }

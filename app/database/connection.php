@@ -6,9 +6,6 @@ class Db{
     private $DB_USER = 'root';
     private $DB_PASSWORD = 'root';
     private $DB_DATABASE = 'u292793146_confin';
-    // private $DB_USER = 'u292793146_confin'; 
-    // private $DB_PASSWORD = 'L8%Tkur#GRhj'; 
-    // private $DB_DATABASE = 'u292793146_confin';
 
 
     function connect(){

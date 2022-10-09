@@ -6,7 +6,7 @@
 }
 
 body {
-  background-color: #fff;
+  background-color: #363636;
 }
 
 .number {
@@ -17,11 +17,14 @@ h1,
 h2,
 h3,
 h4,
+h5,
 legend,
 input,
 select,
+small,
+label,
 textarea {
-  color: #111320;
+  color: #ffffff;
 }
 
 ::-webkit-input-placeholder {
@@ -75,7 +78,7 @@ h5 {
 
 p {
   font-size: 1em;
-  color: #111320;
+  color: #fff;
 }
 
 small {
@@ -90,6 +93,10 @@ header {
   margin: 0 !important;
   padding: 0 !important;
   height: auto;
+}
+
+.modal-content{
+  background-color: #363636 !important;
 }
 
 .zoom:hover{
@@ -113,14 +120,15 @@ header {
 
 .cartao {
   margin: 0.5em;
-  box-shadow: 0 0 0.4em #a0a1a6;
-  background: #fff;
+  box-shadow: 0 0 0.4em #4d4e52;
+  background: #3e3e3e;
   border: none !important;
   border-radius: 1em;
 }
 
 .cartao:hover {
   box-shadow: 0 0 0.4em #19d0a0;
+  cursor: pointer;
 }
 
 .cartao-icon {
@@ -154,7 +162,7 @@ header {
 }
 
 .font-purple {
-  color: #271c72;
+  color: #7c6ce9;
 }
 
 .font-green {
@@ -184,7 +192,7 @@ header {
 }
 
 .bg-gray {
-  background-color: #ededed;
+  background-color: #4e4e4e;
 }
 
 .bg-green {

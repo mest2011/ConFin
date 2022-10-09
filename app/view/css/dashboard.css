@@ -38,10 +38,10 @@
 .cards {
   margin: 0.5em;
   width: 100%;
-  box-shadow: 0 0 0.4em #a0a1a6;
-  background: #fff;
+  box-shadow: 0 0 0.4em #4d4e52;
+  background: #3e3e3e;
   border: none !important;
-  border-radius: 1em;
+  border-radius: 16px;
   justify-content: center;
 }
 
