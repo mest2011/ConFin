@@ -46,7 +46,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
     <header class="col-12 col-md-1">
         <?php include "imports/menu_lateral.php"; ?>
     </header>
-    <main class="col-12 col-md-11 d-flex flex-wrap min-vh-100">
+    <main class="col-12 col-md-11 d-flex flex-wrap min-vh-100 pt-4">
         <section class="col-lg-9 col-12 d-block pr-3 pr-sm-3 pr-md-4 pr-lg-5">
             <div class="d-block pt-4 pb-4 p-sm-0">
                 <h3>Olá, <?php echo explode(" ", $_SESSION['nome'])[0]; ?>!</h3>
@@ -55,7 +55,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                 <div class="cards pointer p-4 mb-4 mb-sm-1" onclick="trocaPagina('extrato.php')">
                     <fieldset class="d-block">
                         <div class="d-flex pb-2">
-                            <img src="./images/ganhos.png" class="my-auto card-icone" alt="ganhos">&nbsp;
+                            <img src="./images/ganhos.png" class="card-icone" alt="ganhos">&nbsp;
                             <legend class="my-auto">Saldo atual:</legend>
                         </div>
                         <div class="d-flex align-items-baseline my-2">
@@ -71,7 +71,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                 <div class="cards pointer p-4 mb-4 mb-sm-1" onclick="trocaPagina('gastos.php')">
                     <fieldset class="d-block">
                         <div class="d-flex pb-2">
-                            <img src="./images/gastos.png" class="my-auto card-icone" alt="gastos">&nbsp;
+                            <img src="./images/gastos.png" class="card-icone" alt="gastos">&nbsp;
                             <legend class="my-auto">Gastos do mês:</legend>
                         </div>
                         <div class="d-flex align-items-baseline my-2">
@@ -86,7 +86,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                 <div class="cards pointer p-4 mr-0 mb-4 mb-sm-1" onclick="openMeta()">
                     <fieldset class="d-block">
                         <div class="d-flex pb-2">
-                            <img src="./images/favorito.png" class="my-auto card-icone" alt="favorito">&nbsp;
+                            <img src="./images/favorito.png" class="card-icone" alt="favorito">&nbsp;
                             <legend class="my-auto">Meta atual:</legend>
                         </div>
                         <div class="d-flex align-items-baseline my-2">
@@ -200,7 +200,10 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                     //console.log(arrayGastos)
 
                                     const mesPrimeiroGastos = items(arrayGastos)[0][0].data
-                                    const gastoMesArray = items(arrayGastos).map((value) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' } ).format(value[0]['gasto_mes']))
+                                    const gastoMesArray = items(arrayGastos).map((value) => new Intl.NumberFormat('pt-BR', {
+                                        style: 'currency',
+                                        currency: 'BRL'
+                                    }).format(value[0]['gasto_mes']))
                                     const qtdMeses = items(arrayGastos).length
                                     const mesUltimoGastos = items(arrayGastos)[qtdMeses - 1][0].data
 
@@ -347,7 +350,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                 <button class="btn btn-green-inverted btn-sm" onclick="runChart(arrayMetricasLiquido)">Líquido</button>
                             </div>
                         </div>
-                        <div id="chart-metrica-pai" class="chart-area d-block chart-metricas">
+                        <div id="chart-metrica-pai" class="chart-area d-block chart-metricas" style="background: aliceblue; border-radius: 10px; padding: 20px;">
                             <canvas id="chart-metrica" style="height: 22em; max-width: 88vw;"></canvas>
                             <script>
                                 var arrayMetricasGastos = [];
@@ -372,10 +375,21 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                         }
                                     },
                                     scales: {
+                                        y: {
+                                            grid: {
+                                                color: 'white'
+                                            }
+                                        },
+                                        x: {
+                                            grid: {
+                                                color: 'white'
+                                            }
+                                        },
                                         xAxes: [{
                                             ticks: {
                                                 autoSkip: false,
-                                                maxRotation: 0
+                                                maxRotation: 0,
+                                                color: 'white'
                                             }
                                         }]
                                     }
@@ -383,13 +397,14 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
 
 
                                 <?php include_once '../database/crud.php';
-                                $result = Crud::read("SELECT
+                                $result = Crud::read("SELECT * FROM (SELECT
                                 concat(MONTH(tb_despesa.data_do_debito),'/',year(tb_despesa.data_do_debito)) AS `Mes/Ano`,
                                 SUM(valor) AS total
-                                FROM tb_despesa
-                                WHERE
-                                id_usuario = {$_SESSION['id_usuario']} AND status = 1#Id usuario
-                                GROUP BY MONTH(tb_despesa.data_do_debito),YEAR(tb_despesa.data_do_debito) ORDER BY data_do_debito ASC;");
+                                  FROM tb_despesa
+                                 WHERE
+                                 id_usuario = {$_SESSION['id_usuario']} AND status = 1#Id usuario
+                                  GROUP BY MONTH(tb_despesa.data_do_debito),YEAR(tb_despesa.data_do_debito) ORDER BY data_do_debito desc
+                                   LIMIT 12) as temp ORDER BY temp.`Mes/Ano` asc;");
 
                                 //AND tb_despesa.data_do_debito > ADDDATE((SUBDATE(NOW(),INTERVAL 1 YEAR)),INTERVAL 1 MONTH) #ToDo remover essa linha e ajustar para mostrar todo historico
 
@@ -425,6 +440,8 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                     SELECT tipo as tipo
                                     FROM tb_despesa
                                     WHERE id_usuario = {$_SESSION['id_usuario']}
+		                                AND tb_despesa.valor > 0.0
+		                                AND TIMESTAMPDIFF(MONTH, tb_despesa.data_do_debito , CURDATE()) <= 12
                                         AND status = 1 #Id usuario
                                     GROUP BY tipo
                                 ) AS t1
@@ -441,6 +458,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                         SUM(valor) AS total
                                     FROM tb_despesa
                                     WHERE id_usuario = {$_SESSION['id_usuario']}
+		                                AND TIMESTAMPDIFF(MONTH, tb_despesa.data_do_debito , CURDATE()) <= 12
                                         AND status = 1 #Id usuario
                                     GROUP BY MONTH(tb_despesa.data_do_debito),YEAR(tb_despesa.data_do_debito),
                                         tipo
@@ -496,17 +514,22 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                 }
                                 ?>
                                 <?php include_once '../database/crud.php';
-                                $result = Crud::read("SELECT
-                                concat(MONTH(tg.data_do_credito),'/',year(tg.data_do_credito)) AS `Mes/Ano`,
-                                SUM(valor) AS total
+                                $result = Crud::read("SELECT * FROM (
+                                SELECT concat(
+                                        MONTH(tg.data_do_credito),
+                                        '/',
+                                        year(tg.data_do_credito)
+                                    ) AS `Mes/Ano`, tg.data_do_credito,
+                                    SUM(valor) AS total
                                 FROM tb_ganho as tg
-                                INNER JOIN tb_carteira as tc
-                                ON tc.id_carteira = tg.id_carteira
-                                WHERE
-                                tc.poupanca = 0 
-                                AND tc.status = 1 AND
-                                tg.id_usuario = {$_SESSION['id_usuario']} #Id usuario
-                                GROUP BY MONTH(tg.data_do_credito),YEAR(tg.data_do_credito) ORDER BY data_do_credito ASC;");
+                                    INNER JOIN tb_carteira as tc ON tc.id_carteira = tg.id_carteira
+                                WHERE tc.poupanca = 0
+                                    AND tc.status = 1
+                                    AND tg.id_usuario = {$_SESSION['id_usuario']} #Id usuario
+                                GROUP BY MONTH(tg.data_do_credito),
+                                    YEAR(tg.data_do_credito)
+                                ORDER BY data_do_credito ASC) AS temp
+                                    where TIMESTAMPDIFF(MONTH, temp.data_do_credito , CURDATE()) <= 12;");
 
                                 if (gettype($result) == "array") {
                                     $categoria = '';
@@ -533,6 +556,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                 FROM tb_despesa
                                 WHERE
                                 id_usuario = {$_SESSION['id_usuario']} AND STATUS = 1
+                                AND TIMESTAMPDIFF(MONTH, tb_despesa.data_do_debito , CURDATE()) <= 12
                                 GROUP BY MONTH(tb_despesa.data_do_debito),YEAR(tb_despesa.data_do_debito) ORDER BY data_do_debito ASC) AS t1
                                 INNER JOIN
                                 (SELECT 
@@ -542,8 +566,9 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                 INNER JOIN tb_carteira as tc
                                 ON tc.id_carteira = tg.id_carteira
                                 WHERE
-                                tc.poupanca = 0 AND  
-                                tg.id_usuario = {$_SESSION['id_usuario']} AND tg.status = 1
+                                tc.poupanca = 0  
+                                AND TIMESTAMPDIFF(MONTH, tg.data_do_credito , CURDATE()) <= 12
+                                AND tg.id_usuario = {$_SESSION['id_usuario']} AND tg.status = 1
                                 GROUP BY MONTH(tg.data_do_credito),YEAR(tg.data_do_credito) ORDER BY data_do_credito ASC) AS t2 
                                 ON t1.`Mes/Ano` = t2.`Mes/Ano`;");
 
@@ -632,7 +657,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
             <div class="px-4 pt-5">
                 <h4 class="pt-3">Últimas despesas:</h4>
             </div>
-            <div class="p-2">
+            <div>
                 <?php
                 $contador = 0;
                 $result = $obj_gastos->lista_gastos();
@@ -642,7 +667,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                         if ($contador < 4) {
                             $date = date_create($value['data_do_debito']);
                             echo "<div class=\"cartao p-3 mr-2 d-flex  my-4\" onclick=\"trocaPagina('gastos.php?id={$value['id_despesa']}')\" title='" . $value['descricao'] . "'>
-                                            <h4 class=\"cartao-icon bg-gray my-auto p-2 mx-4\">{$value['icone']}</h4>
+                                            <h4 class=\"cartao-icon bg-gray mb-auto p-2 mr-4\">{$value['icone']}</h4>
                                             <div class=\"my-auto \">";
 
                             echo "<p class=\"my-auto font-purple\">{$value['titulo']}</p>
@@ -679,12 +704,12 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h5 id="modal-resumo-titulo">Viajar</h5>
-                    <p id="modal-resumo-descricao">Meta de vida, viajar pela Europa...</p>
+                    <h5 id="modal-resumo-titulo"></h5>
+                    <p id="modal-resumo-descricao"></p>
                     <div class="d-flex justify-content-between mt-4">
                         <p>Andamento da meta atual:</p>
-                        <div class="mr-5 text-right">
-                            <p class="p-0 m-0"><span id="modal-resumo-saldo" class="font-yellow number">R$ 300,00</span> de <span id="modal-resumo-valor" class="font-green number">R$ 1.500,00</span></p>
+                        <div class="text-right">
+                            <p class="p-0 m-0"><span id="modal-resumo-saldo" class="font-yellow number">R$ 0,00</span> de <span id="modal-resumo-valor" class="font-green number">R$ 0,00</span></p>
                             <div class="">
                                 <small class="p-0 m-0">meta <span id="modal-resumo-porcentagem">100%</span> alcançada!</small>
                                 <meter id="modal-resumo-porcentagemRange" class="w-100 " type="range" min="0" max="100" low="30" high="85" optimum="90" value="90"></meter>
@@ -693,7 +718,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                     </div>
                     <div class="d-flex justify-content-between my-4">
                         <p>Economizar até:</p>
-                        <div class="mr-5">
+                        <div>
                             <p id="modal-resumo-dtLimite">25/12/2021</p>
                         </div>
                     </div>
