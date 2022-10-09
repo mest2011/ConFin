@@ -58,3 +58,9 @@
   height: 50px;
   background-color: #fff;
 }
+
+.align-menu-icons {
+  margin-left: 1rem;
+  padding-left: 2.5rem;
+  padding-right: 2rem;
+}
