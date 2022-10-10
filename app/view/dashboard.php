@@ -47,7 +47,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
         <?php include "imports/menu_lateral.php"; ?>
     </header>
     <main class="col-12 col-md-11 d-flex flex-wrap min-vh-100">
-        <section class="col-lg-9 col-12 d-block pr-3 pr-sm-3 pr-md-4 pr-lg-5">
+        <section class="col-lg-9 col-12 d-block pr-3 pt-md-4 pr-sm-3 pr-md-4 pr-lg-5">
             <div class="d-block pt-4 pb-4 p-sm-0">
                 <h3>Olá, <?php echo explode(" ", $_SESSION['nome'])[0]; ?>!</h3>
             </div>
@@ -72,7 +72,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                     <fieldset class="d-block">
                         <div class="d-flex pb-2">
                             <img src="./images/gastos.png" class="my-auto card-icone" alt="gastos">&nbsp;
-                            <legend class="my-auto">Gastos do mês:</legend>
+                            <legend class="my-auto">Gastos mês:</legend>
                         </div>
                         <div class="d-flex align-items-baseline my-2">
                             <p class="font-purple font-weight-bold">R$</p>
@@ -135,8 +135,8 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                                 <p id='gasto-mes' class="font-green text-center m-0 number"></p>
                             </div>
                         </div>
-                        <div>
-                            <div id="chart-container" class="chart-area">
+                        <div class="mt-md-3">
+                            <div id="chart-container" class="chart-area m-auto">
                                 <canvas id="chart-area"></canvas>
 
                                 <?php include_once '../database/crud.php';
@@ -629,7 +629,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
             </section>
         </section>
         <section class=" col-12 col-lg-3 d-lg-block d-block dash-gastos">
-            <div class="px-4 pt-5">
+            <div class="px-4 pt-3">
                 <h4 class="pt-3">Últimas despesas:</h4>
             </div>
             <div class="p-2">
@@ -642,7 +642,7 @@ if ($obj_meta != false and $obj_meta['id_usuario'] !== null) {
                         if ($contador < 4) {
                             $date = date_create($value['data_do_debito']);
                             echo "<div class=\"cartao p-3 mr-2 d-flex  my-4\" onclick=\"trocaPagina('gastos.php?id={$value['id_despesa']}')\" title='" . $value['descricao'] . "'>
-                                            <h4 class=\"cartao-icon bg-gray my-auto p-2 mx-4\">{$value['icone']}</h4>
+                                            <h4 class=\"cartao-icon bg-gray my-auto p-2 mr-4 ml-1\">{$value['icone']}</h4>
                                             <div class=\"my-auto \">";
 
                             echo "<p class=\"my-auto font-purple\">{$value['titulo']}</p>
